@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- <?php exit(); ?> -->
+<scabbia>
+	<resources>
+		<packList>
+			<pack>
+				<name>javascripts</name>
+				<type>js</type>
+				<partList>
+					<part>
+						<type>file</type>
+						<class>common</class>
+						<path>{base}res/common.js</path>
+					</part>
+				</partList>
+			</pack>
+			<pack>
+				<name>styles.main</name>
+				<type>css</type>
+				<partList>
+					<part>
+						<type>file</type>
+						<class>fonts</class>
+						<path>{base}res/fonts.css</path>
+					</part>
+				</partList>
+			</pack>
+		</packList>
+	</resources>
+</scabbia>

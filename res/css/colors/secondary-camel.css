@@ -1,0 +1,54 @@
+html body, html a { color: #999; }
+
+/* HOMEPAGE */
+	
+	
+	/* SLIDER */
+	.nivo-controlNav, #big-slider .nivo-caption { background-color: #bab89c; border-color: #d1cfb0; color: #efeedc; }
+
+	
+	/* HOMEPAGE TEASERS (WIDGETS) */
+	#homepage-post { border-color: #d1cfb0; background-color: #bab89c; }
+	#homepage-teasers .w-title { border-color: #adab91; background-color: #bab89c; }
+	#homepage-teasers .w-content { border-color: #d2d0b6; background-color: #f4f3ea; color: #a09e7b; }
+	#homepage-post .p-content { color: #efeedc; }
+	#homepage-teasers {	border-color: #bab89c; }
+
+
+
+
+/* INNERS PAGES */
+
+
+	/* PAGE HEADER */
+	#page-head { border-color: #bab89c; background-color: #f4f3ea; }
+	#page-head h1 {	background-color: #bab89c; }
+	#breadcrumbs, #breadcrumbs a { color: #A09E7B; }
+	#page #breadcrumbs { border-color: #C3C1A3 !important; }
+	#page #breadcrumbs li { background-image: url("../../img/colors/secondary-camel/bc.png"); }
+	h1 em, h1 i { color: #efeedc; }
+
+
+	/* BLOG */
+	a.comments-count { background-image: url("../../img/colors/secondary-camel/comments.png"); }
+	a.more { color: #a09e7b; border-color: #C3C1A3; background-color: #f5f4ea; background-image: url("../../img/colors/secondary-camel/more.png"); }
+	#pagination li.act a, #pagination li a:hover, a:hover.more { border-color: #BAB893; background-color: #C3C1A3; }
+
+
+	/* PAGE ELEMENTS */
+	.full-page-text a, #comments a, a:hover, h1, h2, h3, h4, h5, h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, #p-filter a.act, .p-item dd a { color: #a09e7b; } /* links, titles, filter active link, portfolio title link */
+		
+	.h-light2, h6, blockquote { color: #918f6d; border-color: #918f6d; }
+	
+	blockquote { background-image: url("../../img/colors/secondary-camel/blockquote.png"); }
+	
+	img.alignleft, img.alignright, img.aligncenter, #portfolio-media li.act img, #p-filter a.act { border-color: #C3C1A3; } /* image border when hover, filter active link border */
+	.p-item dt:hover { background-color: #C3C1A3; }
+	
+	#main-col ul.arrow li { background-image: url("../../img/colors/secondary-camel/li.png"); }
+
+
+
+
+/* FORMS */
+	input[type="submit"]:hover, input[type="button"]:hover, button:hover { background-color: #C3C1A3; border-color: #adab91; }

@@ -1,0 +1,54 @@
+html body, html a { color: #999; }
+
+/* HOMEPAGE */
+	
+	
+	/* SLIDER */
+	.nivo-controlNav, #big-slider .nivo-caption { background-color: #999; border-color: #ccc; color: #eee; }
+
+	
+	/* HOMEPAGE TEASERS (WIDGETS) */
+	#homepage-post { border-color: #ccc; background-color: #999; }
+	#homepage-teasers .w-title { border-color: #f86b3a; background-color: #ff7a4c; }
+	#homepage-teasers .w-content { border-color: #fdc6b3; background-color: #fff1ec; color: #ff7a4c; }
+	#homepage-post .p-content { color: #eee; }
+	#homepage-teasers {	border-color: #ff7a4c; }
+
+
+
+
+/* INNERS PAGES */
+
+
+	/* PAGE HEADER */
+	#page-head { border-color: #ff7a4c; background-color: #fff1ec; }
+	#page-head h1 {	background-color: #ff7a4c; }
+	#breadcrumbs, #breadcrumbs a { color: #ff7a4c; }
+	#page #breadcrumbs { border-color: #ff7a4c !important; }
+	#page #breadcrumbs li { background-image: url("../../img/colors/secondary-orange/bc.png"); }
+	h1 em, h1 i { color: #FED5C7; }
+
+
+	/* BLOG */
+	a.comments-count { background-image: url("../../img/colors/secondary-orange/comments.png"); }
+	a.more { color: #ff7a4c; border-color: #fdb197; background-color: #fff1ec; background-image: url("../../img/colors/secondary-orange/more.png"); }
+	#pagination li.act a, #pagination li a:hover, a:hover.more { border-color: #ff612b; background-color: #ff7a4c; }
+
+
+	/* PAGE ELEMENTS */
+	.full-page-text a, #comments a, a:hover, h1, h2, h3, h4, h5, h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, #p-filter a.act, .p-item dd a { color: #ff7a4c; } /* links, titles, filter active link, portfolio title link */
+		
+	.h-light2, h6, blockquote { color: #fc6b38; border-color: #fc6b38; }
+	
+	blockquote { background-image: url("../../img/colors/secondary-orange/blockquote.png"); }
+	
+	img.alignleft, img.alignright, img.aligncenter, #portfolio-media li.act img, #p-filter a.act, .p-item dt { border-color: #fea788; } /* image border when hover, filter active link border */
+	.p-item dt:hover { background-color: #fea788; }
+	
+	#main-col ul.arrow li { background-image: url("../../img/colors/secondary-orange/li.png"); }
+
+
+
+
+/* FORMS */
+	input[type="submit"]:hover, input[type="button"]:hover, button:hover { background-color: #ff7a4c; border-color: #f86b3a; }

@@ -1,0 +1,35 @@
+@html::doctype('html5')
+<html>
+<head>
+	<title>Survey Project</title>
+	<meta charset="utf-8" />
+
+	<link rel="shortcut icon" href="@$root/favicon.ico" type="image/x-icon" />
+
+	<link type="text/css" href="@$root/scabbia.css?jqueryui,jqueryuifx,shadowbox,tipsy" rel="stylesheet" media="all" />
+	<link rel="stylesheet" type="text/css" href="/survey/res/css/style.css" />
+
+	<script type="text/javascript" src="@$root/scabbia.js?jquery,jqueryui,jqueryuifx,shadowbox,tipsy"></script>
+	<script type="text/javascript" src="/survey/res/js/superfish.js"></script>
+    <script type="text/javascript" src="/survey/res/js/jquery.nivo.slider.pack.js"></script>
+    <script type="text/javascript" src="/survey/res/js/jquery.prettyPhoto.js"></script>
+    <script type="text/javascript" src="/survey/res/js/jquery.prettySociable.js"></script>
+    <script type="text/javascript" src="/survey/res/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/survey/res/js/main.js"></script>
+</head>
+<body class="@mvc::$route['controller']">
+	<div id="fb-root"></div>
+	<script type="text/javascript">
+			$l.contentBegin('main', '@framework::$siteroot');
+	</script>
+
+<!-- #home || #page-post || #blog || #portfolio -->
+
+    <!-- Page Start -->
+    <div id="page">
+        
+        <!-- Main Column Start -->
+        <div id="wrap">
+            <div id="main-col">
+            
+                <a href="#" id="share" rel="prettySociable" title="Drag to Share"><img src="/survey/res/img/share.png" alt="" /></a>

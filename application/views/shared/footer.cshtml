@@ -1,0 +1,130 @@
+</div>
+        </div>
+        <!-- Main Column End -->
+        
+        <!-- Left Column Start -->
+        <div id="left-col">
+        
+            <!-- Logo -->
+            <a href="index.html" id="logo"><img src="/survey/res/img/colors/primary-blue/logo2.png" width="280" height="185" alt="Survey Project" /></a>
+            
+            <!-- Main Naigation (active - .act) -->
+            <div id="main-nav">
+			@if(is_null(statics::$user)) {
+				<form method="post" action="@mvc::url('user/login')">
+					E-Mail: <input type="text" name="email" value="" /><br />
+					Password: <input type="text" name="password" value="" /><br />
+					<input type="submit" value="Send" />
+				</form>
+				not signed in
+			} else {
+                <ul>
+                    <li class="current-menu-item"><a href="@mvc::url('home/index')">Home</a></li>
+                    <li>
+                        <a href="#">Elements</a>
+                        <ul>
+                            <li><a href="typography.html">Typography</a></li>
+                            <li><a href="lists.html">Lists</a></li>
+                            <li><a href="tables.html">Tables</a></li>
+                            <li><a href="columns.html">Columns</a></li>
+                            <li><a href="images.html">Images</a></li>
+                            <li><a href="tabs-toggles.html">Tabs, Toggles</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Templates</a>
+                        <ul>
+                            <li><a href="page.html">Page</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="post.html">Post</a></li>
+                            <li><a href="portfolio.html">Portfolio</a></li>
+                            <li><a href="portfolio-item.html">Project</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Empty</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+			}
+            </div>
+            
+            <!-- News Widget -->
+            <div class="widget w-news">
+                <h4 class="w-title title-light">Latest News</h4>
+                <div class="w-content">
+                    <ul>
+                        <li>
+                            <span><strong>24</strong>Apr</span>
+                            <a href="#">Do esteem object we called father excuse remove</a>
+                        </li>
+                        <li>
+                            <span><strong>6</strong>Mar</span>
+                            <a href="#">In reasonable compliment favourable is connection</a>
+                        </li>
+                        <li>
+                            <span><strong>11</strong>Feb</span>
+                            <a href="#">Topps Tiles sales continue downward trend</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+        <!-- Left Column End -->
+    
+        <div class="clear clear-wrap"></div>
+    
+        <!-- Footer Start -->
+        <div id="footer">
+        
+            <!-- Subscribe Form and Copyright Text -->
+            <div id="f-left-col">
+                <div id="sidebar-end">
+                    <form action="#" id="subscribe">
+                        <input type="text" value="" alt="Get latest news and offers!" title="Enter your e-mail" />
+                        <input type="submit" value="" title="Subscribe" />
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Footer Widgets -->
+            <div id="f-main-col">
+                <!-- Links -->
+                <div class="widget col-25">
+                    <ul>
+                        <li><a href="@mvc::url('home/about')">About</a></li>
+                        <li><a href="@mvc::url('home/ourteam')">Our Team</a></li>
+                        <li><a href="@mvc::url('home/contact')">Contact Us</a></li>
+                    </ul>
+                </div>
+                <!-- Social -->
+                <div class="widget col-25">
+                    <h5 class="w-title">Follow Us:</h5>
+                    <ul>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Facebook</a></li>
+                    </ul>
+                </div>
+                <!-- Contact Info -->
+                <div class="widget col-50 c-last">
+                    <h5 class="w-title">Contact Options:</h5>
+                    <div class="w-content">
+                        <a href="#"><img src="/survey/res/img/pictures/office.jpg" alt="Our Building" class="alignright" /></a>
+                        Country, City, Address<br />
+                        <a href="mailto:inbox@@surveyproject.com">inbox@@surveyproject.com</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="clear"></div>
+        </div>
+        <!-- Footer End -->
+        
+    </div>
+    <!-- Page End -->
+
+    <script type="text/javascript">
+        $l.contentEnd();
+    </script>
+
+</body>
+</html>

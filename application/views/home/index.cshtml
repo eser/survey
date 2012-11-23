@@ -1,0 +1,8 @@
+@mvc::view('shared/header.cshtml')
+                
+                a blank page
+				@foreach($users as $user) {
+					@$user['name']<br />
+				}
+    
+@mvc::view('shared/footer.cshtml')

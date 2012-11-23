@@ -1,0 +1,42 @@
+/* LEFT COLUMN */
+
+
+	/* LOGO BG */
+	#logo { background-color: #03b5dc; }
+	
+	
+	/* MAIN MAVIGATION */
+	#main-nav {	background-color: #a29189; } /* menu background */
+	
+	#main-nav li:hover ul li a, #main-nav ul li a { color: #dad1cc; } /* link color */
+	
+	#main-nav ul li a { background-color: #93837b; } /* first-level link background */	
+	#main-nav ul li.current-menu-item a, #main-nav ul li:hover a, #main-nav ul li ul, #main-nav ul ul a  { background-color: #8c7a70; } /* first-level hovered and active link background, second-level background */
+	#main-nav ul ul li:hover a, #main-nav ul ul li.current-menu-item a { background-color: #7f6f66; } /* second level hover/active link background */
+	
+	#main-nav ul li ul li {	border-color: #9b8c85; } /* second-level LI element border */
+	#main-nav ul li.current-menu-item, #main-nav ul li:hover { border-color: #9b8c85; } /* first-level active and hovered LI element border */
+	
+
+	/* HEADINGS */
+	#left-col h1, #left-col h2, #left-col h3, #left-col h4, #left-col h5, #left-col h6 { color: #8c7a70; }
+
+
+	/* SIDEBAR LINKS HOVER */
+	#left-col a:hover { color: #8c7a70; }
+	.widget_categories a:hover, .widget_tag_cloud a:hover { background: #8c7a70; }
+	.widget_recent_comments a:hover, .widget_categories a:hover, .widget_tag_cloud a:hover { border-color: #8c7a70; }
+
+
+
+
+/* SHARE BUTTON */
+	#share { background-color: #8c7a70; }
+
+
+
+
+/* FOOTER */
+	#footer { background: #8c7a70; color: #dad1cc; }
+	#footer a { color: #dad1cc; }
+	#footer .widget, #footer img.alignleft, #footer img.alignright, #footer img.aligncenter { border-color: #a29690; }

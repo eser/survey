@@ -1,0 +1,42 @@
+/* LEFT COLUMN */
+
+
+	/* LOGO BG */
+	#logo { background: #229396; }
+	
+	
+	/* MAIN MAVIGATION */
+	#main-nav {	background-color: #4aa9ac; } /* menu background */
+	
+	#main-nav li:hover ul li a, #main-nav ul li a { color: #aad7d8; } /* link color */
+	
+	#main-nav ul li a { background-color: #2c9fa2; } /* first-level link background */	
+	#main-nav ul li.current-menu-item a, #main-nav ul li:hover a, #main-nav ul li ul, #main-nav ul ul a  { background-color: #229396; } /* first-level hovered and active link background, second-level background */
+	#main-nav ul ul li:hover a, #main-nav ul ul li.current-menu-item a { background-color: #1f878a; } /* second level hover/active link background */
+	
+	#main-nav ul li ul li {	border-color: #44a6a9; } /* second-level LI element border */
+	#main-nav ul li.current-menu-item, #main-nav ul li:hover { border-color: #44a6a9; } /* first-level active and hovered LI element border */
+	
+
+	/* HEADINGS */
+	#left-col h1, #left-col h2, #left-col h3, #left-col h4, #left-col h5, #left-col h6 { color: #229396; }
+
+
+	/* SIDEBAR LINKS HOVER */
+	#left-col a:hover { color: #229396; }
+	.widget_categories a:hover, .widget_tag_cloud a:hover { background: #229396; }
+	.widget_recent_comments a:hover, .widget_categories a:hover, .widget_tag_cloud a:hover { border-color: #229396; }
+
+
+
+
+/* SHARE BUTTON */
+	#share { background-color: #229396; }
+
+
+
+
+/* FOOTER */
+	#footer { background: #229396; color: #aad7d8; }
+	#footer a { color: #aad7d8; }
+	#footer .widget, #footer img.alignleft, #footer img.alignright, #footer img.aligncenter { border-color: #4dafb2; }
