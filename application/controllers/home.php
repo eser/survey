@@ -35,6 +35,14 @@
 			// render the page
 			$this->view();
 		}
+
+		/**
+		 * @ignore
+		 */
+		public function page($tPage) {
+			// render the page
+			$this->view('home/design/' . $tPage . '.cshtml');
+		}
 	}
 
 ?>
