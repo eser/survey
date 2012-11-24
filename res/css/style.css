@@ -2,19 +2,7 @@
 
 @import url("http://fonts.googleapis.com/css?family=Open+Sans:400,700|Gudea:400,700");
 
-/* Primary colors */
-/* @import url("colors/primary-blue.css"); */
-/* @import url("colors/primary-gray.css"); */
-/* @import url("colors/primary-jungle.css"); */
-/* @import url("colors/primary-sand.css"); */
-@import url("colors/primary-blue.css");
-
-/* Secondary colors */
-/* @import url("colors/secondary-green.css"); */
-/* @import url("colors/secondary-orange.css"); */
-/* @import url("colors/secondary-camel.css"); */
-/* @import url("colors/secondary-old-green.css"); */
-@import url("colors/secondary-green.css");
+@import url("theme.css");
 
 @import url("nivo-slider.css");
 @import url("prettyPhoto.css");
