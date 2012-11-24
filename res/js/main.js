@@ -4,7 +4,7 @@ $(function() {
 /* ----- CONTENT ----- */
 
 	// Accordion
-	$('.accordionTitle').click(function() {
+	$('.accordionToggle').click(function() {
 		$('.accordionTitle').removeClass('a-open');
 		$('.accordionContent').slideUp(200);
 		if($(this).next().is(':hidden') == true) {
@@ -12,7 +12,7 @@ $(function() {
 			$(this).next().slideDown(200);
 		}
 	});
-	$('.accordionContent').hide();
+	$('.hidden').hide();
 	
 	// Tabs
 	$('.panes div').hide();

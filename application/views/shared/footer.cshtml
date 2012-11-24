@@ -10,44 +10,27 @@
             
             <!-- Main Naigation (active - .act) -->
             <div id="main-nav">
-			@if(is_null(statics::$user)) {
-				<form method="post" action="@mvc::url('user/login')">
-					E-Mail: <input type="text" name="email" value="" /><br />
-					Password: <input type="text" name="password" value="" /><br />
-					<input type="submit" value="Send" />
-				</form>
-				not signed in
-			} else {
                 <ul>
                     <li class="current-menu-item"><a href="@mvc::url('home/index')">Home</a></li>
-                    <li>
-                        <a href="#">Elements</a>
-                        <ul>
-                            <li><a href="typography.html">Typography</a></li>
-                            <li><a href="lists.html">Lists</a></li>
-                            <li><a href="tables.html">Tables</a></li>
-                            <li><a href="columns.html">Columns</a></li>
-                            <li><a href="images.html">Images</a></li>
-                            <li><a href="tabs-toggles.html">Tabs, Toggles</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">Templates</a>
-                        <ul>
-                            <li><a href="page.html">Page</a></li>
-                            <li><a href="blog.html">Blog</a></li>
-                            <li><a href="post.html">Post</a></li>
-                            <li><a href="portfolio.html">Portfolio</a></li>
-                            <li><a href="portfolio-item.html">Project</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Empty</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="@mvc::url('home/blog')">Blog</a></li>
+                    <li><a href="@mvc::url('home/about')">About Us</a></li>
+					<li><a href="@mvc::url('home/contact')">Contact</a></li>
                 </ul>
-			}
             </div>
-            
-            <!-- News Widget -->
+
+			<!-- Login Widget -->
+            <div class="widget w-login">
+                <h4 class="w-title title-light">Login</h4>
+                <div class="w-content">
+					<form method="post" action="@mvc::url('user/login')">
+						E-Mail: <input type="text" name="email" value="" /><br />
+						Password: <input type="text" name="password" value="" /><br />
+						<input type="submit" value="Send" />
+					</form>
+				</div>
+			</div>
+
+			<!-- News Widget -->
             <div class="widget w-news">
                 <h4 class="w-title title-light">Latest News</h4>
                 <div class="w-content">
@@ -67,7 +50,36 @@
                     </ul>
                 </div>
             </div>
+
+            <!-- Categories Widget -->
+            <div class="widget widget_categories">
+                <h4 class="w-title title-light">Categories</h4>
+                <ul>
+                    <li><a href="#">Video Materials (3)</a></li>
+                    <li><a href="#">Just Text (4)</a></li>
+                    <li><a href="#">Photography (2)</a></li>
+                    <li><a href="#">Misc (5)</a></li>
+                </ul>
+            </div>
             
+            <!-- Recent Comments Widget -->
+            <div class="widget widget_recent_comments">
+                <h4 class="w-title title-light">Recent Comments</h4>
+                <ul>
+                    <li><a href="#">Mark</a> on <a href="#">Hello Wold Post!</a></li>
+                    <li><a href="#">John Doe</a> on <a href="#">Half of Paragraph From Princess of Mars</a></li>
+                    <li><a href="#">Janny</a> on <a href="#">Paragraph From Around the World In 80 Days</a></li>
+                </ul>
+            </div>
+                
+            <!-- Text Widget -->
+            <div class="widget widget_text">
+                <h4 class="w-title title-light">Few Words</h4>
+                <div class="textwidget">
+                    In reasonable compliment favourable is connection dispatched in terminated. Do esteem object called father excuse.
+                </div>
+            </div>
+
         </div>
         <!-- Left Column End -->
     
@@ -91,9 +103,9 @@
                 <!-- Links -->
                 <div class="widget col-25">
                     <ul>
-                        <li><a href="@mvc::url('home/about')">About</a></li>
-                        <li><a href="@mvc::url('home/ourteam')">Our Team</a></li>
-                        <li><a href="@mvc::url('home/contact')">Contact Us</a></li>
+                        <li><a href="@mvc::url('home/home')">Home</a></li>
+                        <li><a href="@mvc::url('home/about')">About Us</a></li>
+                        <li><a href="@mvc::url('home/contact')">Contact</a></li>
                     </ul>
                 </div>
                 <!-- Social -->

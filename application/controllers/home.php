@@ -31,7 +31,7 @@
 		/**
 		 * @ignore
 		 */
-		public function ourteam() {
+		public function contact() {
 			// render the page
 			$this->view();
 		}

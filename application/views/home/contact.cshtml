@@ -1,0 +1,42 @@
+@views::view('shared/header.cshtml')
+                
+                <!-- Breadcrumbs, Page Title -->
+                <div id="page-head">
+                    <h1><em>keep in touch</em>Contact</h1>
+                    <ul id="breadcrumbs">
+                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li>Contact</li>
+                    </ul>
+                </div>
+                
+                <!-- Page Content Start -->
+                <div class="full-page-text">
+                
+                    <p>At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable.</p>
+                    
+                    <!-- Contact Form -->
+                    <h3>Contact Form</h3>
+                    <form action="#" id="contact">
+                        <fieldset>
+                            <label id="name_label" for="name">Name *</label>
+                            <input type="text" value="" size="50" id="name" name="name" class="required" />
+                        </fieldset>
+                        <fieldset>
+                            <label id="email_label" for="email">E-mail *</label>
+                            <input type="text" value="" size="50" id="email" name="email" class="required email" />
+                        </fieldset>
+                        <fieldset>
+                            <label id="subject_label" for="subject">Subject</label>
+                            <input type="text" size="50" value="" id="subject" name="subject" />
+                        </fieldset>
+                        <fieldset>
+                            <label id="msg_label" for="msg">Message *</label>
+                            <textarea id="msg" name="msg" rows="10" cols="10" class="required"></textarea>
+                        </fieldset>
+                        <input type="submit" value="Send Message" id="submit_btn" name="submit" />
+                    </form>
+    
+                </div>
+                <!-- Page Content End -->
+    
+@views::view('shared/footer.cshtml')
