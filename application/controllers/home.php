@@ -23,6 +23,14 @@
 		/**
 		 * @ignore
 		 */
+		public function blog() {
+			// render the page
+			$this->view();
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function about() {
 			// render the page
 			$this->view();

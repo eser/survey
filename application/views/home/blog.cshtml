@@ -1,0 +1,89 @@
+@views::view('shared/header.cshtml')
+
+                <!-- Breadcrumbs, Title, Description -->
+                <div id="page-head">
+                    <h1><em>interesting news and events</em>Blog</h1>
+                    <ul id="breadcrumbs">
+                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li>Blog</li>
+                    </ul>
+                </div>
+                
+                <!-- Posts Container Start -->
+                <div id="cat-container">
+
+                    <div class="post format-standard">
+                    	<div class="p-meta">
+                        	<div class="p-type"></div>
+	                        <div class="date"><strong>21</strong>Feb</div>
+                            <a href="#" class="comments-count">36</a>
+                        </div>
+                        <div class="aligncenter thumbnail">
+                        	<a href="#"><img src="/survey/res/img/pictures/blog-thumb-2.jpg" alt="" class="" /></a>
+                        </div>
+                        <h2 class="p-title"><a href="#">Paragraph From Around the World In 80 Days</a></h2>
+                        <div class="post-content">
+                            <p>
+                            	The distance between Suez and Aden is precisely thirteen hundred and ten miles, and the regulations of the company allow the steamers one hundred and thirty-eight hours in which to traverse it. The Mongolia, thanks to the vigorous exertions of the engineer, seemed likely.
+                            </p>
+                        </div>
+                    </div>
+                
+                    <div class="post format-video">
+                    	<div class="p-meta">
+                        	<div class="p-type"></div>
+	                        <div class="date"><strong>16</strong>Feb</div>
+                            <a href="#" class="comments-count">21</a>
+                        </div>
+                        <div class="aligncenter thumbnail">
+	                        <iframe width="539" height="304" src="http://www.youtube.com/embed/tJQoF-hamHg?rel=0" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <h2 class="p-title"><a href="#">Angry Birds Wreck The Halls</a></h2>
+                        <div class="post-content">
+                            <p>
+                            	Towards evening, when I felt assured that all his performances and rituals must be over, I went up to his room and knocked at the door; but no answer. I tried to open it, but it was fastened inside. "Queequeg," said I softly through the key-hole:—all silent.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="post format-link">
+                    	<div class="p-meta">
+                        	<div class="p-type"></div>
+	                        <div class="date"><strong>8</strong>Feb</div>
+                            <a href="#" class="comments-count">11</a>
+                        </div>
+                        <h2 class="p-title"><a href="http://supercars.net/" target="_blank" title="Go to http://supercars.net/">My Favorite Website About Cars</a></h2>
+                        <div class="post-content">
+                            <p>
+                            	As I had lunged I had turned so that his sword merely passed beneath the muscles, inflicting a painful but not dangerous wound. Removing the blade from my body I also regained my own, and turning my back upon his ugly carcass.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="post format-image">
+                    	<div class="p-meta">
+                        	<div class="p-type"></div>
+	                        <div class="date"><strong>11</strong>Feb</div>
+                            <a href="#" class="comments-count">10</a>
+                        </div>
+                        <div class="aligncenter thumbnail">
+                        	<a href="#"><img src="/survey/res/img/pictures/blog-thumb-1.jpg" alt="" class="" /></a>
+                        </div>
+                        <div class="post-content">
+                            <p>First of all, the worthy fellow had gone up to his room, and had extinguished the gas burner, which had been burning for eighty days.</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <!-- Posts Container End -->
+                
+                <!-- Pagination -->
+                <ul id="pagination">
+                    <li><a href="#">&laquo;</a></li>
+                    <li><a href="#">12</a></li>
+                    <li class="act"><a href="#">13</a></li>
+                    <li><a href="#">14</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                </ul>
+    
+@views::view('shared/footer.cshtml')
