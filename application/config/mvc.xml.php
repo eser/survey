@@ -2,6 +2,10 @@
 <!-- <?php exit(); ?> -->
 <scabbia>
 	<mvc>
+		<routes>
+			<link>{@siteroot}/?{@controller}/{@action}{@parameters}{@queryString}</link>
+		</routes>
+
 		<controllerList />
 
 		<!-- _{@device}_{@language} -->

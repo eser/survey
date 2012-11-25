@@ -2,6 +2,7 @@
 <!-- <?php exit(); ?> -->
 <scabbia>
 	<resources>
+		<link>{@siteroot}/?{@path}</link>
 		<packList>
 			<pack>
 				<name>javascripts</name>
