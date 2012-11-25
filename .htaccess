@@ -13,7 +13,7 @@ Options +FollowSymLinks -Indexes
 	RewriteEngine on
 
 	#AllowOverride All
-	#RewriteBase /~eser/survey/
+	#RewriteBase /~eser/kibristayim/
 
 	# SEO optimization for sites.
 	RewriteCond %{HTTPS} off
@@ -34,7 +34,7 @@ Options +FollowSymLinks -Indexes
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	# RewriteCond %{URL} !^/favicon.ico$
-	RewriteRule ^(.*)$ index.php [QSA,L,PT,NE]
+	RewriteRule ^(.*)$ index.php?$1 [QSA,L,PT,NE]
 </IfModule>
 Header unset ETag
 FileETag None
