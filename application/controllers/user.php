@@ -7,7 +7,7 @@
 		/**
 		 * @ignore
 		 */
-		public function post_login() {
+		public function postajax_login() {
 			$this->load('userModel');
 
 			$tEmail = http::post('email');
@@ -15,19 +15,19 @@
 
 			// gather all user data from model
 			$tUser = $this->userModel->getByEmail($tEmail);
-			if($tUser === false) {
-				exit('no such user.');
+
+			if($tUser === false || strcmp($tPassword, $tUser['password']) != 0) {
+				throw new Exception('no such user or password incorrect.');
 			}
 
-			if($tPassword != $tUser['password']) {
-				exit();
-			}
-			
 			// assign the user data to view
-			$this->set('users', $tUsers);
+			$this->set('user', $tUser);
 
+			session::set('user', $tUser);
+			statics::$user = &$tUser;
+			
 			// render the page
-			$this->view();
+			$this->json();
 		}
 	}
 

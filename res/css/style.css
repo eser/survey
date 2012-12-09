@@ -71,7 +71,7 @@ body {
 --------------------------------------------------------------------------------------------------------*/
 
 /* fonts */
-body, input[type="text"], input[type="submit"], input[type="button"], button, textarea, select, #footer h1, #footer h2, #footer h3, #footer h4, #footer h5, #footer h6 { font-family: "Open Sans", Arial, Helvetica, sans-serif; }
+body, input[type="text"], input[type="password"], input[type="submit"], input[type="button"], button, textarea, select, #footer h1, #footer h2, #footer h3, #footer h4, #footer h5, #footer h6 { font-family: "Open Sans", Arial, Helvetica, sans-serif; }
 h1, h2, h3, h4, h5, h6, #main-nav, .nivo-caption, #homepage-post { font-family: "Gudea"; }
 
 /* links */
@@ -851,7 +851,7 @@ img.avatar {
 --------------------------------------------------------------------------------------------------------*/
 
 /* default form styling */
-input[type="text"], input[type="submit"], input[type="button"], button, textarea, select {
+input[type="text"], input[type="password"], input[type="submit"], input[type="button"], button, textarea, select {
 	height: 29px;
 	border: #dde0e4 1px solid;
 	font-size: 13px;
@@ -861,8 +861,8 @@ input[type="text"], input[type="submit"], input[type="button"], button, textarea
 	padding: 0 0 1px 10px;
 	display: block;
 }
-input[type="text"].input-off { font-size: 12px !important; }
-input[type="text"]:focus, textarea:focus { border: 1px solid #bbb; color: #888; }
+input[type="text"].input-off, input[type="password"].input-off { font-size: 12px !important; }
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus { border: 1px solid #bbb; color: #888; }
 input[type="submit"], input[type="button"], button {
 	padding: 0 10px 2px;
 	height: 34px;
@@ -930,7 +930,7 @@ p.error { font-size: 14px; }
 #respond label.error { padding-left: 90px; }
 #contact input[type="submit"] { margin-left: 80px; }
 #respond input[type="submit"] { margin-left: 90px; }
-#contact input[type="text"], select, #respond input[type="text"] { width: 300px; display: block; }
+#contact input[type="text"], #contact input[type="password"], select, #respond input[type="text"], #respond input[type="password"] { width: 300px; display: block; }
 #contact select { width: 312px; }
 #contact textarea, #respond textarea { width: 400px; }
 

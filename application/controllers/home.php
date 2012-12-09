@@ -8,6 +8,8 @@
 		 * @ignore
 		 */
 		public function index() {
+			statics::requireAuthentication(0);
+
 			$this->load('userModel');
 
 			// gather all user data from model
@@ -24,6 +26,8 @@
 		 * @ignore
 		 */
 		public function blog() {
+			statics::requireAuthentication(0);
+
 			// render the page
 			$this->view();
 		}
@@ -32,6 +36,8 @@
 		 * @ignore
 		 */
 		public function about() {
+			statics::requireAuthentication(0);
+
 			// render the page
 			$this->view();
 		}
@@ -40,6 +46,8 @@
 		 * @ignore
 		 */
 		public function contact() {
+			statics::requireAuthentication(0);
+
 			// render the page
 			$this->view();
 		}
@@ -48,6 +56,8 @@
 		 * @ignore
 		 */
 		public function page($tPage) {
+			statics::requireAuthentication(0);
+
 			// render the page
 			$this->view('home/design/' . $tPage . '.cshtml');
 		}

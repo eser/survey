@@ -1,0 +1,76 @@
+            <!-- Logo -->
+            <a href="@mvc::url('home/index')" id="logo"><img src="/survey/res/img/logo.png" width="280" height="185" alt="survey-e-bot" /></a>
+            
+            <!-- Main Naigation (active - .act) -->
+            <div id="main-nav">
+                <ul>
+                    <li class="current-menu-item"><a href="@mvc::url('home/index')">Home</a></li>
+                    <li><a href="@mvc::url('home/blog')">Blog</a></li>
+                    <li><a href="@mvc::url('home/about')">About Us</a></li>
+					<li><a href="@mvc::url('home/contact')">Contact</a></li>
+                </ul>
+            </div>
+
+			@if(is_null(statics::$user)) {
+			<!-- Login Widget -->
+            <div class="widget w-login">
+                <h4 class="w-title title-light">Login</h4>
+                <div class="w-content">
+					<form id="loginform" method="post" action="@mvc::url('user/login')">
+						E-Mail: <input type="text" name="email" value="" /><br />
+						Password: <input type="password" name="password" value="" /><br />
+						<input type="submit" value="Send" />
+					</form>
+				</div>
+			</div>
+			}
+
+			<!-- News Widget -->
+            <div class="widget w-news">
+                <h4 class="w-title title-light">Latest News</h4>
+                <div class="w-content">
+                    <ul>
+                        <li>
+                            <span><strong>24</strong>Apr</span>
+                            <a href="#">Do esteem object we called father excuse remove</a>
+                        </li>
+                        <li>
+                            <span><strong>6</strong>Mar</span>
+                            <a href="#">In reasonable compliment favourable is connection</a>
+                        </li>
+                        <li>
+                            <span><strong>11</strong>Feb</span>
+                            <a href="#">Topps Tiles sales continue downward trend</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Categories Widget -->
+            <div class="widget widget_categories">
+                <h4 class="w-title title-light">Categories</h4>
+                <ul>
+                    <li><a href="#">Video Materials (3)</a></li>
+                    <li><a href="#">Just Text (4)</a></li>
+                    <li><a href="#">Photography (2)</a></li>
+                    <li><a href="#">Misc (5)</a></li>
+                </ul>
+            </div>
+            
+            <!-- Recent Comments Widget -->
+            <div class="widget widget_recent_comments">
+                <h4 class="w-title title-light">Recent Comments</h4>
+                <ul>
+                    <li><a href="#">Mark</a> on <a href="#">Hello Wold Post!</a></li>
+                    <li><a href="#">John Doe</a> on <a href="#">Half of Paragraph From Princess of Mars</a></li>
+                    <li><a href="#">Janny</a> on <a href="#">Paragraph From Around the World In 80 Days</a></li>
+                </ul>
+            </div>
+                
+            <!-- Text Widget -->
+            <div class="widget widget_text">
+                <h4 class="w-title title-light">Few Words</h4>
+                <div class="textwidget">
+                    In reasonable compliment favourable is connection dispatched in terminated. Do esteem object called father excuse.
+                </div>
+            </div>
