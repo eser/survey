@@ -25,10 +25,18 @@
 		/**
 		 * @ignore
 		 */
-		public function blog() {
+		public function blog($uId = null) {
 			statics::requireAuthentication(0);
 
 			$this->load('postModel');
+
+			if(!is_null($uId)) {
+				$this->set('post', $this->postModel->get($uId));
+
+				$this->view('home/blogentry.cshtml');
+				return;
+			}
+
 			$this->set('posts', $this->postModel->getAllPaged(0, 25));
 
 			// render the page

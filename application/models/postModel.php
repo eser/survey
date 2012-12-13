@@ -7,6 +7,19 @@
 		/**
 		 * @ignore
 		 */
+		public function get($uId) {
+			return $this->db->createQuery()
+				->setTable('posts')
+				->addField('*')
+				->setWhere(['postid=:postid'])
+				->addParameter('postid', $uId)
+				->get()
+				->row();
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function getAll() {
 			return $this->db->createQuery()
 				->setTable('posts')
