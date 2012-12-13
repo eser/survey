@@ -11,16 +11,22 @@
 
 	<script type="text/javascript" src="@http::url('scabbia.js?core,jquery,jqueryui,jqueryuifx,shadowbox,tipsy')"></script>
 	<script type="text/javascript" src="/survey/res/js/superfish.js"></script>
+	<script type="text/javascript" src="/survey/res/js/jquery.nivo.slider.js"></script>
     <script type="text/javascript" src="/survey/res/js/jquery.validate.min.js"></script>
     <script type="text/javascript" src="/survey/res/js/main.js"></script>
 </head>
-<body class="@mvc::$route['action']">
+<body id="@{
+		if(mvc::$route['controller'] == 'home' && mvc::$route['action'] == 'blog') {
+			echo 'blog';
+		}
+		else {
+			echo 'home';
+		}
+	}"><!-- #home || #page-post || #blog || #portfolio -->
 	<div id="fb-root"></div>
 	<script type="text/javascript">
 			$l.contentBegin('main', '@framework::$siteroot');
 	</script>
-
-<!-- #home || #page-post || #blog || #portfolio -->
 
     <!-- Page Start -->
     <div id="page">

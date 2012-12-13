@@ -1,14 +1,30 @@
             <!-- Logo -->
             <a href="@mvc::url('home/index')" id="logo"><img src="/survey/res/img/logo.png" width="280" height="185" alt="survey-e-bot" /></a>
-            
+
             <!-- Main Naigation (active - .act) -->
             <div id="main-nav">
+				@if(is_null(statics::$user)) {
                 <ul>
                     <li class="current-menu-item"><a href="@mvc::url('home/index')">Home</a></li>
                     <li><a href="@mvc::url('home/blog')">Blog</a></li>
                     <li><a href="@mvc::url('home/about')">About Us</a></li>
 					<li><a href="@mvc::url('home/contact')">Contact</a></li>
                 </ul>
+				} else {
+                <ul>
+                    <li class="current-menu-item">
+						<a href="@mvc::url('home/index')">Home</a>
+						<ul>
+							<li><a href="@mvc::url('home/index')">Home</a></li>
+							<li><a href="@mvc::url('home/blog')">Blog</a></li>
+							<li><a href="@mvc::url('home/about')">About Us</a></li>
+							<li><a href="@mvc::url('home/contact')">Contact</a></li>
+						</ul>
+					</li>
+					<li><a href="@mvc::url('user/profile')">Profile</a></li>
+					<li><a href="@mvc::url('user/login')">Logout</a></li>
+                </ul>
+				}
             </div>
 
 			@if(is_null(statics::$user)) {
@@ -26,22 +42,23 @@
 			}
 
 			<!-- News Widget -->
+@{
+			$tPostModel = mvc::load('postModel');
+			$tPosts = $tPostModel->getAllPaged(0, 3);
+}
             <div class="widget w-news">
                 <h4 class="w-title title-light">Latest News</h4>
                 <div class="w-content">
                     <ul>
+						@foreach($tPosts as &$tPost) {
+						@{
+							$tTimestamp = time::convert($tPost['createdate'], 'Y-m-d H:i:s');
+						}
                         <li>
-                            <span><strong>24</strong>Apr</span>
-                            <a href="#">Do esteem object we called father excuse remove</a>
+                            <span><strong>@date('d', $tTimestamp)</strong>@statics::$months[date('m', $tTimestamp)]</span>
+                            <a href="@mvc::url('home/blog/' . $tPost['postid'])">@$tPost['title']</a>: @string::cut(strip_tags($tPost['content']), 20)
                         </li>
-                        <li>
-                            <span><strong>6</strong>Mar</span>
-                            <a href="#">In reasonable compliment favourable is connection</a>
-                        </li>
-                        <li>
-                            <span><strong>11</strong>Feb</span>
-                            <a href="#">Topps Tiles sales continue downward trend</a>
-                        </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -56,21 +73,21 @@
                     <li><a href="#">Misc (5)</a></li>
                 </ul>
             </div>
-            
+
             <!-- Recent Comments Widget -->
             <div class="widget widget_recent_comments">
-                <h4 class="w-title title-light">Recent Comments</h4>
+                <h4 class="w-title title-light">Recent Surveys</h4>
                 <ul>
                     <li><a href="#">Mark</a> on <a href="#">Hello Wold Post!</a></li>
                     <li><a href="#">John Doe</a> on <a href="#">Half of Paragraph From Princess of Mars</a></li>
                     <li><a href="#">Janny</a> on <a href="#">Paragraph From Around the World In 80 Days</a></li>
                 </ul>
             </div>
-                
+
             <!-- Text Widget -->
             <div class="widget widget_text">
                 <h4 class="w-title title-light">Few Words</h4>
                 <div class="textwidget">
-                    In reasonable compliment favourable is connection dispatched in terminated. Do esteem object called father excuse.
+                    We would like to thank our project supervisor Mrs. Alev Elci for providing us with materials that helped us in carrying out the project.
                 </div>
             </div>

@@ -28,6 +28,9 @@
 		public function blog() {
 			statics::requireAuthentication(0);
 
+			$this->load('postModel');
+			$this->set('posts', $this->postModel->getAllPaged(0, 25));
+
 			// render the page
 			$this->view();
 		}

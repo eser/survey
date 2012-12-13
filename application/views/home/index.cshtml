@@ -1,51 +1,62 @@
 @views::view('shared/header.cshtml')
 
+                <!-- Nivo Slider -->
+                <div id="slider-container">
+                    <div id="big-slider"><!-- Add Slides Here -->
+                        <a href="#"><img src="/survey/res/img/slider01.png" alt="" title="Welcome to survey-e-bot" /></a>
+						<a href="#"><img src="/survey/res/img/slider02.png" alt="" title="Welcome to survey-e-bot" /></a>
+						<a href="#"><img src="/survey/res/img/slider03.png" alt="" title="Welcome to survey-e-bot" /></a>
+                    </div>
+                </div>
+
                 <!-- Homepage Welcome Text -->
                 <div id="homepage-post">
-                <h1 class="p-title">Welcome to survey-e-bot</h1>
-                    <div class="p-content">
-                        <p>It is designed to be easy to use for all experience levels so you will quickly be creating online surveys and questionnaires.</p>
-                    </div>
+					<div>
+						<h1 class="p-title">Welcome to survey-e-bot</h1>
+						<div class="p-content">
+							<p>It is designed to be easy to use for all experience levels so you will quickly be building online surveys and questionnaires.</p>
+						</div>
+					</div>
                 </div>
                 
                 <!-- Homepage Teasers Start -->
                 <div class="widget col-50">
-                	<h3 class="w-title">Videocasts</h3>
+                	<h3 class="w-title">Online Surveys</h3>
                     <div class="w-content">
-	                    <p>Needed its design number winter see. Oh be me sure wise sons no. Piqued ye of am spirit regret:</p>
+	                    <p>Build your own surveys in three steps:</p>
                         <div class="post-item">
                             <a href="#"><img src="/survey/res/img/pictures/hp-1.jpg" alt="" class="alignleft" /></a>
-                            <h6 class="p-title"><a href="#">Walk Through The Pages</a></h6>
-                            <p>Jennings outlived no dwelling denoting peculiar believed.</p>
+                            <h6 class="p-title"><a href="#">Pick Questions</a></h6>
+                            <p>Begin typing your question and pick it from dropdown menu.</p>
                         </div>
                         <div class="post-item">
                             <a href="#"><img src="/survey/res/img/pictures/hp-2.jpg" alt="" class="alignleft" /></a>
-                            <h6 class="p-title"><a href="#">Create a Website Easily</a></h6>
-                            <p>Discovery sweetness principle discourse shameless bed one.</p>
+                            <h6 class="p-title"><a href="#">Save Survey</a></h6>
+                            <p>Bring your question picks together to build a new survey.</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="widget col-50 c-last">
-                    <h3 class="w-title">Featured Solutions</h3>
+                    <h3 class="w-title">Featured Analysis</h3>
                     <div class="w-content">
-                    	<p>Removing the blade from my body I also regained <br />my own, and turning back upon his ugly carcass:</p>
+                    	<p>Survey-e-bot allows you to compile custom analytical reports including:</p>
                         <ul class="arrow">
-                            <li><a href="#">Create Surveys</a></li>
-							<li><a href="#">Distribute Them</a></li>
-                            <li><a href="#">Analyze Results</a></li>
+                            <li><a href="#">Survey Results</a></li>
+							<li><a href="#">Comparision Between Surveys</a></li>
+							<li><a href="#">Export Data</a></li>
                         </ul>
-                        <a href="#" class="more">Full List</a>
+                        <a href="@mvc::url('home/about')" class="more">Full List</a>
                     </div>
                 </div>
-                                
+
                 <div id="homepage-teasers">
-                	<div id="ht-inner">
-                    
+					<div id="ht-inner">
+
                         <div class="widget col-25">
                             <h4 class="w-title">Multiple Choices</h4>
                             <div class="w-content">
-                                <img src="/survey/res/img/colors/secondary-green/icon-1.png" alt="" />
+                                <img src="/survey/res/img/icon-1.png" alt="" />
                                 Discovery sweetness principle discourse shameless bed one.
                             </div>
                         </div>
@@ -53,7 +64,7 @@
                         <div class="widget col-25">
                             <h4 class="w-title">Evaluations</h4>
                             <div class="w-content">
-                                <img src="/survey/res/img/colors/secondary-green/icon-2.png" alt="" />
+                                <img src="/survey/res/img/icon-2.png" alt="" />
                                 Jennings outlived <br />no dwelling denoting peculiar believed.
                             </div>
                         </div>
@@ -61,7 +72,7 @@
                         <div class="widget col-25">
                             <h4 class="w-title">Questionnaries</h4>
                             <div class="w-content">
-                                <img src="/survey/res/img/colors/secondary-green/icon-3.png" alt="" />
+                                <img src="/survey/res/img/icon-3.png" alt="" />
                                 Discovery sweetness principle discourse shameless bed one.
                             </div>
                         </div>
@@ -69,7 +80,7 @@
                         <div class="widget col-25">
                             <h4 class="w-title">Others</h4>
                             <div class="w-content">
-                                <img src="/survey/res/img/colors/secondary-green/icon-4.png" alt="" />
+                                <img src="/survey/res/img/icon-4.png" alt="" />
                                 Jennings outlived <br />no dwelling denoting peculiar believed.
                             </div>
                         </div>

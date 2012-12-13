@@ -66,13 +66,13 @@
 	#page-head h1 {	background-color: #8fd36f; }
 	#breadcrumbs, #breadcrumbs a { color: #73B754; }
 	#page #breadcrumbs { border-color: #8fd36f !important; }
-	#page #breadcrumbs li { background-image: url("../../img/colors/secondary-green/bc.png"); }
+	#page #breadcrumbs li { background-image: url("/survey/res/img/bc.png"); }
 	h1 em, h1 i { color: #e2fdd5; }
 
 
 	/* BLOG */
-	a.comments-count { background-image: url("../../img/colors/secondary-green/comments.png"); }
-	a.more { color: #81c363; border-color: #ace691; background-color: #f1fdeb; background-image: url("../../img/colors/secondary-green/more.png"); }
+	a.comments-count { background-image: url("/survey/res/img/comments.png"); }
+	a.more { color: #81c363; border-color: #ace691; background-color: #f1fdeb; background-image: url("/survey/res/img/more.png"); }
 	#pagination li.act a, #pagination li a:hover, a:hover.more { border-color: #73b754; background-color: #8fd36f; }
 
 
@@ -82,11 +82,11 @@
 		
 	.h-light2, h6, blockquote { color: #73b754; border-color: #73b754; }
 	
-	blockquote { background-image: url("../../img/colors/secondary-green/blockquote.png"); }
+	blockquote { background-image: url("/survey/res/img/blockquote.png"); }
 	
 	img.alignleft, img.alignright, img.aligncenter, #portfolio-media li.act img, #p-filter a.act { border-color: #8fd36f; } /* image border when hover, filter active link border */
 	
-	#main-col ul.arrow li { background-image: url("../../img/colors/secondary-green/li.png"); }
+	#main-col ul.arrow li { background-image: url("/survey/res/img/li.png"); }
 
 
 

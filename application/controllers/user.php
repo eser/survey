@@ -8,6 +8,8 @@
 		 * @ignore
 		 */
 		public function postajax_login() {
+			// statics::requireAuthentication(0);
+
 			$this->load('userModel');
 
 			$tEmail = http::post('email');
@@ -28,6 +30,18 @@
 			
 			// render the page
 			$this->json();
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function get_login() {
+			statics::requireAuthentication(0);
+
+			session::remove('user');
+			statics::$user = null;
+
+			mvc::redirect('home/index');
 		}
 	}
 
