@@ -1,0 +1,62 @@
+@views::view('shared/header.cshtml')
+                
+                <!-- Breadcrumbs, Page Title -->
+                <div id="page-head">
+                    <h1><em>add, edit and organize surveys</em>Surveys</h1>
+                    <ul id="breadcrumbs">
+                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li>Surveys</li>
+                    </ul>
+                </div>
+                
+                <!-- Page Content Start -->
+                <div class="full-page-text">
+
+                    <p>At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable.</p>
+
+                    <!-- User Details -->
+					<div>
+						<h3 class="floatleft">Existing Surveys</h3>
+						<a href="#" class="more floatright">Create New</a>
+						<div class="clear"></div>
+					</div>
+
+                    <table width="100%" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr>
+                                <th style="width:20%">Title</th>
+                                <th style="width:20%">Start Date</th>
+                                <th style="width:20%">End Date</th>
+                                <th style="width:20%">Properties</th>
+                                <th style="width:20%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Staff Evaluation</td>
+                                <td>13.12.2012</td>
+                                <td>18.12.2012</td>
+                                <td>Password</td>
+                                <td>Edit | Report</td>
+                            </tr>
+                            <tr>
+                                <td>Course Eval.</td>
+                                <td>13.12.2012</td>
+                                <td>18.12.2012</td>
+                                <td>Public</td>
+                                <td>Edit | Report</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+					<!-- Pagination -->
+					<ul id="pagination" class="margintop10px">
+						<li><a href="#">&laquo;</a></li>
+						<li class="act"><a href="#">1</a></li>
+						<li><a href="#">&raquo;</a></li>
+					</ul>
+
+				</div>
+                <!-- Page Content End -->
+    
+@views::view('shared/footer.cshtml')

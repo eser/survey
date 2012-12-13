@@ -19,6 +19,20 @@
 		/**
 		 * @ignore
 		 */
+		public function get($uId) {
+			return $this->db->createQuery()
+				->setTable('users')
+				->addField('*')
+				->setWhere(['userid=:userid'])
+				->addParameter('userid', $uId)
+				->setLimit(1)
+				->get()
+				->row();
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function getByEmail($uEmail) {
 			return $this->db->createQuery()
 				->setTable('users')
@@ -28,6 +42,20 @@
 				->setLimit(1)
 				->get()
 				->row();
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function update($uUserId, $uFields) {
+			return $this->db->createQuery()
+				->setTable('users')
+				->setFields($uFields)
+				->setWhere(['userid=:userid'])
+				->addParameter('userid', $uUserId)
+				->setLimit(1)
+				->update()
+				->execute();
 		}
 	}
 

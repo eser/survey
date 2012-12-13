@@ -3,16 +3,16 @@
 	/**
 	 * @ignore
 	 */
-	class postModel extends model {
+	class surveyModel extends model {
 		/**
 		 * @ignore
 		 */
 		public function get($uId) {
 			return $this->db->createQuery()
-				->setTable('posts')
+				->setTable('surveys')
 				->addField('*')
-				->setWhere(['postid=:postid'])
-				->addParameter('postid', $uId)
+				->setWhere(['surveyid=:surveyid'])
+				->addParameter('surveyid', $uId)
 				->setLimit(1)
 				->get()
 				->row();
@@ -23,7 +23,7 @@
 		 */
 		public function getAll() {
 			return $this->db->createQuery()
-				->setTable('posts')
+				->setTable('surveys')
 				->addField('*')
 				// ->setWhere(['deletedate IS NULL'])
 				->get()
@@ -35,7 +35,7 @@
 		 */
 		public function getAllPaged($uOffset, $uLimit) {
 			return $this->db->createQuery()
-				->setTable('posts')
+				->setTable('surveys')
 				->addField('*')
 				->setOffset($uOffset)
 				->setLimit($uLimit)

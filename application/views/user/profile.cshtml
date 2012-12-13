@@ -1,0 +1,46 @@
+@views::view('shared/header.cshtml')
+                
+                <!-- Breadcrumbs, Page Title -->
+                <div id="page-head">
+                    <h1><em>edit and organize your details</em>Profile</h1>
+                    <ul id="breadcrumbs">
+                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li>Profile</li>
+                    </ul>
+                </div>
+                
+                <!-- Page Content Start -->
+                <div class="full-page-text">
+
+                    <p>At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable.</p>
+
+                    <!-- User Details -->
+                    <h3>User Details</h3>
+                    <form action="@mvc::url('user/profile')" method="post" id="contact">
+                        <fieldset>
+                            <label id="fullname_label" for="fullname">Full Name *</label>
+                            <input type="text" size="50" id="fullname" name="fullname" class="required" value="@statics::$user['fullname']" />
+                        </fieldset>
+                        <fieldset>
+                            <label id="phonenumber_label" for="phonenumber">Phone</label>
+                            <input type="text" size="50" id="phonenumber" name="phonenumber" value="@statics::$user['phonenumber']" />
+                        </fieldset>
+                        <fieldset>
+                            <label id="email_label" for="email">E-mail *</label>
+                            <input type="text" size="50" id="email" name="email" class="required email" value="@statics::$user['email']" />
+                        </fieldset>
+                        <fieldset>
+                            <label id="password_label" for="password">Password *</label>
+                            <input type="password" size="50" id="password" name="password" class="required" value="@statics::$user['password']" />
+                        </fieldset>
+                        <fieldset>
+                            <label id="password2_label" for="password2">Password *</label>
+                            <input type="password" size="50" id="password2" name="password2" class="required" value="@statics::$user['password']" />
+                        </fieldset>
+                        <input type="submit" value="Submit" id="submit_btn" name="submit" />
+                    </form>
+    
+                </div>
+                <!-- Page Content End -->
+    
+@views::view('shared/footer.cshtml')

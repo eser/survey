@@ -43,6 +43,40 @@
 
 			mvc::redirect('home/index');
 		}
+
+		/**
+		 * @ignore
+		 */
+		public function get_profile() {
+			statics::requireAuthentication(0);
+
+			// render the page
+			$this->view();
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function post_profile() {
+			statics::requireAuthentication(0);
+
+			$tValues = http::postArray(
+				array('fullname', 'phonenumber', 'email', 'password')
+			);
+
+			if($tValues['password'] != http::post('password2')) {
+				throw new Exception('passwords do not match.');
+			}
+
+			$this->load('userModel');
+			$this->userModel->update(statics::$user['userid'], $tValues);
+
+			statics::reloadUserInfo(true);
+
+			// render the page
+			$this->view();
+		}
+
 	}
 
 ?>

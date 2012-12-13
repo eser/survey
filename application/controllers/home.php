@@ -7,7 +7,7 @@
 		/**
 		 * @ignore
 		 */
-		public function index() {
+		public function get_index() {
 			statics::requireAuthentication(0);
 
 			$this->load('userModel');
@@ -25,7 +25,7 @@
 		/**
 		 * @ignore
 		 */
-		public function blog($uId = null) {
+		public function get_blog($uId = null) {
 			statics::requireAuthentication(0);
 
 			$this->load('postModel');
@@ -46,7 +46,7 @@
 		/**
 		 * @ignore
 		 */
-		public function about() {
+		public function get_about() {
 			statics::requireAuthentication(0);
 
 			// render the page
@@ -56,7 +56,7 @@
 		/**
 		 * @ignore
 		 */
-		public function contact() {
+		public function get_contact() {
 			statics::requireAuthentication(0);
 
 			// render the page
@@ -66,7 +66,7 @@
 		/**
 		 * @ignore
 		 */
-		public function page($tPage) {
+		public function get_page($tPage) {
 			statics::requireAuthentication(0);
 
 			// render the page

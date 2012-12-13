@@ -32,6 +32,20 @@
 				return;
 			}
 		}
+
+		/**
+		 * @ignore
+		 */
+		public static function reloadUserInfo($includeUser = true) {
+			self::$user = & session::get('user');
+
+			if($includeUser) {
+				$tUserModel = mvc::load('userModel');
+				self::$user = $tUserModel->get(self::$user['userid']);
+
+				session::set('user', self::$user);
+			}
+		}
 	}
 
 ?>

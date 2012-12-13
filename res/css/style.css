@@ -441,6 +441,9 @@ h6 {
 .aligncenter { margin: 0 auto; display: block; }
 .alignright { float: right; margin-left: 18px; margin-bottom: 4px; }
 .alignleft { float: left; margin-right: 18px; margin-bottom: 4px; }
+.floatleft { float: left; }
+.floatright { float: right; }
+.margintop10px { margin-top: 10px; }
 #blog #main-col .alignleft, #blog #main-col .alignright, #blog #main-col .aligncenter {
 	border: none;
 	background: #fff;
