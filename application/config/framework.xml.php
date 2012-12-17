@@ -19,6 +19,7 @@
 		<extension>database</extension>
 		<extension>access</extension>
 		<extension>captcha</extension>
+		<extension>fb</extension>
 	</extensionList>
 
 	<i8n>

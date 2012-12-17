@@ -47,6 +47,27 @@
 		/**
 		 * @ignore
 		 */
+		public function get_fblogin() {
+			statics::requireAuthentication(0);
+
+			fb::loadApi();
+			if(!isset($_GET['state'])) {
+				$tLoginUrl = fb::getLoginUrl('email', 'http://localhost/survey/user/fblogin');
+
+				header('Location: ' . $tLoginUrl, true);
+				framework::end(0);
+			}
+
+			if(fb::$userId > 0) {
+				string::vardump(fb::get('/me', false));
+			}
+
+			echo 'done.';
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function get_profile() {
 			statics::requireAuthentication(0);
 

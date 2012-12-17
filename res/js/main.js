@@ -165,5 +165,14 @@ $l.ready(function() {
 				$l.ui.msgbox(5, 'nothing...');
 			}
 		);
+
+		$l.dom.setEvent(
+			$l.dom.selectSingle('#fblogin'),
+			'click',
+			function() {
+				window.location = $l.baseLocation + '/user/fblogin';
+				return false;
+			}
+		);
 	}
 });
