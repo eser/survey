@@ -20,6 +20,7 @@
 		<extension>access</extension>
 		<extension>captcha</extension>
 		<extension>fb</extension>
+		<extension>smtp</extension>
 	</extensionList>
 
 	<i8n>
@@ -50,4 +51,11 @@
 		<keyphase></keyphase>
 		<storage>memcache://192.168.2.4:11211</storage>
 	</cache>
+
+	<smtp>
+		<host>ssl://mail.messagingengine.com</host>
+		<port>465</port>
+		<username>eser@sent.com</username>
+		<password></password>
+	</smtp>
 </scabbia>

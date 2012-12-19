@@ -119,6 +119,13 @@
 			
 			$this->userModel->insert($tRealUser);
 
+			smtp::send(
+				'info@survey-e-bot.com', // 'Survey-e-bot <info@survey-e-bot.com>',
+				$tRealUser['email'], // $tRealUser['fullname'] . ' <' . $tRealUser['email'] . '>',
+				'Your account | Welcome to the survey-e-bot',
+				'Your password is: ' . $tRealUser['password']
+			);
+
 			return $tRealUser;
 		}
 
