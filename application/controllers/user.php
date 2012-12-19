@@ -68,8 +68,28 @@
 		/**
 		 * @ignore
 		 */
+		public function get_register() {
+			statics::requireAuthentication(-1);
+
+			// render the page
+			$this->view();
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function get_forgottenpassword() {
+			statics::requireAuthentication(-1);
+
+			// render the page
+			$this->view();
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function get_profile() {
-			statics::requireAuthentication(0);
+			statics::requireAuthentication(1);
 
 			// render the page
 			$this->view();
@@ -79,7 +99,7 @@
 		 * @ignore
 		 */
 		public function post_profile() {
-			statics::requireAuthentication(0);
+			statics::requireAuthentication(1);
 
 			$tValues = http::postArray(
 				array('fullname', 'phonenumber', 'email', 'password')
@@ -98,6 +118,12 @@
 			$this->view();
 		}
 
+		/*
+		 * @ignore
+		 */
+		public function get_image() {
+			captcha::generate();
+		}
 	}
 
 ?>

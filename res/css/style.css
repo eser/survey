@@ -748,10 +748,21 @@ a:hover.more {
 	border-bottom: #DDE0E4 1px solid;
 	font-size: 10px;
 }
-.w-news span strong, .p-meta .date strong {	display: block;	font-size: 16px; color: #c5c5c5; }
+.w-news span strong, .p-meta .date strong { display: block;	font-size: 16px; color: #c5c5c5; }
 .w-news small { font-size: 10px; text-transform: uppercase; }
 .p-meta .date strong { color: #fff; }
 .p-meta .date strong { font-size: 15px; }
+
+.inlineBlock {
+	display: inline-block !important;
+}
+
+#fblogin {
+	background: url("/survey/res/img/fblogin.png") no-repeat;
+	width: 72px;
+	height: 24px;
+	display: inline-block;
+}
 
 /* list widget */
 .widget_categories ul, .widget_recent_comments ul, .widget_tag_cloud ul { padding-top: 8px; overflow: hidden; }
