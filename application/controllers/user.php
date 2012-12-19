@@ -58,11 +58,42 @@
 				framework::end(0);
 			}
 
-			if(fb::$userId > 0) {
-				string::vardump(fb::get('/me', false));
+			if(fb::$userId <= 0) {
+				throw new Exception('Facebook login error.');
 			}
 
-			echo 'done.';
+			$tUser = fb::get('/me', false);
+
+			if(!$tUser->object['verified']) {
+				throw new Exception('Facebook account is not verified.');
+			}
+
+			$tRealUser = $this->tryMergeAccountWithFacebook($tUser);
+			if(is_null($tRealUser)) {
+				$tRealUser = $this->registerWithFacebook($tUser);
+			}
+
+			// assign the user data to view
+			$this->set('user', $tRealUser);
+
+			session::set('user', $tRealUser);
+			statics::$user = &$tRealUser;
+
+			mvc::redirect('home/index');
+		}
+
+		/**
+		 * @ignore
+		 */
+		private function tryMergeAccountWithFacebook($uUser) {
+			string::vardump($tUser);
+		}
+
+		/**
+		 * @ignore
+		 */
+		private function registerWithFacebook($uUser) {
+			string::vardump($tUser);
 		}
 
 		/**
