@@ -69,7 +69,7 @@
 			}
 
 			$tRealUser = $this->tryMergeAccountWithFacebook($tUser);
-			if(is_null($tRealUser)) {
+			if($tRealUser === false) {
 				$tRealUser = $this->registerWithFacebook($tUser);
 			}
 
@@ -85,15 +85,41 @@
 		/**
 		 * @ignore
 		 */
-		private function tryMergeAccountWithFacebook($uUser) {
-			string::vardump($tUser);
+		private function &tryMergeAccountWithFacebook($uUser) {
+			$this->load('userModel');
+
+			$tRealUser = $this->userModel->getByEmailOrFacebookId($uUser->object['email'], $uUser->object['id']);
+			if($tRealUser !== false) {
+				$this->userModel->update($tRealUser['userid'], [
+					'fullname' => $uUser->object['name'],
+					'email' => $uUser->object['email'],
+					'facebookid' => $uUser->object['id']
+				]);
+
+				return $tRealUser;
+			}
+
+			return $tRealUser;
 		}
 
 		/**
 		 * @ignore
 		 */
-		private function registerWithFacebook($uUser) {
-			string::vardump($tUser);
+		private function &registerWithFacebook($uUser) {
+			$this->load('userModel');
+
+			$tRealUser = [
+				'userid' => string::generateUuid(),
+				'fullname' => $uUser->object['name'],
+				'email' => $uUser->object['email'],
+				'phonenumber' => '',
+				'password' => string::generatePassword(6),
+				'facebookid' => $uUser->object['id']
+			];
+			
+			$this->userModel->insert($tRealUser);
+
+			return $tRealUser;
 		}
 
 		/**
