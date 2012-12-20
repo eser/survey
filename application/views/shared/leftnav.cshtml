@@ -1,3 +1,5 @@
+			@{ statics::leftNavigationBinding(); }
+
             <!-- Logo -->
             <a href="@mvc::url('home/index')" id="logo"><img src="/survey/res/img/logo.png" width="280" height="185" alt="survey-e-bot" /></a>
 
@@ -77,10 +79,9 @@
             <div class="widget widget_categories">
                 <h4 class="w-title title-light">Categories</h4>
                 <ul>
-                    <li><a href="#">Video Materials (3)</a></li>
-                    <li><a href="#">Just Text (4)</a></li>
-                    <li><a href="#">Photography (2)</a></li>
-                    <li><a href="#">Misc (5)</a></li>
+					@foreach(statics::$categoriesWithCounts as &$category) {
+						<li><a href="#">@$category['name'] (@$category['count'])</a></li>
+					}
                 </ul>
             </div>
 
@@ -88,9 +89,9 @@
             <div class="widget widget_recent_comments">
                 <h4 class="w-title title-light">Recent Surveys</h4>
                 <ul>
-                    <li><a href="#">Mark</a> on <a href="#">Hello Wold Post!</a></li>
-                    <li><a href="#">John Doe</a> on <a href="#">Half of Paragraph From Princess of Mars</a></li>
-                    <li><a href="#">Janny</a> on <a href="#">Paragraph From Around the World In 80 Days</a></li>
+					@foreach(statics::$recentSurveys as &$survey) {
+						<li><a href="#">@$survey['title']</a></li>
+					}
                 </ul>
             </div>
 

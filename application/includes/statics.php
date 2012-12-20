@@ -5,6 +5,8 @@
 	 */
 	class statics {
 		public static $user = null;
+		public static $categoriesWithCounts;
+		public static $recentSurveys;
 
 		public static $months = array(
 			 1 => 'Jan',
@@ -49,6 +51,30 @@
 
 				session::set('user', self::$user);
 			}
+		}
+
+		/**
+		 * @ignore
+		 */
+		public static function datePrint($uDate, $uShowHours = true) {
+			if(is_null($uDate)) {
+				return '-';
+			}
+
+			return time::convert($uDate, 'Y-m-d H:i:s', (($uShowHours) ? 'd.m.Y H:i' : 'd.m.Y'));
+		}
+
+		/**
+		 * @ignore
+		 */
+		public static function leftNavigationBinding() {
+			$tCategoryModel = mvc::load('categoryModel');
+
+			self::$categoriesWithCounts = $tCategoryModel->getAllWithCounts();
+
+			$tSurveyModel = mvc::load('surveyModel');
+
+			self::$recentSurveys = $tSurveyModel->getRecent(6);
 		}
 	}
 

@@ -32,20 +32,15 @@
                             </tr>
                         </thead>
                         <tbody>
+						@foreach($surveys as &$survey) {
                             <tr>
-                                <td>Staff Evaluation</td>
-                                <td>13.12.2012</td>
-                                <td>18.12.2012</td>
+                                <td>@$survey['title']</td>
+                                <td>@statics::datePrint($survey['startdate'], false)</td>
+                                <td>@statics::datePrint($survey['enddate'], false)</td>
                                 <td>Password</td>
                                 <td>Edit | Report</td>
                             </tr>
-                            <tr>
-                                <td>Course Eval.</td>
-                                <td>13.12.2012</td>
-                                <td>18.12.2012</td>
-                                <td>Public</td>
-                                <td>Edit | Report</td>
-                            </tr>
+						}
                         </tbody>
                     </table>
 

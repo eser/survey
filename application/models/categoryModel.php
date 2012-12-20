@@ -3,16 +3,16 @@
 	/**
 	 * @ignore
 	 */
-	class surveyModel extends model {
+	class categoryModel extends model {
 		/**
 		 * @ignore
 		 */
 		public function get($uId) {
 			return $this->db->createQuery()
-				->setTable('surveys')
+				->setTable('categories')
 				->addField('*')
-				->setWhere(['surveyid=:surveyid'])
-				->addParameter('surveyid', $uId)
+				->setWhere(['categoryid=:categoryid'])
+				->addParameter('categoryid', $uId)
 				->setLimit(1)
 				->get()
 				->row();
@@ -21,13 +21,11 @@
 		/**
 		 * @ignore
 		 */
-		public function getRecent($uLimit) {
+		public function getAll() {
 			return $this->db->createQuery()
-				->setTable('surveys')
+				->setTable('categories')
 				->addField('*')
 				// ->setWhere(['deletedate IS NULL'])
-				->setOrderBy('startdate', 'DESC')
-				->setLimit($uLimit)
 				->get()
 				->all();
 		}
@@ -35,11 +33,13 @@
 		/**
 		 * @ignore
 		 */
-		public function getAll() {
+		public function getAllWithCounts() {
 			return $this->db->createQuery()
-				->setTable('surveys')
-				->addField('*')
+				->setTable('categories c')
+				->joinTable('surveys s', 's.categoryid=c.categoryid', 'LEFT')
+				->addField('c.*, COUNT(s.*) AS count')
 				// ->setWhere(['deletedate IS NULL'])
+				->setGroupBy('c.categoryid')
 				->get()
 				->all();
 		}
@@ -49,7 +49,7 @@
 		 */
 		public function getAllPaged($uOffset, $uLimit) {
 			return $this->db->createQuery()
-				->setTable('surveys')
+				->setTable('categories')
 				->addField('*')
 				->setOffset($uOffset)
 				->setLimit($uLimit)

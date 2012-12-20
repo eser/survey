@@ -13,10 +13,10 @@
 			$this->load('surveyModel');
 
 			// gather all survey data from model
-			// $tSurveys = $this->surveyModel->getAll();
+			$tSurveys = $this->surveyModel->getAll();
 			
 			// assign the user data to view
-			// $this->set('surveys', $tSurveys);
+			$this->setRef('surveys', $tSurveys);
 
 			// render the page
 			$this->view();
