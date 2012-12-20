@@ -3,16 +3,16 @@
 	/**
 	 * @ignore
 	 */
-	class categoryModel extends model {
+	class languageModel extends model {
 		/**
 		 * @ignore
 		 */
 		public function get($uId) {
 			return $this->db->createQuery()
-				->setTable('categories')
+				->setTable('languages')
 				->addField('*')
-				->setWhere(['categoryid=:categoryid'])
-				->addParameter('categoryid', $uId)
+				->setWhere(['languageid=:languageid'])
+				->addParameter('languageid', $uId)
 				->setLimit(1)
 				->get()
 				->row();
@@ -25,16 +25,16 @@
 			$tReturn = array();
 
 			$tQuery = $this->db->createQuery()
-				->setTable('categories c')
-				->joinTable('surveys s', 's.categoryid=c.categoryid', 'LEFT')
-				->addField('c.*')
+				->setTable('languages l')
+				->joinTable('surveys s', 's.languageid=l.languageid', 'LEFT')
+				->addField('l.*')
 				->addField('COUNT(s.*) AS count')
 				// ->setWhere(['deletedate IS NULL'])
-				->setGroupBy('c.categoryid')
+				->setGroupBy('l.languageid')
 				->get();
 
 			foreach($tQuery as $tRow) {
-				$tReturn[$tRow['categoryid']] = $tRow;
+				$tReturn[$tRow['languageid']] = $tRow;
 			}
 
 			$tQuery->close();
@@ -47,7 +47,7 @@
 		 */
 		public function getAllPaged($uOffset, $uLimit) {
 			return $this->db->createQuery()
-				->setTable('categories')
+				->setTable('languages')
 				->addField('*')
 				->setOffset($uOffset)
 				->setLimit($uLimit)

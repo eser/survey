@@ -7,8 +7,18 @@
 		/**
 		 * @ignore
 		 */
+		public function get_new() {
+			statics::requireAuthentication(1);
+
+			// render the page
+			$this->view();
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function get_index() {
-			statics::requireAuthentication(0);
+			statics::requireAuthentication(1);
 
 			$this->load('surveyModel');
 

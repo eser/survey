@@ -5,7 +5,9 @@
 	 */
 	class statics {
 		public static $user = null;
-		public static $categoriesWithCounts;
+		public static $categoriesWithCounts = null;
+		public static $languagesWithCounts = null;
+		public static $themesWithCounts = null;
 		public static $recentSurveys;
 
 		public static $months = array(
@@ -67,13 +69,17 @@
 		/**
 		 * @ignore
 		 */
-		public static function leftNavigationBinding() {
+		public static function templateBindings() {
 			$tCategoryModel = mvc::load('categoryModel');
-
 			self::$categoriesWithCounts = $tCategoryModel->getAllWithCounts();
 
-			$tSurveyModel = mvc::load('surveyModel');
+			$tLanguageModel = mvc::load('languageModel');
+			self::$languagesWithCounts = $tLanguageModel->getAllWithCounts();
 
+			$tThemeModel = mvc::load('themeModel');
+			self::$themesWithCounts = $tThemeModel->getAllWithCounts();
+
+			$tSurveyModel = mvc::load('surveyModel');
 			self::$recentSurveys = $tSurveyModel->getRecent(6);
 		}
 	}

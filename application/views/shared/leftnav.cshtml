@@ -1,5 +1,3 @@
-			@{ statics::leftNavigationBinding(); }
-
             <!-- Logo -->
             <a href="@mvc::url('home/index')" id="logo"><img src="/survey/res/img/logo.png" width="280" height="185" alt="survey-e-bot" /></a>
 
@@ -23,7 +21,8 @@
 							<li><a href="@mvc::url('home/contact')">Contact</a></li>
 						</ul>
 					</li>
-					<li><a href="@mvc::url('surveys/index')">Surveys</a></li>
+					<li><a href="@mvc::url('surveys/new')">Create New Survey</a></li>
+					<li><a href="@mvc::url('surveys/index')">Existing Surveys</a></li>
 					<li><a href="@mvc::url('user/profile')">Profile</a></li>
 					<li><a href="@mvc::url('user/login')">Logout</a></li>
                 </ul>

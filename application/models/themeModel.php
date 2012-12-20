@@ -3,16 +3,16 @@
 	/**
 	 * @ignore
 	 */
-	class categoryModel extends model {
+	class themeModel extends model {
 		/**
 		 * @ignore
 		 */
 		public function get($uId) {
 			return $this->db->createQuery()
-				->setTable('categories')
+				->setTable('themes')
 				->addField('*')
-				->setWhere(['categoryid=:categoryid'])
-				->addParameter('categoryid', $uId)
+				->setWhere(['themeid=:themeid'])
+				->addParameter('themeid', $uId)
 				->setLimit(1)
 				->get()
 				->row();
@@ -25,16 +25,16 @@
 			$tReturn = array();
 
 			$tQuery = $this->db->createQuery()
-				->setTable('categories c')
-				->joinTable('surveys s', 's.categoryid=c.categoryid', 'LEFT')
-				->addField('c.*')
+				->setTable('themes t')
+				->joinTable('surveys s', 's.themeid=t.themeid', 'LEFT')
+				->addField('t.*')
 				->addField('COUNT(s.*) AS count')
 				// ->setWhere(['deletedate IS NULL'])
-				->setGroupBy('c.categoryid')
+				->setGroupBy('t.themeid')
 				->get();
 
 			foreach($tQuery as $tRow) {
-				$tReturn[$tRow['categoryid']] = $tRow;
+				$tReturn[$tRow['themeid']] = $tRow;
 			}
 
 			$tQuery->close();
@@ -47,7 +47,7 @@
 		 */
 		public function getAllPaged($uOffset, $uLimit) {
 			return $this->db->createQuery()
-				->setTable('categories')
+				->setTable('themes')
 				->addField('*')
 				->setOffset($uOffset)
 				->setLimit($uLimit)
