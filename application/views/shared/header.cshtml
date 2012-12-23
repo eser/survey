@@ -17,11 +17,11 @@
     <script type="text/javascript" src="/survey/res/js/main.js"></script>
 </head>
 <body id="@{
-		if(mvc::$route['controller'] == 'home' && mvc::$route['action'] == 'blog') {
-			echo 'blog';
+		if(mvc::$route['controller'] == 'home') {
+			echo (mvc::$route['action'] == 'blog') ? 'blog' : 'home';
 		}
 		else {
-			echo 'home';
+			echo 'portfolio';
 		}
 	}"><!-- #home || #page-post || #blog || #portfolio -->
 	<div id="fb-root"></div>

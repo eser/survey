@@ -25,6 +25,7 @@
 
         // Get this slider
         var slider = $(element);
+		var sliderWidth = (typeof slider.attr('data-width') != 'undefined') ? slider.attr('data-width') : slider.width();
         slider.data('nivo:vars', vars).addClass('nivoSlider');
 
         // Find our slider children
@@ -80,7 +81,7 @@
 
         // Detect Window Resize
         $(window).resize(function() {
-            slider.children('img').width(slider.width());
+            slider.children('img').width(sliderWidth);
             sliderImg.attr('src', vars.currentImage.attr('src'));
             sliderImg.stop().height('auto');
             $('.nivo-slice').remove();
@@ -210,17 +211,17 @@
         // Add slices for slice animations
         var createSlices = function(slider, settings, vars) {
         	if($(vars.currentImage).parent().is('a')) $(vars.currentImage).parent().css('display','block');
-            $('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').width(slider.width()).css('visibility', 'hidden').show();
+            $('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').width(sliderWidth).css('visibility', 'hidden').show();
             var sliceHeight = ($('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').parent().is('a')) ? $('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').parent().height() : $('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').height();
 
             for(var i = 0; i < settings.slices; i++){
-                var sliceWidth = Math.round(slider.width()/settings.slices);
+                var sliceWidth = Math.round(sliderWidth/settings.slices);
                 
                 if(i === settings.slices-1){
                     slider.append(
-                        $('<div class="nivo-slice" name="'+i+'"><img src="'+ vars.currentImage.attr('src') +'" style="position:absolute; width:'+ slider.width() +'px; height:auto; display:block !important; top:0; left:-'+ ((sliceWidth + (i * sliceWidth)) - sliceWidth) +'px;" /></div>').css({ 
+                        $('<div class="nivo-slice" name="'+i+'"><img src="'+ vars.currentImage.attr('src') +'" style="position:absolute; width:'+ sliderWidth +'px; height:auto; display:block !important; top:0; left:-'+ ((sliceWidth + (i * sliceWidth)) - sliceWidth) +'px;" /></div>').css({ 
                             left:(sliceWidth*i)+'px', 
-                            width:(slider.width()-(sliceWidth*i))+'px',
+                            width:(sliderWidth-(sliceWidth*i))+'px',
                             height:sliceHeight+'px', 
                             opacity:'0',
                             overflow:'hidden'
@@ -228,7 +229,7 @@
                     );
                 } else {
                     slider.append(
-                        $('<div class="nivo-slice" name="'+i+'"><img src="'+ vars.currentImage.attr('src') +'" style="position:absolute; width:'+ slider.width() +'px; height:auto; display:block !important; top:0; left:-'+ ((sliceWidth + (i * sliceWidth)) - sliceWidth) +'px;" /></div>').css({ 
+                        $('<div class="nivo-slice" name="'+i+'"><img src="'+ vars.currentImage.attr('src') +'" style="position:absolute; width:'+ sliderWidth +'px; height:auto; display:block !important; top:0; left:-'+ ((sliceWidth + (i * sliceWidth)) - sliceWidth) +'px;" /></div>').css({ 
                             left:(sliceWidth*i)+'px', 
                             width:sliceWidth+'px',
                             height:sliceHeight+'px',
@@ -248,8 +249,8 @@
         // Add boxes for box animations
         var createBoxes = function(slider, settings, vars){
         	if($(vars.currentImage).parent().is('a')) $(vars.currentImage).parent().css('display','block');
-            $('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').width(slider.width()).css('visibility', 'hidden').show();
-            var boxWidth = Math.round(slider.width()/settings.boxCols),
+            $('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').width(sliderWidth).css('visibility', 'hidden').show();
+            var boxWidth = Math.round(sliderWidth/settings.boxCols),
                 boxHeight = Math.round($('img[src="'+ vars.currentImage.attr('src') +'"]', slider).not('.nivo-main-image,.nivo-control img').height() / settings.boxRows);
             
                         
@@ -257,18 +258,18 @@
                 for(var cols = 0; cols < settings.boxCols; cols++){
                     if(cols === settings.boxCols-1){
                         slider.append(
-                            $('<div class="nivo-box" name="'+ cols +'" rel="'+ rows +'"><img src="'+ vars.currentImage.attr('src') +'" style="position:absolute; width:'+ slider.width() +'px; height:auto; display:block; top:-'+ (boxHeight*rows) +'px; left:-'+ (boxWidth*cols) +'px;" /></div>').css({ 
+                            $('<div class="nivo-box" name="'+ cols +'" rel="'+ rows +'"><img src="'+ vars.currentImage.attr('src') +'" style="position:absolute; width:'+ sliderWidth +'px; height:auto; display:block; top:-'+ (boxHeight*rows) +'px; left:-'+ (boxWidth*cols) +'px;" /></div>').css({ 
                                 opacity:0,
                                 left:(boxWidth*cols)+'px', 
                                 top:(boxHeight*rows)+'px',
-                                width:(slider.width()-(boxWidth*cols))+'px'
+                                width:(sliderWidth-(boxWidth*cols))+'px'
                                 
                             })
                         );
                         $('.nivo-box[name="'+ cols +'"]', slider).height($('.nivo-box[name="'+ cols +'"] img', slider).height()+'px');
                     } else {
                         slider.append(
-                            $('<div class="nivo-box" name="'+ cols +'" rel="'+ rows +'"><img src="'+ vars.currentImage.attr('src') +'" style="position:absolute; width:'+ slider.width() +'px; height:auto; display:block; top:-'+ (boxHeight*rows) +'px; left:-'+ (boxWidth*cols) +'px;" /></div>').css({ 
+                            $('<div class="nivo-box" name="'+ cols +'" rel="'+ rows +'"><img src="'+ vars.currentImage.attr('src') +'" style="position:absolute; width:'+ sliderWidth +'px; height:auto; display:block; top:-'+ (boxHeight*rows) +'px; left:-'+ (boxWidth*cols) +'px;" /></div>').css({ 
                                 opacity:0,
                                 left:(boxWidth*cols)+'px', 
                                 top:(boxHeight*rows)+'px',
@@ -474,7 +475,7 @@
                 
                 firstSlice = $('.nivo-slice:first', slider);
                 firstSlice.css({
-                    'width': slider.width() + 'px'
+                    'width': sliderWidth + 'px'
                 });
     
                 firstSlice.animate({ opacity:'1.0' }, (settings.animSpeed*2), '', function(){ slider.trigger('nivo:animFinished'); });
@@ -487,7 +488,7 @@
                     'opacity': '1'
                 });
 
-                firstSlice.animate({ width: slider.width() + 'px' }, (settings.animSpeed*2), '', function(){ slider.trigger('nivo:animFinished'); });
+                firstSlice.animate({ width: sliderWidth + 'px' }, (settings.animSpeed*2), '', function(){ slider.trigger('nivo:animFinished'); });
             } else if(currentEffect === 'slideInLeft'){
                 createSlices(slider, settings, vars);
                 
@@ -499,7 +500,7 @@
                     'right': '0px'
                 });
 
-                firstSlice.animate({ width: slider.width() + 'px' }, (settings.animSpeed*2), '', function(){ 
+                firstSlice.animate({ width: sliderWidth + 'px' }, (settings.animSpeed*2), '', function(){ 
                     // Reset positioning
                     firstSlice.css({
                         'left': '0px',

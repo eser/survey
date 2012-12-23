@@ -58,10 +58,10 @@ body {
 	color: #888;
 	padding-bottom: 60px;
 	height: auto;
-	margin: 0px 80px 0px 80px;
+	margin: 0px 25px 0px 25px;
 }
 
-#page { width: 960px; margin: 50px auto 0; background: #ffffff; /* #efefef url("/survey/res/img/page-bg.png") 100% 0;*/ }
+#page { min-width: 960px; max-width: 1260px; margin: 50px auto 0; background: #ffffff; /* #efefef url("/survey/res/img/page-bg.png") 100% 0;*/ }
 
 /* End General
 --------------------------------------------------------------------------------------------------------*/
@@ -231,6 +231,9 @@ h6 {
 	height: 365px;
 	position: relative;
 }
+#big-slider {
+	background: #EFEFEF;
+}
 #big-slider a { display: block; }
 .nivo-controlNav {
 	height: 24px;
@@ -372,6 +375,18 @@ h6 {
 	padding: 25px 30px 0;
 }
 
+#home #page .mainwrap {
+	width: 620px;
+	float: left;
+}
+
+#home #page .rightwrap {
+	width: 288px;
+	background: #F1FDEB;
+	float: left;
+	margin-left: 10px;
+}
+
 /* homepage post */
 #homepage-post {
 	border-top-width: 1px;
@@ -389,10 +404,6 @@ h6 {
 
 #homepage-teasers {
 	overflow: hidden;
-	width: 618px;
-	margin-top: 30px;
-	border-width: 1px;
-	border-style: solid;
 }
 #ht-inner { width: 625px; }
 
@@ -697,21 +708,25 @@ a:hover.more {
 	height: 34px;
 	line-height: 32px;
 	color: #fff;
-	border-right-width: 1px;
-	border-right-style: solid;
-	padding: 0;
+	padding: 0px 10px 0px 10px;
 }
 #homepage-teasers .w-content {
-	border-right-width: 1px;
-	border-right-style: solid;
-	padding: 12px 0 16px;
-	min-height: 108px;
+	background: none no-repeat 10px 10px;
+	padding: 12px 12px 32px 70px;
+	border: 1px solid #ACE691;
+	border-top: 0px;
 }
-#homepage-teasers .w-content img {
-	display: block;
-	margin: 0 auto 9px;
-	border: none !important;
-	padding: 0 !important;
+#homepage-teasers div.pic1 {
+	background-image: url("/survey/res/img/icon-1.png");
+}
+#homepage-teasers div.pic2 {
+	background-image: url("/survey/res/img/icon-2.png");
+}
+#homepage-teasers div.pic3 {
+	background-image: url("/survey/res/img/icon-3.png");
+}
+#homepage-teasers div.pic4 {
+	background-image: url("/survey/res/img/icon-4.png");
 }
 
 /* latest posts widget */
@@ -830,7 +845,7 @@ img.avatar {
 }
 
 /* footer main column (footer widget area) */
-#f-main-col { float: left; }
+#f-main-col { margin: 0px auto 0px auto; width: 700px; }
 #footer .widget {
 	float: left;
 	line-height: 22px;
