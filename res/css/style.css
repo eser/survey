@@ -58,9 +58,10 @@ body {
 	color: #888;
 	padding-bottom: 60px;
 	height: auto;
+	margin: 0px 80px 0px 80px;
 }
 
-#page { width: 960px; margin: 50px auto 0; background: #efefef url("/survey/res/img/page-bg.png") 100% 0; }
+#page { width: 960px; margin: 50px auto 0; background: #ffffff; /* #efefef url("/survey/res/img/page-bg.png") 100% 0;*/ }
 
 /* End General
 --------------------------------------------------------------------------------------------------------*/
@@ -226,7 +227,6 @@ h6 {
 #logo img { display: block; }
 
 #big-slider, #slider-container {
-	width: 620px;
 	overflow: hidden;
 	height: 365px;
 	position: relative;
@@ -261,7 +261,6 @@ h6 {
 	border-bottom-style: solid;
 	padding: 0 4px 0 30px;
 	top: 0;
-	width: 580px;
 	height: 35px;
 	line-height: 35px;
 	left: auto;
@@ -367,7 +366,6 @@ h6 {
 #wrap { float: left; width: 100%; }
 
 #main-col {
-	width: 620px;
 	margin: -25px 0 0 280px;
 	background: #fff;
 	position: relative;
@@ -407,8 +405,6 @@ h6 {
 	border-top: none;
 	border-bottom: none;
 	font-size: 12px;
-	float: left;
-	width: 618px;
 }
 #page #breadcrumbs li {
 	float: left;
@@ -680,6 +676,7 @@ a:hover.more {
 	margin-left: -100%;
 	width: 280px;
 	color: #999;
+	background-color: #efefef;
 }
 #left-col a { color: #999; }
 
@@ -833,7 +830,7 @@ img.avatar {
 }
 
 /* footer main column (footer widget area) */
-#f-main-col { float: left; width: 680px; }
+#f-main-col { float: left; }
 #footer .widget {
 	float: left;
 	line-height: 22px;
@@ -855,7 +852,7 @@ img.avatar {
 #footer img.alignright { margin: -20px 0 0; }
 
 .clear-wrap { height: 45px; }
-#home .clear-wrap { height: 40px; }
+#home .clear-wrap { height: 0px; }
 #portfolio .clear-wrap { height: 55px; }
 
 /* End Footer
