@@ -1,0 +1,62 @@
+@views::view('shared/header.cshtml')
+                
+                <!-- Breadcrumbs, Page Title -->
+                <div id="page-head">
+                    <h1><em>add, edit and organize questions</em>Question Pool</h1>
+                    <ul id="breadcrumbs">
+                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li>Questions</li>
+                    </ul>
+                </div>
+                
+                <!-- Page Content Start -->
+                <div class="full-page-text">
+
+                    <p>At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable.</p>
+
+                    <!-- User Details -->
+					<div>
+						<h3 class="floatleft">Existing Questions</h3>
+						<a href="@mvc::url('surveys/new')" class="more floatright">Create New</a>
+						<div class="clear"></div>
+					</div>
+
+                    <table width="100%" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Created At</th>
+								<th>Category</th>
+								<th>Language</th>
+								<th>Properties</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+						@foreach($surveys as &$survey) {
+                            <tr>
+								<td><a href="@mvc::url('surveys/edit/' . $survey['surveyid'])">@$survey['title']</a></td>
+                                <td>@statics::datePrint($survey['createdate'], false)</td>
+                                <td>@statics::$categoriesWithCounts[$survey['categoryid']]['name']</td>
+								<td>@statics::$languagesWithCounts[$survey['languageid']]['name']</td>
+                                <td>Password</td>
+                                <td>
+									<a href="@mvc::url('surveys/edit/' . $survey['surveyid'])">Edit</a> |
+									<a href="@mvc::url('surveys/report/' . $survey['surveyid'])">Report</a>
+								</td>
+                            </tr>
+						}
+                        </tbody>
+                    </table>
+
+					<!-- Pagination -->
+					<ul id="pagination" class="margintop10px">
+						<li><a href="#">&laquo;</a></li>
+						<li class="act"><a href="#">1</a></li>
+						<li><a href="#">&raquo;</a></li>
+					</ul>
+
+				</div>
+                <!-- Page Content End -->
+    
+@views::view('shared/footer.cshtml')

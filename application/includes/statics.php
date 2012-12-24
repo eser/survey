@@ -86,6 +86,27 @@
 			$tSurveyModel = mvc::load('surveyModel');
 			self::$recentSurveys = $tSurveyModel->getPublishedRecent(6);
 		}
+
+		/**
+		 * @ignore
+		 */
+		public static function selectboxCategories($uDefault = null) {
+			return html::selectOptions(self::$categoriesWithCounts, $uDefault, 'name');
+		}
+
+		/**
+		 * @ignore
+		 */
+		public static function selectboxLanguages($uDefault = null) {
+			return html::selectOptions(self::$languagesWithCounts, $uDefault, 'name');
+		}
+
+		/**
+		 * @ignore
+		 */
+		public static function selectboxThemes($uDefault = null) {
+			return html::selectOptions(self::$themesWithCounts, $uDefault, 'name');
+		}
 	}
 
 ?>

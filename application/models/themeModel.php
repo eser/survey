@@ -21,6 +21,18 @@
 		/**
 		 * @ignore
 		 */
+		public function getAll() {
+			return $this->db->createQuery()
+				->setTable('themes')
+				->addField('*')
+				// ->setWhere(['deletedate IS NULL'])
+				->get()
+				->all();
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function &getAllWithCounts() {
 			$tReturn = array();
 
