@@ -3,18 +3,42 @@
 	/**
 	 * @ignore
 	 */
-	class surveys extends controller {
+	class questions extends controller {
 		/**
 		 * @ignore
 		 */
 		public function get_new() {
 			statics::requireAuthentication(1);
-			$this->load('surveyModel');
-			if(http::$method == 'post') {
-				//$this->surveyModel->insert($input);
+
+			$this->view('questions/new.cshtml');
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function post_new() {
+			statics::requireAuthentication(1);
+			$this->load('questionModel');
+			$this->load('optionModel');
+			$questionID = string::generateUuid();
+			$input = array(
+				'questionid' => $questionID,
+				'ownerid' => statics::$user['userid'],
+				'content' => http::post('question'),
+				'type' => '0'
+			);
+			$this->questionModel->insert($input);
+			$options =  http::post('options');
+			foreach($options as $option){
+				$optionInput = array(
+					'questionchoiceid' => string::generateUuid(),
+					'questionid' => $questionID,
+					'content' => $option
+				);
+				string::vardump($this->optionModel->insert($optionInput));
 			}
-			// render the page
-			$this->view();
+
+			$this->view('questions/new.cshtml');
 		}
 
 		/**
