@@ -1,5 +1,40 @@
 @views::view('shared/header.cshtml')
-                
+
+				<script type="text/javascript">
+					window.pageOptions = 1;
+
+					function addNewChoice() {
+						window.pageOptions++;
+						$l.dom.append(
+							$l.dom.selectSingle('#options'),
+							'<li>Option <span class="number">' + window.pageOptions + '</span>: <input name="options[]" value="" /> <a class="remove" href="#">Remove</a></li>'
+						);
+
+						renumber();
+						return false;
+					}
+
+					function removeChoice(e, it) {
+						$l.dom.remove(it.parentElement);
+
+						renumber();
+						return false;
+					}
+					
+					function renumber() {
+						var nodes = $l.dom.select('#options li');
+						for(i = 0; i < nodes.length; i++) {
+							$l.dom.selectSingle('.number', nodes[i]).innerText = (i + 1);
+							$l.dom.setEvent($l.dom.selectSingle('.remove', nodes[i]), 'click', removeChoice);
+						}
+					}
+					
+					$l.ready(function() {
+						$l.dom.setEvent($l.dom.selectSingle('#addnewchoice'), 'click', addNewChoice);
+						renumber();
+					});
+				</script>
+
                 <!-- Breadcrumbs, Page Title -->
                 <div id="page-head">
                     <h1>Create New Questions</h1>
@@ -18,17 +53,12 @@
                     <h3>Add New Question</h3>
                     <form id="addQuestion" method="post" action="">
                     <p>You can add new survey to system by using this page easly.</p>
-                    <p>Question : <input name="question" value="Type your question here" /></p>
-                    <ul class="arrow">
-                        <li>Option 1 : <input name="options[]" value="" /> </li>
-                        <li>Option 2 : <input name="options[]" value="" /> </li>
-                        <li>Option 3 : <input name="options[]" value="" /> </li>
+                    <p>Question : <input name="question" value="" data-defaulttext="Type your question here" /> <a id="addnewchoice" href="#">Add New Choice</a></p>
+                    <ul class="arrow" id="options">
+                        <li>Option <span class="number">1</span>: <input name="options[]" value="" /> <a class="remove" href="#">Remove</a></li>
                     </ul>
                     <p><input type="submit" value="Add Survey"></p>
                     </form>
-                    <div id="in-post-meta">
-                    	This entry was posted in <a href="#">Corporate Blog</a> by <a href="#">George</a> on 14 Feb, 2012.
-                    </div>
                     
                 </div>
                 <!-- Page Content End -->
