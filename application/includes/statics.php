@@ -84,7 +84,7 @@
 			self::$themesWithCounts = $tThemeModel->getAllWithCounts();
 
 			$tSurveyModel = mvc::load('surveyModel');
-			self::$recentSurveys = $tSurveyModel->getRecent(6);
+			self::$recentSurveys = $tSurveyModel->getPublishedRecent(6);
 		}
 	}
 

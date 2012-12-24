@@ -4,6 +4,10 @@
 
 	// framework::$endpoints[] = 'http://localhost/survey';
 	framework::$development = 1;
-	framework::load(true);
+	framework::load(false);
+	
+	database::$errorHandling = database::ERROR_EXCEPTION;
+
+	framework::run();
 
 ?>

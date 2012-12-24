@@ -114,7 +114,8 @@
 				'email' => $uUser->object['email'],
 				'phonenumber' => '',
 				'password' => string::generatePassword(6),
-				'facebookid' => $uUser->object['id']
+				'facebookid' => $uUser->object['id'],
+				'languageid' => 'en'
 			];
 			
 			$this->userModel->insert($tRealUser);
