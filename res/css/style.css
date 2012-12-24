@@ -48,6 +48,7 @@ ins { text-decoration: none; }
 del { text-decoration: line-through; }
 table { border-collapse: collapse; border-spacing: 0; }
 .clear { clear: both; height: 1px; font-size: 1px; line-height: 1px; }
+.alignRight { text-align: right; }
 img { border: 0; }
 
 
@@ -886,7 +887,6 @@ input[type="text"], input[type="password"], input[type="submit"], input[type="bu
 	background: #fff;
 	color: #bbb;
 	padding: 0 0 1px 10px;
-	display: block;
 }
 input[type="text"].input-off, input[type="password"].input-off { font-size: 12px !important; }
 input[type="text"]:focus, input[type="password"]:focus, textarea:focus { border: 1px solid #bbb; color: #888; }
@@ -907,13 +907,6 @@ textarea {
 	padding: 6px 10px 6px 10px;
 }
 fieldset { overflow: hidden; padding-bottom: 20px; }
-label {
-	float: left;
-	height: 30px;
-	font-size: 13px;
-	line-height: 30px;
-	padding-right: 10px;
-}
 label.error, p.error {
 	clear: both;
 	width: auto;

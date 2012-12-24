@@ -16,33 +16,27 @@
 
                     <!-- User Details -->
 					<div>
-						<h3 class="floatleft">Existing Questions</h3>
-						<a href="@mvc::url('surveys/new')" class="more floatright">Create New</a>
+						<h3 class="floatleft">Your Contributions</h3>
+						<a href="@mvc::url('questions/new')" class="more floatright">Create New</a>
 						<div class="clear"></div>
 					</div>
 
                     <table width="100%" cellspacing="0" cellpadding="0">
                         <thead>
                             <tr>
-                                <th>Title</th>
-                                <th>Created At</th>
-								<th>Category</th>
-								<th>Language</th>
-								<th>Properties</th>
+                                <th>Content</th>
+                                <th>Type</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-						@foreach($surveys as &$survey) {
+						@foreach($questions as &$question) {
                             <tr>
-								<td><a href="@mvc::url('surveys/edit/' . $survey['surveyid'])">@$survey['title']</a></td>
-                                <td>@statics::datePrint($survey['createdate'], false)</td>
-                                <td>@statics::$categoriesWithCounts[$survey['categoryid']]['name']</td>
-								<td>@statics::$languagesWithCounts[$survey['languageid']]['name']</td>
-                                <td>Password</td>
+								<td><a href="@mvc::url('questions/edit/' . $question['questionid'])">@$question['content']</a></td>
+                                <td>@statics::$questiontypes[$question['type']]</td>
                                 <td>
-									<a href="@mvc::url('surveys/edit/' . $survey['surveyid'])">Edit</a> |
-									<a href="@mvc::url('surveys/report/' . $survey['surveyid'])">Report</a>
+									<a href="@mvc::url('questions/edit/' . $question['questionid'])">Edit</a> |
+									<a href="@mvc::url('questions/report/' . $question['questionid'])">Report</a>
 								</td>
                             </tr>
 						}

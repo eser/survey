@@ -7,7 +7,6 @@
 		/**
 		 * @ignore
 		 */
-
 		public function insert($input) {
 			return $this->db->createQuery()
 				->setTable('questions')
@@ -21,10 +20,10 @@
 		 */
 		public function get($uId) {
 			return $this->db->createQuery()
-				->setTable('surveys')
+				->setTable('questions')
 				->addField('*')
-				->setWhere(['surveyid=:surveyid'])
-				->addParameter('surveyid', $uId)
+				->setWhere(['questionid=:questionid'])
+				->addParameter('questionid', $uId)
 				->setLimit(1)
 				->get()
 				->row();
@@ -35,7 +34,7 @@
 		 */
 		public function getRecent($uLimit) {
 			return $this->db->createQuery()
-				->setTable('surveys')
+				->setTable('questions')
 				->addField('*')
 				// ->setWhere(['deletedate IS NULL'])
 				->setOrderBy('startdate', 'DESC')
@@ -49,7 +48,7 @@
 		 */
 		public function getAll() {
 			return $this->db->createQuery()
-				->setTable('surveys')
+				->setTable('questions')
 				->addField('*')
 				// ->setWhere(['deletedate IS NULL'])
 				->get()
@@ -61,7 +60,7 @@
 		 */
 		public function getAllPaged($uOffset, $uLimit) {
 			return $this->db->createQuery()
-				->setTable('surveys')
+				->setTable('questions')
 				->addField('*')
 				->setOffset($uOffset)
 				->setLimit($uLimit)
@@ -75,7 +74,7 @@
 		 */
 		public function getAllByOwner($uOwnerId) {
 			return $this->db->createQuery()
-				->setTable('surveys')
+				->setTable('questions')
 				->addField('*')
 				->setWhere(['ownerid=:ownerid'])
 				->addParameter('ownerid', $uOwnerId)
@@ -88,7 +87,7 @@
 		 */
 		public function getAllPagedByOwner($uOwnerId, $uOffset, $uLimit) {
 			return $this->db->createQuery()
-				->setTable('surveys')
+				->setTable('questions')
 				->addField('*')
 				->setOffset($uOffset)
 				->setLimit($uLimit)

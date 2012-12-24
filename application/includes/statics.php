@@ -25,6 +25,16 @@
 			12 => 'Dec'
 		);
 
+		public static $questiontypes = array(
+			 0 => 'Multiple Choice',
+			 1 => 'Fill In The Blanks'
+		);
+
+		public static $surveytypes = array(
+			 0 => 'Auth-Only',
+			 1 => 'Public'
+		);
+
 		/**
 		 * @ignore
 		 */

@@ -47,13 +47,13 @@
 		public function get_index() {
 			statics::requireAuthentication(1);
 
-			$this->load('surveyModel');
+			$this->load('questionModel');
 
 			// gather all survey data from model
-			$tSurveys = $this->surveyModel->getAllByOwner(statics::$user['userid']);
-			
+			$tQuestions = $this->questionModel->getAllByOwner(statics::$user['userid']);
+
 			// assign the user data to view
-			$this->setRef('surveys', $tSurveys);
+			$this->setRef('questions', $tQuestions);
 
 			// render the page
 			$this->view();

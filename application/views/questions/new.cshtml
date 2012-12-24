@@ -52,12 +52,32 @@
                     
                     <h3>Add New Question</h3>
                     <form id="addQuestion" method="post" action="">
-                    <p>You can add new survey to system by using this page easly.</p>
-                    <p>Question : <input name="question" value="" data-defaulttext="Type your question here" /> <a id="addnewchoice" href="#">Add New Choice</a></p>
-                    <ul class="arrow" id="options">
-                        <li>Option <span class="number">1</span>: <input name="options[]" value="" /> <a class="remove" href="#">Remove</a></li>
-                    </ul>
-                    <p><input type="submit" value="Add Survey"></p>
+						<p>You can add new survey to system by using this page easly.</p>
+						<p>Question : <input name="question" value="" data-defaulttext="Type your question here" /> <a id="addnewchoice" href="#">Add New Choice</a></p>
+
+						<div class="tabs_table">
+							<ul class="tabs">
+								<li><a rel="tab_1">Multiple Choices</a></li>
+								<li><a rel="tab_2">Fill In The Blanks</a></li>
+							</ul>
+							<div class="panes">
+								<div id="tab_1" class="tab-content">
+									<ul class="arrow l-child" id="options">
+										<li>Option <span class="number">1</span>: <input name="options[]" value="" /> <a class="remove" href="#">Remove</a></li>
+									</ul>
+
+									<p class="alignRight"><input type="submit" value="Add Question" /></p>
+								</div>
+								<div id="tab_2" class="tab-content">
+									<ul class="l-child">
+										<li><input type="radio" name="filltype" id="filltype1" value="1" /><label for="filltype1">Any</label></li>
+										<li><input type="radio" name="filltype" id="filltype2" value="2" /><label for="filltype2">Numeric</label></li>
+										<li><input type="radio" name="filltype" id="filltype3" value="3" /><label for="filltype3">Alphanumeric</label></li>
+									</ul>
+									<p class="alignRight"><input type="submit" value="Add Question" /></p>
+								</div>
+							</div>
+						</div>
                     </form>
                     
                 </div>
