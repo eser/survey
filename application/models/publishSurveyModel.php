@@ -3,7 +3,7 @@
 	/**
 	 * @ignore
 	 */
-	class surveyModel extends model {
+	class publishSurveyModel extends model {
 		/**
 		 * @ignore
 		 */
@@ -11,7 +11,7 @@
 		public function insert($input) {
 			$tTime = time::toDb(time());
 			return $this->db->createQuery()
-				->setTable('surveys')
+				->setTable('surveypublishs')
 				->setFields($input)
 				->addField('createdate', $tTime)
 				->insert()
@@ -66,7 +66,7 @@
 		 */
 		public function getAll() {
 			return $this->db->createQuery()
-				->setTable('surveys')
+				->setTable('surveypublishs')
 				->addField('*')
 				// ->setWhere(['deletedate IS NULL'])
 				->get()
@@ -92,9 +92,9 @@
 		 */
 		public function getAllByOwner($uOwnerId) {
 			return $this->db->createQuery()
-				->setTable('surveys')
-				->addField('*')
-				->setWhere(['ownerid=:ownerid'])
+				->setTable('surveypublishs AS sp INNER JOIN surveys AS s ON sp.surveyid=s.surveyid')
+				->addField('sp.*,s.title')
+				->setWhere(['sp.ownerid=:ownerid'])
 				->addParameter('ownerid', $uOwnerId)
 				->get()
 				->all();

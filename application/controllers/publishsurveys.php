@@ -3,13 +3,15 @@
 	/**
 	 * @ignore
 	 */
-	class surveys extends controller {
+	class publishsurveys extends controller {
 		/**
 		 * @ignore
 		 */
 		public function get_new() {
 			statics::requireAuthentication(1);
-
+			$this->load('surveyModel');
+			$surveys = $this->surveyModel->getAllByOwner(statics::$user['userid']);
+			$this->setRef('surveys', $surveys);
 			// render the page
 			$this->view();
 		}
@@ -18,23 +20,27 @@
 		 */
 		public function post_new() {
 			statics::requireAuthentication(1);
-			$this->load('surveyModel');
-			$surveyID = string::generateUuid();
+			$this->load('publishSurveyModel');
 				$input = array(
-					'surveyid' => $surveyID,
+					'surveypublishid' => string::generateUuid(),
+					'surveyid' => http::post('surveyid'),
+					'revision' => '1',
 					'ownerid' => statics::$user['userid'],
-					'title' => http::post('title'),
-					'categoryid' => http::post('categoryid'),
-					'themeid' => http::post('themeid'),
-					'languageid' => http::post('languageid')
+					'startdate' => http::post('startdate'),
+					'enddate' => http::post('enddate'),
+					'password' => http::post('password'),
+					'type' => http::post('type')
 				);
-				$insertSurvey = $this->surveyModel->insert($input);
+				$insertSurvey = $this->publishSurveyModel->insert($input);
 			if($insertSurvey > 0){
 				echo "<script>alert('Survey Added Successfuly');</script>";
 			}
 			else {
 				echo "<script>alert('Unexpected Error.');</script>";
 			}
+			$this->load('surveyModel');
+			$surveys = $this->surveyModel->getAllByOwner(statics::$user['userid']);
+			$this->setRef('surveys', $surveys);
 			$this->view();
 		}
 
@@ -44,14 +50,16 @@
 
 		public function get_index() {
 			statics::requireAuthentication(1);
-
+			$this->load('publishSurveyModel');
 			$this->load('surveyModel');
-
 			// gather all survey data from model
-			$tSurveys = $this->surveyModel->getAllByOwner(statics::$user['userid']);
-			
+			$tSurveyPublishs = $this->publishSurveyModel->getAllByOwner(statics::$user['userid']);
+
+
+
 			// assign the user data to view
-			$this->setRef('surveys', $tSurveys);
+			$this->setRef('SurveyPublishs', $tSurveyPublishs);
+			$this->setRef('surveys', $surveys);
 
 			// render the page
 			$this->view();

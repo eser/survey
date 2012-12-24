@@ -2,10 +2,10 @@
                 
                 <!-- Breadcrumbs, Page Title -->
                 <div id="page-head">
-                    <h1>Create New Survey</h1>
+                    <h1>Create New Publish</h1>
                     <ul id="breadcrumbs">
                         <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
+                        <li><a href="@mvc::url('surveys/index')">Publish Surveys</a></li>
                         <li>New Survey</li>
                     </ul>
                 </div>
@@ -15,14 +15,24 @@
 
                     <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
                     
-                    <h3>Add New Survey</h3>
+                    <h3>Publish Survey</h3>
                     <form id="addQuestion" method="post">
-                    <p>You can add new survey to system by using this page easly.</p>
-                    <p>Title : <input name="title" value="Type your question title here"> </p>
-                    <p> Category :  <select name="categoryid">@statics::selectboxCategories()</select></p>
-                    <p> Language :  <select name="languageid">@statics::selectboxLanguages()</select></p>
-                    <p> Theme :  <select name="themeid">@statics::selectboxThemes()</select></p>
-                    <p><input type="submit" value="Add Survey"></p>
+                    <p>Description Goes Here:)</p>
+                    <p>Survey : <select name="surveyid">
+                     @foreach($surveys as $survey){
+                        <option value="@$survey['surveyid']"> @$survey['title']</option>
+                     }
+                    </select>
+                    </p>
+                    <p> Start Date :  <input name="startdate" value=""></p>
+                    <p> End Date :   <input name="enddate" value=""></p>
+                    <p> Password :  <input type="password" name="password" value=""></p>
+                    <p> Type :  <select name="type">
+                    <option value="0" > Public </option>
+                    <option value="1" > Authenticate </option>
+                    </select>
+                    </p>
+                    <p> <input type="submit" value="Add Survey"></p>
                     </form>
                     <div id="in-post-meta">
                     	This entry was posted in <a href="#">Corporate Blog</a> by <a href="#">George</a> on 14 Feb, 2012.
