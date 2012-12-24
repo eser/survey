@@ -57,6 +57,34 @@
 				->get()
 				->all();
 		}
+
+		/**
+		 * @ignore
+		 */
+		public function getAllByOwner($uOwnerId) {
+			return $this->db->createQuery()
+				->setTable('surveys')
+				->addField('*')
+				->setWhere(['ownerid=:ownerid'])
+				->addParameter('ownerid', $uOwnerId)
+				->get()
+				->all();
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function getAllPagedByOwner($uOwnerId, $uOffset, $uLimit) {
+			return $this->db->createQuery()
+				->setTable('surveys')
+				->addField('*')
+				->setOffset($uOffset)
+				->setLimit($uLimit)
+				->setWhere(['ownerid=:ownerid'])
+				->addParameter('ownerid', $uOwnerId)
+				->get()
+				->all();
+		}
 	}
 
 ?>

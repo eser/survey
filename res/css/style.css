@@ -501,7 +501,7 @@ h6 {
 #blog .post {
 	padding: 11px 18px 0 15px;
 	margin-bottom: 30px;
-	width: 555px;
+	margin-right: 32px;
 	min-height: 100px;
 	position: relative;
 	background: #efefef;
@@ -599,7 +599,7 @@ img.thumbnail { margin-bottom: 14px !important; }
 .tabs li a.selected { background: #fff; border-bottom: #fff 1px solid; position: relative; }
 .panes { border: 1px solid #e3e3e3; padding: 14px; }
 
-#cat-container { padding: 5px 0 10px; width: 620px; }
+#cat-container { padding: 5px 0 10px; }
 #portfolio #cat-container { width: 650px; }
 .p-category { padding: 0 !important; margin-top: -25px !important; }
 

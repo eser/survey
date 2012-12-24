@@ -24,23 +24,26 @@
                     <table width="100%" cellspacing="0" cellpadding="0">
                         <thead>
                             <tr>
-								<th style="width:20%">Category</th>
-								<th style="width:20%">Language</th>
-                                <th style="width:20%">Title</th>
-                                <th style="width:20%">Created At</th>
-								<th style="width:20%">Properties</th>
-                                <th style="width:20%"></th>
+                                <th>Title</th>
+                                <th>Created At</th>
+								<th>Category</th>
+								<th>Language</th>
+								<th>Properties</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
 						@foreach($surveys as &$survey) {
                             <tr>
+								<td><a href="@mvc::url('surveys/edit/' . $survey['surveyid'])">@$survey['title']</a></td>
+                                <td>@statics::datePrint($survey['createdate'], false)</td>
                                 <td>@statics::$categoriesWithCounts[$survey['categoryid']]['name']</td>
 								<td>@statics::$languagesWithCounts[$survey['languageid']]['name']</td>
-								<td>@$survey['title']</td>
-                                <td>@statics::datePrint($survey['createdate'], false)</td>
                                 <td>Password</td>
-                                <td>Edit | Report</td>
+                                <td>
+									<a href="@mvc::url('surveys/edit/' . $survey['surveyid'])">Edit</a> |
+									<a href="@mvc::url('surveys/report/' . $survey['surveyid'])">Report</a>
+								</td>
                             </tr>
 						}
                         </tbody>

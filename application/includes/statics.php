@@ -58,7 +58,11 @@
 		/**
 		 * @ignore
 		 */
-		public static function datePrint($uDate, $uShowHours = true) {
+		public static function datePrint($uDate, $uShowHours = true, $uHumanize = true) {
+			if($uHumanize) {
+				return time::humanize(time::convert($uDate, 'Y-m-d H:i:s'), time(), true);
+			}
+
 			if(is_null($uDate)) {
 				return '-';
 			}
