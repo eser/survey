@@ -135,6 +135,18 @@
 				->get()
 				->all();
 		}
+
+		/**
+		 * @ignore
+		 */
+		public function truncateChoices($uQuestionId) {
+			return $this->db->createQuery()
+				->setTable('questionchoices')
+				->setWhere(['questionid=:questionid'])
+				->addParameter('questionid', $uQuestionId)
+				->delete()
+				->execute();
+		}
 	}
 
 ?>

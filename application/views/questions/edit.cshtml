@@ -79,7 +79,7 @@
 									<a id="addnewchoice" href="#">Add New Choice</a>
 									<ul class="arrow l-child" id="options">
 									@foreach($questionchoices as $questionchoice) {
-										<li>Option <span class="number"></span>: <input type="text" name="options[]" value="@$questionchoice['content']" /> <a class="remove" href="#">Remove</a></li>
+										<li>Option <span class="number"></span>: <input type="text" name="options[@$questionchoice['questionchoiceid']]" value="@$questionchoice['content']" /> <a class="remove" href="#">Remove</a></li>
 									}
 									</ul>
 								</div>

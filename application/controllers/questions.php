@@ -37,7 +37,7 @@
 		public function post_new() {
 			statics::requireAuthentication(1);
 
-			$input = array(
+			$tInput = array(
 				'questionid' => string::generateUuid(),
 				'ownerid' => statics::$user['userid'],
 				'content' => http::post('question'),
@@ -46,23 +46,23 @@
 			);
 
 			$this->load('questionModel');
-			$this->questionModel->insert($input);
+			$this->questionModel->insert($tInput);
 
-			$options = http::post('options');
+			$tOptions = http::post('options');
 
-			if($input['type'] == '1') {
-				foreach($options as &$option){
-					$optionInput = array(
+			if($tInput['type'] == '0') {
+				foreach($tOptions as &$tOption){
+					$tOptionInput = array(
 						'questionchoiceid' => string::generateUuid(),
-						'questionid' => $input['questionid'],
-						'content' => $option
+						'questionid' => $tInput['questionid'],
+						'content' => $tOption
 					);
 
-					$this->optionModel->insertChoice($optionInput);
+					$this->questionModel->insertChoice($tOptionInput);
 				}
 			}
 
-			mvc::redirect('questions/edit/' . $input['questionid']);
+			mvc::redirect('questions/edit/' . $tInput['questionid']);
 		}
 
 		/**
@@ -93,7 +93,7 @@
 		public function post_edit($uQuestionId) {
 			statics::requireAuthentication(1);
 
-			$input = array(
+			$tInput = array(
 				'ownerid' => statics::$user['userid'],
 				'content' => http::post('question'),
 				'type' => http::post('type'),
@@ -101,23 +101,24 @@
 			);
 
 			$this->load('questionModel');
-			$this->questionModel->update($uQuestionId, $input);
+			$this->questionModel->update($uQuestionId, $tInput);
 
-//			$this->load('optionModel');
-//			$options = http::post('options');
+			$tOptions = http::post('options');
 
-			if($input['type'] == '1') {
-				/*
-				foreach($options as &$option){
-					$optionInput = array(
-						'questionchoiceid' => string::generateUuid(),
-						'questionid' => $input['questionid'],
-						'content' => $option
+
+			$this->questionModel->truncateChoices($uQuestionId);
+			if($tInput['type'] == '0') {
+				foreach($tOptions as $tKey => &$tOption){
+					$tQuestionChoiceId = ((!is_integer($tKey)) ? $tKey : string::generateUuid());
+
+					$tOptionInput = array(
+						'questionchoiceid' => $tQuestionChoiceId,
+						'questionid' => $uQuestionId,
+						'content' => $tOption
 					);
 
-					$this->optionModel->insert($optionInput);
+					$this->questionModel->insertChoice($tOptionInput);
 				}
-				*/
 			}
 
 			mvc::redirect('questions/edit/' . $uQuestionId);
