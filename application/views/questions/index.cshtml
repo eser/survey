@@ -24,7 +24,7 @@
                     <table width="100%" cellspacing="0" cellpadding="0">
                         <thead>
                             <tr>
-                                <th>Content</th>
+                                <th>Question</th>
                                 <th>Type</th>
                                 <th></th>
                             </tr>
@@ -33,7 +33,12 @@
 						@foreach($questions as &$question) {
                             <tr>
 								<td><a href="@mvc::url('questions/edit/' . $question['questionid'])">@$question['content']</a></td>
-                                <td>@statics::$questiontypes[$question['type']]</td>
+                                <td>
+									@statics::$questiontypes[$question['type']]
+									@if($question['type'] == '1') {
+										@statics::$questiontypefilters[$question['typefilter']]
+									}
+								</td>
                                 <td>
 									<a href="@mvc::url('questions/edit/' . $question['questionid'])">Edit</a> |
 									<a href="@mvc::url('questions/report/' . $question['questionid'])">Report</a>

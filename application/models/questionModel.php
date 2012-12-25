@@ -18,6 +18,21 @@
 		/**
 		 * @ignore
 		 */
+		public function update($questionid, $input) {
+			return $this->db->createQuery()
+				->setTable('questions')
+				->setFields($input)
+				->addParameter('questionid', $questionid)
+				->setWhere(['questionid=:questionid'])
+				// ->addField('updatedate', time::toDb(time()))
+				->setLimit(1)
+				->update()
+				->execute();
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function get($uId) {
 			return $this->db->createQuery()
 				->setTable('questions')
@@ -93,6 +108,30 @@
 				->setLimit($uLimit)
 				->setWhere(['ownerid=:ownerid'])
 				->addParameter('ownerid', $uOwnerId)
+				->get()
+				->all();
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function insertChoice($input) {
+			return $this->db->createQuery()
+				->setTable('questionchoices')
+				->setFields($input)
+				->insert()
+				->execute();
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function getAllChoices($uQuestionId) {
+			return $this->db->createQuery()
+				->setTable('questionchoices')
+				->addField('*')
+				->setWhere(['questionid=:questionid'])
+				->addParameter('questionid', $uQuestionId)
 				->get()
 				->all();
 		}

@@ -15,10 +15,18 @@ $(function() {
 	
 	// Tabs
 	$('.panes div').hide();
-	$('.tabs a:first').addClass('selected');
+	if($('.tabs .selected').length <= 0) {
+		$('.tabs a:first').addClass('selected');
+	}
 	$('.tabs_table').each(function(){
-		$(this).find('.panes div:first').show();
-		$(this).find('a:first').addClass('selected');
+		var selectedElement = $(this).find('.selected');
+		if(selectedElement.length > 0) {
+			$('#' + selectedElement.attr('rel')).show();
+		}
+		else {
+			$(this).find('.panes div:first').show();
+			$(this).find('a:first').addClass('selected');
+		}
 	});
 	$('.tabs a').click(function(){
 		var which = $(this).attr('rel');

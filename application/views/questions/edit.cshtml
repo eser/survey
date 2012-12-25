@@ -43,7 +43,7 @@
 						$l.dom.setEvent($l.dom.selectSingle('#addnewchoice'), 'click', addNewChoice);
 						renumber();
 
-						$l.dom.setEvent($l.dom.selectSingle('#addQuestion'), 'submit', formSubmit);
+						$l.dom.setEvent($l.dom.selectSingle('#editQuestion'), 'submit', formSubmit);
 					});
 				</script>
 
@@ -53,7 +53,7 @@
                     <ul id="breadcrumbs">
                         <li><a href="@mvc::url('home/index')">Home</a></li>
                         <li><a href="@mvc::url('questions/index')">Questions</a></li>
-                        <li>New Question</li>
+                        <li>@$question['content']</li>
                     </ul>
                 </div>
                 
@@ -62,34 +62,36 @@
 
                     <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
                     
-                    <h3>Add New Question</h3>
-                    <form id="addQuestion" method="post" action="@mvc::url('questions/new')">
-						<input id="questionType" type="hidden" name="type" value="1" />
+                    <h3>Edit Question</h3>
+                    <form id="editQuestion" method="post" action="@mvc::url('questions/edit/' . $question['questionid'])">
+						<input id="questionType" type="hidden" name="type" value="@$question['type']" />
 
 						<p>You can add new survey to system by using this page easly.</p>
-						<p>Question : <input type="text" name="question" value="" data-defaulttext="Type your question here" /></p>
+						<p>Question : <input type="text" name="question" value="@$question['content']" data-defaulttext="Type your question here" /></p>
 
 						<div class="tabs_table">
 							<ul class="tabs">
-								<li><a rel="tab_1">Multiple Choices</a></li>
-								<li><a rel="tab_2">Fill In The Blanks</a></li>
+								<li><a rel="tab_1"@{ if($question['type'] == '0') { echo ' class="selected"'; } }>Multiple Choices</a></li>
+								<li><a rel="tab_2"@{ if($question['type'] == '1') { echo ' class="selected"'; } }>Fill In The Blanks</a></li>
 							</ul>
 							<div class="panes">
 								<div id="tab_1" class="tab-content">
 									<a id="addnewchoice" href="#">Add New Choice</a>
 									<ul class="arrow l-child" id="options">
-										<li>Option <span class="number"></span>: <input type="text" name="options[]" value="" /> <a class="remove" href="#">Remove</a></li>
+									@foreach($questionchoices as $questionchoice) {
+										<li>Option <span class="number"></span>: <input type="text" name="options[]" value="@$questionchoice['content']" /> <a class="remove" href="#">Remove</a></li>
+									}
 									</ul>
 								</div>
 								<div id="tab_2" class="tab-content">
 									<ul class="l-child">
-									@foreach(html::radioOptionsArray('typefilter', statics::$questiontypefilters, '0') as $option) {
+									@foreach(html::radioOptionsArray('typefilter', statics::$questiontypefilters, $question['typefilter']) as $option) {
 										<li>@$option</li>
 									}
 									</ul>
 								</div>
 							</div>
-							<p class="alignRight"><input type="submit" value="Add Question" /></p>
+							<p class="alignRight"><input type="submit" value="Edit Question" /></p>
 						</div>
                     </form>
                     

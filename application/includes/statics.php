@@ -26,13 +26,19 @@
 		);
 
 		public static $questiontypes = array(
-			 0 => 'Multiple Choice',
-			 1 => 'Fill In The Blanks'
+			 '0' => 'Multiple Choice',
+			 '1' => 'Fill In The Blanks'
+		);
+
+		public static $questiontypefilters = array(
+			'0' => 'Any',
+			'1' => 'Numeric',
+			'2' => 'Alphanumeric'
 		);
 
 		public static $surveytypes = array(
-			 0 => 'Auth-Only',
-			 1 => 'Public'
+			 '0' => 'Auth-Only',
+			 '1' => 'Public'
 		);
 
 		/**
