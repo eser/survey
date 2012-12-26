@@ -18,10 +18,10 @@
                     <h3>Add New Survey</h3>
                     <form id="addQuestion" method="post">
 						<p>You can add new survey to system by using this page easly.</p>
-						<p>Title : <input name="title" value="" data-defaulttext="Type your question title here" /></p>
-						<p>Category :  <select name="categoryid">@statics::selectboxCategories()</select></p>
-						<p>Language :  <select name="languageid">@statics::selectboxLanguages()</select></p>
-						<p>Theme :  <select name="themeid">@statics::selectboxThemes()</select></p>
+						<p>Title : <input type="text" name="title" value="" data-defaulttext="Type your question title here" /></p>
+						<p>Category : <select name="categoryid">@statics::selectboxCategories()</select></p>
+						<p>Language : <select name="languageid">@statics::selectboxLanguages()</select></p>
+						<p>Theme : <select name="themeid">@statics::selectboxThemes()</select></p>
 						<p><input type="submit" value="Add Survey" /></p>
                     </form>
                     

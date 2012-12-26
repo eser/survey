@@ -50,9 +50,14 @@
 
 					<!-- Pagination -->
 					<ul id="pagination" class="margintop10px">
-						<li><a href="#">&laquo;</a></li>
-						<li class="act"><a href="#">1</a></li>
-						<li><a href="#">&raquo;</a></li>
+						@html::pager(array(
+							'total' => $pagerTotal,
+							'pagesize' => questions::PAGE_SIZE,
+							'current' => $pagerCurrent,
+							'link' => '<li><a href="' . mvc::url('questions/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
+							'activelink' => '<li class="act"><a href="' . mvc::url('questions/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
+							'firstlast' => false
+						))
 					</ul>
 
 				</div>

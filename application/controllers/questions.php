@@ -4,18 +4,28 @@
 	 * @ignore
 	 */
 	class questions extends controller {
+		const PAGE_SIZE = statics::DEFAULT_PAGE_SIZE;
+
 		/**
 		 * @ignore
 		 */
-		public function get_index() {
+		public function get_index($uPage = '1') {
 			statics::requireAuthentication(1);
+
+			$tPage = intval($uPage);
+			if($tPage < 1) {
+				$tPage = 1;
+			}
 
 			$this->load('questionModel');
 
 			// gather all question data from model
-			$tQuestions = $this->questionModel->getAllByOwner(statics::$user['userid']);
+			$tOffset = ($tPage - 1) * self::PAGE_SIZE;
+			$tQuestions = $this->questionModel->getAllPagedByOwner(statics::$user['userid'], $tOffset, self::PAGE_SIZE);
 
 			// assign the user data to view
+			$this->set('pagerTotal', $this->questionModel->countByOwner(statics::$user['userid']));
+			$this->setRef('pagerCurrent', $tPage);
 			$this->setRef('questions', $tQuestions);
 
 			// render the page
@@ -104,7 +114,6 @@
 			$this->questionModel->update($uQuestionId, $tInput);
 
 			$tOptions = http::post('options');
-
 
 			$this->questionModel->truncateChoices($uQuestionId);
 			if($tInput['type'] == statics::QUESTION_MULTIPLE) {

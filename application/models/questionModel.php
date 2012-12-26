@@ -115,6 +115,18 @@
 		/**
 		 * @ignore
 		 */
+		public function countByOwner($uOwnerId) {
+			return $this->db->createQuery()
+				->setTable('questions')
+				->addField('*')
+				->setWhere(['ownerid=:ownerid'])
+				->addParameter('ownerid', $uOwnerId)
+				->calculate('COUNT');
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function insertChoice($input) {
 			return $this->db->createQuery()
 				->setTable('questionchoices')

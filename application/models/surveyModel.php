@@ -114,6 +114,18 @@
 				->get()
 				->all();
 		}
+
+		/**
+		 * @ignore
+		 */
+		public function countByOwner($uOwnerId) {
+			return $this->db->createQuery()
+				->setTable('surveys')
+				->addField('*')
+				->setWhere(['ownerid=:ownerid'])
+				->addParameter('ownerid', $uOwnerId)
+				->calculate('COUNT');
+		}
 	}
 
 ?>

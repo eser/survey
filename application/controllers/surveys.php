@@ -4,6 +4,8 @@
 	 * @ignore
 	 */
 	class surveys extends controller {
+		const PAGE_SIZE = statics::DEFAULT_PAGE_SIZE;
+
 		/**
 		 * @ignore
 		 */
@@ -42,15 +44,23 @@
 		 * @ignore
 		 */
 
-		public function get_index() {
+		public function get_index($uPage = '1') {
 			statics::requireAuthentication(1);
+
+			$tPage = intval($uPage);
+			if($tPage < 1) {
+				$tPage = 1;
+			}
 
 			$this->load('surveyModel');
 
 			// gather all survey data from model
-			$tSurveys = $this->surveyModel->getAllByOwner(statics::$user['userid']);
-			
+			$tOffset = ($tPage - 1) * self::PAGE_SIZE;
+			$tSurveys = $this->surveyModel->getAllPagedByOwner(statics::$user['userid'], $tOffset, self::PAGE_SIZE);
+
 			// assign the user data to view
+			$this->set('pagerTotal', $this->surveyModel->countByOwner(statics::$user['userid']));
+			$this->setRef('pagerCurrent', $tPage);
 			$this->setRef('surveys', $tSurveys);
 
 			// render the page

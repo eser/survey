@@ -4,6 +4,8 @@
 	 * @ignore
 	 */
 	class statics {
+		const DEFAULT_PAGE_SIZE = 20;
+
 		const QUESTION_EVALUATION = '0';
 		const QUESTION_MULTIPLE = '1';
 		const QUESTION_FILL = '2';
