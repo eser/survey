@@ -7,7 +7,6 @@
 		/**
 		 * @ignore
 		 */
-
 		public function insert($input) {
 			$tTime = time::toDb(time());
 			return $this->db->createQuery()
@@ -125,6 +124,28 @@
 				->setWhere(['ownerid=:ownerid'])
 				->addParameter('ownerid', $uOwnerId)
 				->calculate('COUNT');
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function &getAllNamesByOwner($uOwnerId) {
+			$tResult = array();
+
+			$tQuery = $this->db->createQuery()
+				->setTable('surveys')
+				->addField('surveyid, title')
+				->setWhere(['ownerid=:ownerid'])
+				->addParameter('ownerid', $uOwnerId)
+				->get();
+
+			foreach($tQuery as $tRow) {
+				$tResult[$tRow['surveyid']] = $tRow;
+			}
+
+			$tQuery->close();
+
+			return $tResult;
 		}
 	}
 

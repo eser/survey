@@ -64,11 +64,14 @@
 			$tSurveyIds = arrays::column($tSurveys, 'surveyid');
 			$tSurveyPublishs = arrays::categorize($this->publishSurveyModel->getAllBySurvey($tSurveyIds), 'surveyid');
 
+			$tAllSurveyNames = $this->surveyModel->getAllNamesByOwner(statics::$user['userid']);
+
 			// assign the user data to view
 			$this->set('pagerTotal', $this->surveyModel->countByOwner(statics::$user['userid']));
 			$this->setRef('pagerCurrent', $tPage);
 			$this->setRef('surveys', $tSurveys);
 			$this->setRef('surveypublishs', $tSurveyPublishs);
+			$this->setRef('surveynames', $tAllSurveyNames);
 
 			// render the page
 			$this->view();

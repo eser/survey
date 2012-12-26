@@ -80,7 +80,7 @@
                 <h4 class="w-title title-light">Categories</h4>
                 <ul>
 					@foreach(statics::$categoriesWithCounts as &$category) {
-						<li><a href="#">@$category['name'] (@$category['count'])</a></li>
+						<li><a href="@mvc::url('categories/list/' . $category['categoryid'])">@$category['name'] (@$category['count'])</a></li>
 					}
                 </ul>
             </div>

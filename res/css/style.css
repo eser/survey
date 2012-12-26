@@ -49,6 +49,8 @@ del { text-decoration: line-through; }
 table { border-collapse: collapse; border-spacing: 0; }
 .clear { clear: both; height: 1px; font-size: 1px; line-height: 1px; }
 .alignRight { text-align: right; }
+.marginBottom10px { margin-bottom: 10px; }
+.marginBottom30px { margin-bottom: 30px; }
 img { border: 0; }
 
 

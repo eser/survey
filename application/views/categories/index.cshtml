@@ -1,0 +1,47 @@
+@views::view('shared/header.cshtml')
+                
+                <!-- Breadcrumbs, Page Title -->
+                <div id="page-head">
+                    <h1><em>add, edit and organize categories</em>Categories</h1>
+                    <ul id="breadcrumbs">
+                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li>Categories</li>
+                    </ul>
+                </div>
+                
+                <!-- Page Content Start -->
+                <div class="full-page-text">
+
+                    <p>At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable.</p>
+
+                    <!-- User Details -->
+					<div>
+						<h3 class="floatleft">Survey Categories</h3>
+						<div class="clear"></div>
+					</div>
+
+                    <table width="100%" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Count</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+						@foreach($categories as &$category) {
+                            <tr>
+								<td><a href="@mvc::url('categories/list/' . $category['categoryid'])">@$category['name']</a></td>
+                                <td>@$category['count']</td>
+                                <td>
+									<a href="@mvc::url('categories/list/' . $category['categoryid'])">List</a>
+								</td>
+                            </tr>
+						}
+                        </tbody>
+                    </table>
+
+				</div>
+                <!-- Page Content End -->
+    
+@views::view('shared/footer.cshtml')

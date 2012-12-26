@@ -7,6 +7,7 @@
 	framework::load(false);
 	
 	database::$errorHandling = database::ERROR_EXCEPTION;
+	statics::templateBindings();
 
 	framework::run();
 

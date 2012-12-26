@@ -39,10 +39,11 @@
 			$tQuery = $this->db->createQuery()
 				->setTable('categories c')
 				->joinTable('surveys s', 's.categoryid=c.categoryid', 'LEFT')
+				->joinTable('surveypublishs sp', 'sp.surveyid=s.surveyid AND sp.startdate <= :now AND (sp.enddate IS NULL OR sp.enddate >= :now)', 'LEFT')
 				->addField('c.*')
-				->addField('COUNT(s.*) AS count')
-				// ->setWhere(['deletedate IS NULL'])
+				->addField('COUNT(sp.*) AS count')
 				->setGroupBy('c.categoryid')
+				->addParameter('now', time::toDb(time()))
 				->get();
 
 			foreach($tQuery as $tRow) {

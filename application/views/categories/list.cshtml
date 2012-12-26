@@ -2,10 +2,11 @@
                 
                 <!-- Breadcrumbs, Page Title -->
                 <div id="page-head">
-                    <h1><em>add, edit and organize surveys</em>Surveys</h1>
+                    <h1><em>add, edit and organize categories</em>Categories</h1>
                     <ul id="breadcrumbs">
                         <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li>Surveys</li>
+                        <li><a href="@mvc::url('categories/index')">Categories</a></li>
+						<li>@$category['name']</li>
                     </ul>
                 </div>
                 
@@ -15,22 +16,8 @@
                     <p>At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable.</p>
 
                     <!-- User Details -->
-					<div class="marginBottom30px">
-						<h3>Publish a Survey</h3>
-						<form method="post" action="@mvc::url('surveys/publish')">
-							<p>
-								Survey :
-								<select name="surveyid">
-								@html::selectOptions($surveynames, null, 'title')
-								</select>
-							</p>
-							<p><input type="submit" value="Publish Survey" /></p>
-						</form>
-					</div>
-
 					<div>
-						<h3 class="floatleft">Existing Surveys</h3>
-						<a href="@mvc::url('surveys/new')" class="more floatright">Create New</a>
+						<h3 class="floatleft">Surveys In @$category['name']</h3>
 						<div class="clear"></div>
 					</div>
 
@@ -58,17 +45,6 @@
 									<a href="@mvc::url('surveys/report/' . $survey['surveyid'])">Report</a>
 								</td>
                             </tr>
-							@if(isset($surveypublishs[$survey['surveyid']])) {
-							<tr>
-								<td colspan="6">
-									<ul class="l-child">
-									@foreach($surveypublishs[$survey['surveyid']] as $surveypublish) {
-										<li>Published by @$surveypublish['ownerid'] between @$surveypublish['startdate'] and @$surveypublish['enddate']</li>
-									}
-									</ul>
-								</td>
-                            </tr>
-							}
 						}
                         </tbody>
                     </table>

@@ -125,6 +125,38 @@
 				->get()
 				->all();
 		}
+
+		/**
+		 * @ignore
+		 */
+		public function getAllByCategory($uCategoryId) {
+			return $this->db->createQuery()
+				->setTable('surveys s')
+				->joinTable('surveypublishs sp', 'sp.surveyid=s.surveyid AND sp.startdate <= :now AND (sp.enddate IS NULL OR sp.enddate >= :now)', 'INNER')
+				->addField('s.*, sp.*')
+				->setWhere('s.categoryid=:categoryid')
+				->addParameter('now', time::toDb(time()))
+				->addParameter('categoryid', $uCategoryid)
+				->get()
+				->all();
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function getAllByCategoryPaged($uCategoryId, $uOffset, $uLimit) {
+			return $this->db->createQuery()
+				->setTable('surveys s')
+				->joinTable('surveypublishs sp', 'sp.surveyid=s.surveyid AND sp.startdate <= :now AND (sp.enddate IS NULL OR sp.enddate >= :now)', 'INNER')
+				->addField('s.*, sp.*')
+				->setWhere('s.categoryid=:categoryid')
+				->setOffset($uOffset)
+				->setLimit($uLimit)
+				->addParameter('now', time::toDb(time()))
+				->addParameter('categoryid', $uCategoryId)
+				->get()
+				->all();
+		}
 	}
 
 ?>
