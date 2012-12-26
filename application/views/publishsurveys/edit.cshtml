@@ -1,0 +1,46 @@
+@views::view('shared/header.cshtml')
+                
+                <!-- Breadcrumbs, Page Title -->
+                <div id="page-head">
+                    <h1>Create New Publish</h1>
+                    <ul id="breadcrumbs">
+                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li><a href="@mvc::url('surveys/index')">Publish Surveys</a></li>
+                        <li>New Survey</li>
+                    </ul>
+                </div>
+                
+                <!-- Start Page Content -->
+                <div class="full-page-text">
+
+                    <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
+                    
+                    <h3>Publish Survey</h3>
+
+                        <form id="addQuestion" method="post">
+                        <p>Description Goes Here:)</p>
+                        <p>Survey : @$publishSurveys['title']</p>
+                        <p> Start Date :  <input type="input" name="startdate" value="@$publishSurveys['startdate']"></p>
+                        <p> End Date :   <input type="input" name="enddate" value="@$publishSurveys['enddate']"></p>
+                        <p> Password :  <input type="password" name="password" value="@$publishSurveys['password']"></p>
+                        <p> Type :  <select type="select" name="type">
+                        <option value="0" @if($publishSurveys['type'] == '0'){ selected="selected" }> Public </option>
+                        <option value="1" @if($publishSurveys['type'] == '1'){ selected="selected" } > Authenticate </option>
+                        </select>
+                        </p>
+                        <p> Survey Publish Status :  <select type="select" name="enabled">
+                            <option value="0" @if($publishSurveys['enabled'] == '0'){ selected="selected" }> Disable </option>
+                            <option value="1" @if($publishSurveys['enabled'] == '1'){ selected="selected" } > Enable </option>
+                            </select>
+                        </p>
+                        <p> <input type="submit" value="Edit"></p>
+                        </form>
+
+                    <div id="in-post-meta">
+                    	This entry was posted in <a href="#">Corporate Blog</a> by <a href="#">George</a> on 14 Feb, 2012.
+                    </div>
+                    
+                </div>
+                <!-- Page Content End -->
+    
+@views::view('shared/footer.cshtml')

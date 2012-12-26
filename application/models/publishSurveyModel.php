@@ -20,12 +20,27 @@
 		/**
 		 * @ignore
 		 */
-		public function get($uId) {
+		public function update($uSurveyPublishsId, $update) {
 			return $this->db->createQuery()
 				->setTable('surveypublishs')
+				->setFields($update)
+				->addParameter('surveypublishid', $uSurveyPublishsId)
+				->setWhere('surveypublishid=:surveypublishid')
+				->setLimit(1)
+				->update()
+				->execute();
+		}
+
+
+		/**
+		 * @ignore
+		 */
+		public function get($uId) {
+			return $this->db->createQuery()
+				->setTable('surveypublishs INNER JOIN surveys ON surveypublishs.surveyid=surveys.surveyid')
 				->addField('*')
-				->setWhere(['surveyid=:surveyid'])
-				->addParameter('surveyid', $uId)
+				->setWhere(['surveypublishid=:surveypublishid'])
+				->addParameter('surveypublishid', $uId)
 				->setLimit(1)
 				->get()
 				->row();
@@ -51,7 +66,7 @@
 		public function getPublishedRecent($uLimit) {
 			return $this->db->createQuery()
 				->setTable('surveypublishs sp')
-				->joinTable('surveypublishs s', 's.surveyid=sp.surveyid', 'INNER')
+				->joinTable('surveys s', 's.surveyid=sp.surveyid', 'INNER')
 				->addField('s.*')
 				// ->setWhere(['deletedate IS NULL'])
 				->setOrderBy('sp.startdate', 'DESC')

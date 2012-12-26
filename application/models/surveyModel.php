@@ -30,6 +30,19 @@
 				->get()
 				->row();
 		}
+		/**
+		 * @ignore
+		 */
+		public function getDetail($uId) {
+			return $this->db->createQuery()
+				->setTable('surveys AS s INNER JOIN categories AS c ON s.categoryid=c.categoryid INNER JOIN languages AS l ON s.languageid=l.languageid')
+				->addField('s.*,c.name,l.name as languagename')
+				->setWhere(['surveyid=:surveyid'])
+				->addParameter('surveyid', $uId)
+				->setLimit(1)
+				->get()
+				->row();
+		}
 
 		/**
 		 * @ignore
@@ -98,7 +111,6 @@
 				->get()
 				->all();
 		}
-
 		/**
 		 * @ignore
 		 */

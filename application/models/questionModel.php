@@ -14,6 +14,16 @@
 				->insert()
 				->execute();
 		}
+		/**
+		 * @ignore
+		 */
+		public function insertAnswer($input) {
+			return $this->db->createQuery()
+				->setTable('answers')
+				->setFields($input)
+				->insert()
+				->execute();
+		}
 
 		/**
 		 * @ignore
@@ -42,6 +52,31 @@
 				->setLimit(1)
 				->get()
 				->row();
+		}
+		/**
+		 * @ignore
+		 */
+		public function getBySurveyID($uId) {
+			return $this->db->createQuery()
+				->setTable('surveyquestions AS sq INNER JOIN questions AS q ON sq.questionid=q.questionid')
+				->addField('*')
+				->setWhere(['sq.surveyid=:surveyid'])
+				->addParameter('surveyid', $uId)
+				->get()
+				->all();
+		}
+		/**
+		 * @ignore
+		 */
+
+		public function getChoicesByQuestionID($uId) {
+			return $this->db->createQuery()
+				->setTable('questionchoices')
+				->addField('*')
+				->setWhere(['questionid=:questionid'])
+				->addParameter('questionid', $uId)
+				->get()
+				->all();
 		}
 
 		/**

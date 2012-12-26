@@ -7,7 +7,7 @@
 			<default />
 			<persistent />
 			<overrideCase>natural</overrideCase>
-			<pdoString>pgsql:host=office.goldsofttrading.com;dbname=survey</pdoString>
+			<pdoString>pgsql:host=192.168.2.4;dbname=survey</pdoString>
 			<username>survey</username>
 			<password>survey</password>
 			<initCommand />

@@ -43,6 +43,14 @@
 			'2' => 'Alphanumeric'
 		);
 
+		public static $evaluationoptions = array(
+			'1' => 'Strongly Agree',
+			'2' => 'Agree',
+			'3' => 'Neutral',
+			'4' => 'Disagree',
+			'5' => 'Strongly Disagree'
+		);
+
 		public static $surveytypes = array(
 			 '0' => 'Auth-Only',
 			 '1' => 'Public'

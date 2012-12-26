@@ -3,7 +3,7 @@
 	/**
 	 * @ignore
 	 */
-	class publishsurveys extends controller {
+	class takesurvey extends controller {
 		/**
 		 * @ignore
 		 */
@@ -49,19 +49,60 @@
 		 * @ignore
 		 */
 
-		public function get_index() {
+		public function get_index($surveryid) {
 			statics::requireAuthentication(1);
-			$this->load('publishSurveyModel');
 			$this->load('surveyModel');
+			$this->load('questionModel');
 			// gather all survey data from model
-			$tSurveyPublishs = $this->publishSurveyModel->getAllByOwner(statics::$user['userid']);
-
+			$survey = $this->surveyModel->getDetail($surveryid);
+			$questions = $this->questionModel->getBySurveyID($surveryid);
+			$choices = array();
+			foreach($questions as $question) {
+				$choices[$question['questionid']] = $this->questionModel->getChoicesByQuestionID($question['questionid']);
+			}
 
 
 			// assign the user data to view
-			$this->setRef('SurveyPublishs', $tSurveyPublishs);
-			$this->setRef('surveys', $surveys);
+			$this->setRef('surveys', $survey);
+			$this->setRef('choices', $choices);
+			$this->setRef('questions', $questions);
 
+			// render the page
+			$this->view();
+		}
+		public function post_index($surveryid) {
+			statics::requireAuthentication(1);
+			$this->load('surveyModel');
+			$this->load('questionModel');
+			// gather all survey data from model
+			$survey = $this->surveyModel->getDetail($surveryid);
+			$questions = $this->questionModel->getBySurveyID($surveryid);
+			$answers = array();
+			foreach($questions as $question) {
+				$answers[$question['questionid']] = http::post($question['questionid']);
+
+				if($question['type'] == statics::QUESTION_MULTIPLE){
+					$input = array(
+						'surveyid' => $surveryid,
+						'questionid' => $question['questionid'],
+						'userid' => statics::$user['userid'],
+						'questionchoiceid' => $answers[$question['questionid']],
+						'value'=> null
+					);
+				} else {
+					$input = array(
+						'surveyid' => $surveryid,
+						'questionid' => $question['questionid'],
+						'userid' => statics::$user['userid'],
+						'questionchoiceid' => null,
+						'value'=> $answers[$question['questionid']]
+					);
+				}
+				$this->questionModel->insertAnswer($input);
+			}
+
+			echo "<script>alert('Your Answers Recorded Succesfully.');</script>";
+			mvc::redirect('home/index');
 			// render the page
 			$this->view();
 		}
