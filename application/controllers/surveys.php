@@ -20,30 +20,32 @@
 		 */
 		public function post_new() {
 			statics::requireAuthentication(1);
+
+			$input = array(
+				'surveyid' => string::generateUuid(),
+				'ownerid' => statics::$user['userid'],
+				'title' => http::post('title'),
+				'categoryid' => http::post('categoryid'),
+				'themeid' => http::post('themeid'),
+				'languageid' => http::post('languageid')
+			);
+
 			$this->load('surveyModel');
-			$surveyID = string::generateUuid();
-				$input = array(
-					'surveyid' => $surveyID,
-					'ownerid' => statics::$user['userid'],
-					'title' => http::post('title'),
-					'categoryid' => http::post('categoryid'),
-					'themeid' => http::post('themeid'),
-					'languageid' => http::post('languageid')
-				);
-				$insertSurvey = $this->surveyModel->insert($input);
+			$insertSurvey = $this->surveyModel->insert($input);
+
 			if($insertSurvey > 0){
 				echo "<script>alert('Survey Added Successfuly');</script>";
 			}
 			else {
 				echo "<script>alert('Unexpected Error.');</script>";
 			}
+
 			$this->view();
 		}
 
 		/**
 		 * @ignore
 		 */
-
 		public function get_index($uPage = '1') {
 			statics::requireAuthentication(1);
 
@@ -58,10 +60,15 @@
 			$tOffset = ($tPage - 1) * self::PAGE_SIZE;
 			$tSurveys = $this->surveyModel->getAllPagedByOwner(statics::$user['userid'], $tOffset, self::PAGE_SIZE);
 
+			$this->load('publishSurveyModel');
+			$tSurveyIds = arrays::column($tSurveys, 'surveyid');
+			$tSurveyPublishs = arrays::categorize($this->publishSurveyModel->getAllBySurvey($tSurveyIds), 'surveyid');
+
 			// assign the user data to view
 			$this->set('pagerTotal', $this->surveyModel->countByOwner(statics::$user['userid']));
 			$this->setRef('pagerCurrent', $tPage);
 			$this->setRef('surveys', $tSurveys);
+			$this->setRef('surveypublishs', $tSurveyPublishs);
 
 			// render the page
 			$this->view();

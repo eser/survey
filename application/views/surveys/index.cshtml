@@ -45,6 +45,17 @@
 									<a href="@mvc::url('surveys/report/' . $survey['surveyid'])">Report</a>
 								</td>
                             </tr>
+							@if(isset($surveypublishs[$survey['surveyid']])) {
+							<tr>
+								<td colspan="6">
+									<ul class="l-child">
+									@foreach($surveypublishs[$survey['surveyid']] as $surveypublish) {
+										<li>Published by @$surveypublish['ownerid'] between @$surveypublish['startdate'] and @$surveypublish['enddate']</li>
+									}
+									</ul>
+								</td>
+                            </tr>
+							}
 						}
                         </tbody>
                     </table>
