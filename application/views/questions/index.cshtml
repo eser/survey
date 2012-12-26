@@ -35,7 +35,7 @@
 								<td><a href="@mvc::url('questions/edit/' . $question['questionid'])">@$question['content']</a></td>
                                 <td>
 									@statics::$questiontypes[$question['type']]
-									@if($question['type'] == '1') {
+									@if($question['type'] == statics::QUESTION_FILL) {
 										@statics::$questiontypefilters[$question['typefilter']]
 									}
 								</td>

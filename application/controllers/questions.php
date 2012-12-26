@@ -50,7 +50,7 @@
 
 			$tOptions = http::post('options');
 
-			if($tInput['type'] == '0') {
+			if($tInput['type'] == statics::QUESTION_MULTIPLE) {
 				foreach($tOptions as &$tOption){
 					$tOptionInput = array(
 						'questionchoiceid' => string::generateUuid(),
@@ -107,7 +107,7 @@
 
 
 			$this->questionModel->truncateChoices($uQuestionId);
-			if($tInput['type'] == '0') {
+			if($tInput['type'] == statics::QUESTION_MULTIPLE) {
 				foreach($tOptions as $tKey => &$tOption){
 					$tQuestionChoiceId = ((!is_integer($tKey)) ? $tKey : string::generateUuid());
 

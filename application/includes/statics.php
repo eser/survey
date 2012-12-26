@@ -4,6 +4,10 @@
 	 * @ignore
 	 */
 	class statics {
+		const QUESTION_EVALUATION = '0';
+		const QUESTION_MULTIPLE = '1';
+		const QUESTION_FILL = '2';
+
 		public static $user = null;
 		public static $categoriesWithCounts = null;
 		public static $languagesWithCounts = null;
@@ -26,8 +30,9 @@
 		);
 
 		public static $questiontypes = array(
-			 '0' => 'Multiple Choice',
-			 '1' => 'Fill In The Blanks'
+			self::QUESTION_EVALUATION => 'Evaluation',
+			self::QUESTION_MULTIPLE => 'Multiple Choice',
+			self::QUESTION_FILL => 'Fill In The Blanks'
 		);
 
 		public static $questiontypefilters = array(

@@ -31,10 +31,13 @@
 
 						switch(activeElement.getAttribute('rel')) {
 						case 'tab_1':
-							$l.dom.selectSingle('#questionType').value = '0';
+							$l.dom.selectSingle('#questionType').value = '@statics::QUESTION_EVALUATION';
 							break;
 						case 'tab_2':
-							$l.dom.selectSingle('#questionType').value = '1';
+							$l.dom.selectSingle('#questionType').value = '@statics::QUESTION_MULTIPLE';
+							break;
+						case 'tab_3':
+							$l.dom.selectSingle('#questionType').value = '@statics::QUESTION_FILL';
 							break;
 						}
 					}
@@ -71,11 +74,21 @@
 
 						<div class="tabs_table">
 							<ul class="tabs">
-								<li><a rel="tab_1"@{ if($question['type'] == '0') { echo ' class="selected"'; } }>Multiple Choices</a></li>
-								<li><a rel="tab_2"@{ if($question['type'] == '1') { echo ' class="selected"'; } }>Fill In The Blanks</a></li>
+								<li><a rel="tab_1"@{ if($question['type'] == statics::QUESTION_EVALUATION) { echo ' class="selected"'; } }>Evaluation</a></li>
+								<li><a rel="tab_2"@{ if($question['type'] == statics::QUESTION_MULTIPLE) { echo ' class="selected"'; } }>Multiple Choices</a></li>
+								<li><a rel="tab_3"@{ if($question['type'] == statics::QUESTION_FILL) { echo ' class="selected"'; } }>Fill In The Blanks</a></li>
 							</ul>
 							<div class="panes">
 								<div id="tab_1" class="tab-content">
+									<ul class="l-child">
+										<li>Strongly Agree</li>
+										<li>Agree</li>
+										<li>Neutral</li>
+										<li>Disagree</li>
+										<li>Strongly Disagree</li>
+									</ul>
+								</div>
+								<div id="tab_2" class="tab-content">
 									<a id="addnewchoice" href="#">Add New Choice</a>
 									<ul class="arrow l-child" id="options">
 									@foreach($questionchoices as $questionchoice) {
@@ -83,7 +96,7 @@
 									}
 									</ul>
 								</div>
-								<div id="tab_2" class="tab-content">
+								<div id="tab_3" class="tab-content">
 									<ul class="l-child">
 									@foreach(html::radioOptionsArray('typefilter', statics::$questiontypefilters, $question['typefilter']) as $option) {
 										<li>@$option</li>
