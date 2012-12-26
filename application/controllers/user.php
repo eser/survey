@@ -91,7 +91,7 @@
 			$tRealUser = $this->userModel->getByEmailOrFacebookId($uUser->object['email'], $uUser->object['id']);
 			if($tRealUser !== false) {
 				$this->userModel->update($tRealUser['userid'], [
-					'fullname' => $uUser->object['name'],
+					'displayname' => $uUser->object['name'],
 					'email' => $uUser->object['email'],
 					'facebookid' => $uUser->object['id']
 				]);
@@ -110,7 +110,10 @@
 
 			$tRealUser = [
 				'userid' => string::generateUuid(),
-				'fullname' => $uUser->object['name'],
+				'displayname' => $uUser->object['name'],
+				'firstname' => $uUser->object['first_name'],
+				'lastname' => $uUser->object['last_name'],
+				'logo' => '', // facebook profile picture - https://graph.facebook.com/hasan.atbinici/picture
 				'email' => $uUser->object['email'],
 				'phonenumber' => '',
 				'password' => string::generatePassword(6),
@@ -122,7 +125,7 @@
 
 			smtp::send(
 				'info@survey-e-bot.com', // 'Survey-e-bot <info@survey-e-bot.com>',
-				$tRealUser['email'], // $tRealUser['fullname'] . ' <' . $tRealUser['email'] . '>',
+				$tRealUser['email'], // $tRealUser['displayname'] . ' <' . $tRealUser['email'] . '>',
 				'Your account | Welcome to the survey-e-bot',
 				'Your password is: ' . $tRealUser['password']
 			);
@@ -167,8 +170,10 @@
 			statics::requireAuthentication(1);
 
 			$tValues = http::postArray(
-				array('fullname', 'phonenumber', 'email', 'password')
+				array('displayname', 'firstname', 'lastname', 'phonenumber', 'email', 'password')
 			);
+
+			$tValues['logo'] = '';
 
 			if($tValues['password'] != http::post('password2')) {
 				throw new Exception('passwords do not match.');
