@@ -17,15 +17,17 @@
                     <!-- User Details -->
 					<div class="marginBottom30px">
 						<h3>Publish a Survey</h3>
-						<form method="post" action="@mvc::url('surveys/publish')">
-							<p>
-								Survey :
-								<select name="surveyid">
-								@html::selectOptions($surveynames, null, 'title')
-								</select>
-							</p>
-							<p><input type="submit" value="Publish Survey" /></p>
-						</form>
+						<div class="bglight padding10px">
+							<form method="post" action="@mvc::url('surveys/publish')">
+								<p>
+									Survey :
+									<select name="surveyid">
+									@html::selectOptions($surveynames, null, 'title')
+									</select>
+								</p>
+								<p><input type="submit" value="Publish Survey" /></p>
+							</form>
+						</div>
 					</div>
 
 					<div>
@@ -41,7 +43,7 @@
                                 <th>Created At</th>
 								<th>Category</th>
 								<th>Language</th>
-								<th>Properties</th>
+								<th>Responses</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -52,20 +54,28 @@
                                 <td>@statics::datePrint($survey['createdate'], false)</td>
                                 <td>@statics::$categoriesWithCounts[$survey['categoryid']]['name']</td>
 								<td>@statics::$languagesWithCounts[$survey['languageid']]['name']</td>
-                                <td>Password</td>
+                                <td>0</td>
                                 <td>
 									<a href="@mvc::url('surveys/edit/' . $survey['surveyid'])">Edit</a> |
+									<a href="@mvc::url('surveys/publish/' . $survey['surveyid'])">Publish</a> |
 									<a href="@mvc::url('surveys/report/' . $survey['surveyid'])">Report</a>
 								</td>
                             </tr>
 							@if(isset($surveypublishs[$survey['surveyid']])) {
 							<tr>
 								<td colspan="6">
-									<ul class="l-child">
-									@foreach($surveypublishs[$survey['surveyid']] as $surveypublish) {
-										<li>Published by @$surveypublish['ownerid'] between @$surveypublish['startdate'] and @$surveypublish['enddate']</li>
-									}
-									</ul>
+									<table width="100%" cellspacing="0" cellpadding="0">
+										<tbody>
+										@foreach($surveypublishs[$survey['surveyid']] as $surveypublish) {
+											<tr>
+												<td>Published by @$surveypublish['ownerid']</td>
+												<td>Between @$surveypublish['startdate'] and @$surveypublish['enddate']</td>
+												<td><em>(private, password)</em></td>
+												<td>0 response</td>
+											</tr>
+										}
+										</tbody>
+									</table>
 								</td>
                             </tr>
 							}
