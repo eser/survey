@@ -42,6 +42,13 @@
 			'1' => 'Numeric',
 			'2' => 'Alphanumeric'
 		);
+		
+		public static $questionoptiontypes = array(
+			'0' => 'No Input',
+			'1' => 'Any',
+			'2' => 'Numeric',
+			'3' => 'Alphanumeric'
+		);
 
 		public static $evaluationoptions = array(
 			'1' => 'Strongly Agree',

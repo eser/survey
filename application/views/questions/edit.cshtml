@@ -4,7 +4,7 @@
 					function addNewChoice() {
 						$l.dom.append(
 							$l.dom.selectSingle('#options'),
-							'<li>Option <span class="number"></span>: <input type="text" name="options[]" value="" /> <a class="remove" href="#">Remove</a></li>'
+							'<li>Option <span class="number"></span>: <input type="text" name="options[]" value="" /> <select name="optionstypes[]">@string::squote(html::selectOptions(statics::$questionoptiontypes))</select> <a class="remove" href="#">Remove</a></li>'
 						);
 
 						renumber();
@@ -92,7 +92,11 @@
 									<a id="addnewchoice" href="#">Add New Choice</a>
 									<ul class="arrow l-child" id="options">
 									@foreach($questionchoices as $questionchoice) {
-										<li>Option <span class="number"></span>: <input type="text" name="options[@$questionchoice['questionchoiceid']]" value="@$questionchoice['content']" /> <a class="remove" href="#">Remove</a></li>
+										<li>
+											Option <span class="number"></span>: <input type="text" name="options[@$questionchoice['questionchoiceid']]" value="@$questionchoice['content']" />
+											<select name="optionstypes[@$questionchoice['questionchoiceid']]">@html::selectOptions(statics::$questionoptiontypes)</select>
+											<a class="remove" href="#">Remove</a>
+										</li>
 									}
 									</ul>
 								</div>
