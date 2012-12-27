@@ -59,13 +59,15 @@
 			$this->questionModel->insert($tInput);
 
 			$tOptions = http::post('options');
+			$tOptionTypes = http::post('optiontypes');
 
 			if($tInput['type'] == statics::QUESTION_MULTIPLE) {
-				foreach($tOptions as &$tOption){
+				foreach($tOptions as $tKey => &$tOption){
 					$tOptionInput = array(
 						'questionchoiceid' => string::generateUuid(),
 						'questionid' => $tInput['questionid'],
-						'content' => $tOption
+						'content' => $tOption,
+						'type' => $tOptionTypes[$tKey]
 					);
 
 					$this->questionModel->insertChoice($tOptionInput);
@@ -114,6 +116,7 @@
 			$this->questionModel->update($uQuestionId, $tInput);
 
 			$tOptions = http::post('options');
+			$tOptionTypes = http::post('optiontypes');
 
 			$this->questionModel->truncateChoices($uQuestionId);
 			if($tInput['type'] == statics::QUESTION_MULTIPLE) {
@@ -123,8 +126,10 @@
 					$tOptionInput = array(
 						'questionchoiceid' => $tQuestionChoiceId,
 						'questionid' => $uQuestionId,
-						'content' => $tOption
+						'content' => $tOption,
+						'type' => $tOptionTypes[$tKey]
 					);
+					string::vardump($tOptionTypes);
 
 					$this->questionModel->insertChoice($tOptionInput);
 				}
