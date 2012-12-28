@@ -25,11 +25,11 @@
 			$tOffset = ($tPage - 1) * self::PAGE_SIZE;
 
 			// pass pager data to view
-			$this->load('postModel');
 			$this->set('pagerTotal', $this->postModel->count());
 			$this->setRef('pagerCurrent', $tPage);
 
 			// pass post data to view
+			$this->load('postModel');
 			$this->set('posts', $this->postModel->getAllPaged($tOffset, self::PAGE_SIZE));
 
 			// render the page

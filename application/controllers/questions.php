@@ -1,31 +1,36 @@
 <?php
 
 	/**
-	 * @ignore
+	 * questions controller
+	 * action methods for all questions/* urls
 	 */
 	class questions extends controller {
+		/**
+		 * number of questions per page
+		 */
 		const PAGE_SIZE = statics::DEFAULT_PAGE_SIZE;
 
 		/**
-		 * @ignore
+		 * lists all questions created by user
+		 *
+		 * @param $uPage int number of page which is going to be displayed
 		 */
 		public function get_index($uPage = '1') {
+			// load and validate session data
 			statics::requireAuthentication(1);
 
+			// #1 validate the request: page numbers
 			$tPage = intval($uPage);
-			if($tPage < 1) {
-				$tPage = 1;
-			}
-
-			$this->load('questionModel');
-
-			// gather all question data from model
+			contracts::isMinimum($tPage, 1)->exception('invalid page number');
 			$tOffset = ($tPage - 1) * self::PAGE_SIZE;
-			$tQuestions = $this->questionModel->getAllPagedByOwner(statics::$user['userid'], $tOffset, self::PAGE_SIZE);
 
-			// assign the user data to view
+			// pass pager data to view
+			$this->load('questionModel');
 			$this->set('pagerTotal', $this->questionModel->countByOwner(statics::$user['userid']));
 			$this->setRef('pagerCurrent', $tPage);
+
+			// pass question data to view
+			$tQuestions = $this->questionModel->getAllPagedByOwner(statics::$user['userid'], $tOffset, self::PAGE_SIZE);
 			$this->setRef('questions', $tQuestions);
 
 			// render the page
@@ -33,127 +38,132 @@
 		}
 
 		/**
-		 * @ignore
+		 * new question page
 		 */
 		public function get_new() {
+			// load and validate session data
 			statics::requireAuthentication(1);
 
+			// render the page
 			$this->view();
 		}
 
 		/**
-		 * @ignore
+		 * postback method for new question page
 		 */
 		public function post_new() {
+			// load and validate session data
 			statics::requireAuthentication(1);
 
-			$tInput = array(
-				'questionid' => string::generateUuid(),
-				'ownerid' => statics::$user['userid'],
-				'content' => http::post('question'),
-				'type' => http::post('type'),
-				'typefilter' => http::post('typefilter')
-			);
+			// construct values for the record
+			$tInput = http::postArray(['content', 'type', 'typefilter']);
+			$tInput['questionid'] = string::generateUuid();
+			$tInput['ownerid'] = statics::$user['userid'];
 
+			// insert the record into database
 			$this->load('questionModel');
 			$this->questionModel->insert($tInput);
 
-			$tOptions = http::post('options');
-			$tOptionTypes = http::post('optiontypes');
-
+			// insert question choices if and only if question's type is multiple choice
 			if($tInput['type'] == statics::QUESTION_MULTIPLE) {
+				$tOptions = http::post('options');
+				$tOptionTypes = http::post('optiontypes');
+
 				foreach($tOptions as $tKey => &$tOption){
-					$tOptionInput = array(
+					$tOptionInput = [
 						'questionchoiceid' => string::generateUuid(),
 						'questionid' => $tInput['questionid'],
 						'content' => $tOption,
 						'type' => $tOptionTypes[$tKey]
-					);
+					];
 
 					$this->questionModel->insertChoice($tOptionInput);
 				}
 			}
 
-			mvc::redirect('questions/edit/' . $tInput['questionid']);
+			//TODO: set flash
+
+			mvc::redirect('questions/index');
 		}
 
 		/**
-		 * @ignore
+		 * edit question page
+		 *
+		 * @param $uQuestionId string the uuid represents question id
 		 */
 		public function get_edit($uQuestionId) {
+			// load and validate session data
 			statics::requireAuthentication(1);
 
-			$this->load('questionModel');
+			// validate the request: question id
+			contracts::isUuid($uQuestionId)->exception('invalid question id format');
 
 			// gather all question data from model
+			$this->load('questionModel');
 			$tQuestion = $this->questionModel->get($uQuestionId);
-
-			// gather all question choices from model
-			$tQuestionChoices = $this->questionModel->getAllChoices($uQuestionId);
-
-			// assign the user data to view
+			contracts::isNotFalse($tQuestion)->exception('invalid question id');
+			contracts::isEqual($tQuestion['ownerid'], statics::$user['userid'])->exception('unauthorized access');
 			$this->setRef('question', $tQuestion);
-			$this->setRef('questionchoices', $tQuestionChoices);
+
+			// ...and it's options, if it's a multiple choice question
+			if($tQuestion['type'] == statics::QUESTION_MULTIPLE) {
+				$tQuestionChoices = $this->questionModel->getAllChoices($uQuestionId);
+				$this->setRef('questionchoices', $tQuestionChoices);
+			}
 
 			// render the page
 			$this->view();
 		}
 
 		/**
-		 * @ignore
+		 * postback method for edit question page
+		 *
+		 * @param $uQuestionId string the uuid represents question id
 		 */
 		public function post_edit($uQuestionId) {
+			// load and validate session data
 			statics::requireAuthentication(1);
 
-			$tInput = array(
-				'ownerid' => statics::$user['userid'],
-				'content' => http::post('question'),
-				'type' => http::post('type'),
-				'typefilter' => http::post('typefilter')
-			);
+			// validate the request: question id
+			contracts::isUuid($uQuestionId)->exception('invalid question id format');
 
+			// check record
 			$this->load('questionModel');
-			$this->questionModel->update($uQuestionId, $tInput);
+			$tQuestion = $this->questionModel->get($uQuestionId);
+			contracts::isNotFalse($tQuestion)->exception('invalid question id');
+			contracts::isEqual($tQuestion['ownerid'], statics::$user['userid'])->exception('unauthorized access');
 
-			$tOptions = http::post('options');
-			$tOptionTypes = http::post('optiontypes');
+			// construct values for the record
+			$tInput = http::postArray(['content', 'type', 'typefilter']);
 
+			// insert the record into database
+			$this->questionModel->update($tQuestion['questionid'], $tInput);
+
+			// wipe the previous question choices anyway 
 			$this->questionModel->truncateChoices($uQuestionId);
+
+			// insert question choices if and only if question's type is multiple choice
 			if($tInput['type'] == statics::QUESTION_MULTIPLE) {
+				$tOptions = http::post('options');
+				$tOptionTypes = http::post('optiontypes');
+
 				foreach($tOptions as $tKey => &$tOption){
 					$tQuestionChoiceId = ((!is_integer($tKey)) ? $tKey : string::generateUuid());
 
-					$tOptionInput = array(
+					$tOptionInput = [
 						'questionchoiceid' => $tQuestionChoiceId,
-						'questionid' => $uQuestionId,
+						'questionid' => $tInput['questionid'],
 						'content' => $tOption,
 						'type' => $tOptionTypes[$tKey]
-					);
-					string::vardump($tOptionTypes);
+					];
 
 					$this->questionModel->insertChoice($tOptionInput);
 				}
 			}
 
-			mvc::redirect('questions/edit/' . $uQuestionId);
-		}
+			//TODO: set flash
 
-		/**
-		 * @ignore
-		 */
-		public function get_report($uQuestionId) {
-			statics::requireAuthentication(1);
-
-			$this->load('questionModel');
-
-			// gather all question data from model
-			$tQuestion = $this->questionModel->get($uQuestionId);
-			
-			// assign the user data to view
-			$this->setRef('question', $tQuestion);
-
-			// render the page
-			$this->view();
+			mvc::redirect('questions/index');
 		}
 	}
 

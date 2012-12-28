@@ -70,7 +70,7 @@
 						<input id="questionType" type="hidden" name="type" value="@$question['type']" />
 
 						<p>You can add new survey to system by using this page easly.</p>
-						<p>Question : <input type="text" name="question" value="@$question['content']" data-defaulttext="Type your question here" /></p>
+						<p>Question : <input type="text" name="content" value="@$question['content']" data-defaulttext="Type your question here" /></p>
 
 						<div class="tabs_table">
 							<ul class="tabs">
@@ -91,12 +91,14 @@
 								<div id="tab_2" class="tab-content">
 									<a id="addnewchoice" href="#">Add New Choice</a>
 									<ul class="arrow l-child" id="options">
-									@foreach($questionchoices as $questionchoice) {
-										<li>
-											Option <span class="number"></span>: <input type="text" name="options[@$questionchoice['questionchoiceid']]" value="@$questionchoice['content']" />
-											<select name="optiontypes[@$questionchoice['questionchoiceid']]">@html::selectOptions(statics::$questionoptiontypes, @$questionchoice['type'])</select>
-											<a class="remove" href="#">Remove</a>
-										</li>
+									@if(isset($questionchoices)) {
+										@foreach($questionchoices as $questionchoice) {
+											<li>
+												Option <span class="number"></span>: <input type="text" name="options[@$questionchoice['questionchoiceid']]" value="@$questionchoice['content']" />
+												<select name="optiontypes[@$questionchoice['questionchoiceid']]">@html::selectOptions(statics::$questionoptiontypes, @$questionchoice['type'])</select>
+												<a class="remove" href="#">Remove</a>
+											</li>
+										}
 									}
 									</ul>
 								</div>

@@ -18,12 +18,12 @@
                     <h3>Contact Form</h3>
                     <form id="contact" action="@mvc::url('home/contact')" method="post">
                         <fieldset>
-                            <label id="name_label" for="name">Name</label>
-                            <span id="name">@statics::$user['displayname']</span>
+                            <label id="name_label" for="name">Name *</label>
+                            <input type="text" value="" size="50" id="name" name="name" class="required" />
                         </fieldset>
                         <fieldset>
-                            <label id="email_label" for="email">E-mail</label>
-                            <span id="email">@statics::$user['email']</span>
+                            <label id="email_label" for="email">E-mail *</label>
+                            <input type="text" value="" size="50" id="email" name="email" class="required email" />
                         </fieldset>
                         <fieldset>
                             <label id="subject_label" for="subject">Subject</label>
@@ -32,6 +32,13 @@
                         <fieldset>
                             <label id="msg_label" for="msg">Message *</label>
                             <textarea id="msg" name="msg" rows="10" cols="10" class="required"></textarea>
+                        </fieldset>
+						<fieldset>
+                            <label id="verification_label" for="verification">Captcha *</label>
+							<div class="inlineBlock">
+								<img src="@mvc::url('home/contactImage')" alt="" />
+								<input type="text" size="50" id="verification" name="verification" class="required" value="" />
+							</div>
                         </fieldset>
                         <input type="submit" value="Send Message" id="submit_btn" name="submit" />
                     </form>
