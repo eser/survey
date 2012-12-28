@@ -17,7 +17,7 @@
                     <!-- User Details -->
 					<div>
 						<h3 class="floatleft">Published Surveys</h3>
-						<a href="@mvc::url('publishsurveys/new')" class="more floatright">Create New</a>
+						<a href="@mvc::url('publish/new')" class="more floatright">Create New</a>
 						<div class="clear"></div>
 					</div>
 
@@ -26,7 +26,7 @@
                             <tr>
                                 <th>Title</th>
                                 <th>Start Date</th>
-								<th>End dATE</th>
+								<th>End Date</th>
 								<th>Password</th>
 								<th>Type</th>
                                 <th>Properties</th>
@@ -41,8 +41,8 @@
 								<td>@$survey['password']</td>
                                 <td>@if($survey['type'] == 1){ Authenticate } else { Public }</td>
                                 <td>
-									<a href="@mvc::url('publishsurveys/edit/' . $survey['surveypublishid'])">Edit</a> |
-									<a href="@mvc::url('surveys/delete/' . $survey['surveypublishid'])">Delete</a>
+									<a href="@mvc::url('publish/edit/' . $survey['surveypublishid'])">Edit</a> |
+									<a href="@mvc::url('publish/delete/' . $survey['surveypublishid'])">Delete</a>
 								</td>
                             </tr>
 						}

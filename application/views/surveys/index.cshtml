@@ -1,5 +1,18 @@
 @views::view('shared/header.cshtml')
-                
+
+				<script type="text/javascript">
+					function publishSurvey() {
+						var surveyid = $l.dom.selectSingle('#surveyid').value;
+						location.href = $l.baseLocation + '/surveypublish/new/' + surveyid;
+
+						return false;
+					}
+
+					$l.ready(function() {
+						$l.dom.setEvent($l.dom.selectSingle('#publishsurvey'), 'click', publishSurvey);
+					});
+				</script>
+
                 <!-- Breadcrumbs, Page Title -->
                 <div id="page-head">
                     <h1><em>add, edit and organize surveys</em>Surveys</h1>
@@ -18,14 +31,14 @@
 					<div class="marginBottom30px">
 						<h3>Publish a Survey</h3>
 						<div class="bglight padding10px">
-							<form method="post" action="@mvc::url('surveys/publish')">
+							<form method="post" action="@mvc::url('surveypublish/new')">
 								<p>
 									Survey :
-									<select name="surveyid">
+									<select name="surveyid" id="surveyid">
 									@html::selectOptions($surveynames, null, 'title')
 									</select>
 								</p>
-								<p><input type="submit" value="Publish Survey" /></p>
+								<p><input type="submit" value="Publish Survey" id="publishsurvey" /></p>
 							</form>
 						</div>
 					</div>
@@ -60,7 +73,7 @@
                                 <td>
 									<a href="@mvc::url('surveys/edit/' . $survey['surveyid'])">Edit</a> |
 									<a href="@mvc::url('surveys/questions/' . $survey['surveyid'])">Questions</a> |
-									<a href="@mvc::url('surveys/publish/' . $survey['surveyid'])">Publish</a>
+									<a href="@mvc::url('surveypublish/new/' . $survey['surveyid'])">Publish</a>
 								</td>
                             </tr>
 							@if(isset($surveypublishs[$survey['surveyid']])) {
@@ -81,6 +94,7 @@
 										<tbody>
 										@foreach($surveypublishs[$survey['surveyid']] as $surveypublish) {
 											<tr>
+												<td>Revision @$surveypublish['revision']</td>
 												<td>Published by @$surveypublish['ownerid']</td>
 												<td>Between @$surveypublish['startdate'] and @$surveypublish['enddate']</td>
 												<td><em>(private, password)</em></td>

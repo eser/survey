@@ -16,32 +16,25 @@
                     <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
                     
                     <h3>Publish Survey</h3>
-                    <form id="addQuestion" method="post">
-                    <p>Description Goes Here:)</p>
+                    <form id="addQuestion" method="post" action="@mvc::url('surveypublish/new')">
+                    <p>Description Goes Here :)</p>
                     <p>Survey : <select name="surveyid">
-                     @foreach($surveys as $survey){
-                        <option value="@$survey['surveyid']"> @$survey['title']</option>
-                     }
+					@html::selectOptions($surveys, $surveyid, 'title')
                     </select>
                     </p>
-                    <p> Start Date :  <input name="startdate" value=""></p>
-                    <p> End Date :   <input name="enddate" value=""></p>
+                    <p> Start Date :  <input type="text" name="startdate" value=""></p>
+                    <p> End Date :   <input type="text" name="enddate" value=""></p>
                     <p> Password :  <input type="password" name="password" value=""></p>
                     <p> Type :  <select name="type">
-                    <option value="0" > Public </option>
-                    <option value="1" > Authenticate </option>
+                    @html::selectOptions(statics::$surveytypes)
                     </select>
                     </p>
                     <p> Survey Publish Status :  <select name="enabled">
-                        <option value="0" > Disable </option>
-                        <option value="1" > Enable </option>
-                        </select>
+                    @html::selectOptions(statics::$surveystatus)
+                    </select>
                     </p>
                     <p> <input type="submit" value="Add Survey"></p>
                     </form>
-                    <div id="in-post-meta">
-                    	This entry was posted in <a href="#">Corporate Blog</a> by <a href="#">George</a> on 14 Feb, 2012.
-                    </div>
                     
                 </div>
                 <!-- Page Content End -->

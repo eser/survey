@@ -63,6 +63,11 @@
 			 '1' => 'Public'
 		);
 
+		public static $surveystatus = array(
+			 '0' => 'Disabled',
+			 '1' => 'Enabled'
+		);
+
 		/**
 		 * @ignore
 		 */

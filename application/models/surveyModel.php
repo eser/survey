@@ -117,14 +117,23 @@
 		/**
 		 * @ignore
 		 */
-		public function getAllByOwner($uOwnerId) {
-			return $this->db->createQuery()
+		public function &getAllByOwner($uOwnerId) {
+			$tResult = array();
+
+			$tQuery = $this->db->createQuery()
 				->setTable('surveys')
 				->addField('*')
 				->setWhere(['ownerid=:ownerid'])
 				->addParameter('ownerid', $uOwnerId)
-				->get()
-				->all();
+				->get();
+
+			foreach($tQuery as $tRow) {
+				$tResult[$tRow['surveyid']] = $tRow;
+			}
+
+			$tQuery->close();
+
+			return $tResult;
 		}
 		/**
 		 * @ignore
