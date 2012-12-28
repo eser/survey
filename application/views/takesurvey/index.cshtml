@@ -7,18 +7,11 @@
                         <li>Surveys</li>
                     </ul>
                 </div>
-                
                 <!-- Page Content Start -->
                 <div class="full-page-text">
 
                     <p>At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable.</p>
 
-                    <!-- User Details -->
-					<div>
-						<h3 class="floatleft">Existing Surveys</h3>
-						<a href="@mvc::url('surveys/new')" class="more floatright">Create New</a>
-						<div class="clear"></div>
-					</div>
 
                     <table width="100%" cellspacing="0" cellpadding="0">
                         <thead>
@@ -26,9 +19,6 @@
                                 <th>Title</th>
                                 <th>Category</th>
 								<th>Language</th>
-								<th></th>
-								<th></th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,9 +26,6 @@
 								<td>@$surveys['title']</td>
                                 <td>@statics::$categoriesWithCounts[$surveys['categoryid']]['name']</td>
                                 <td>@statics::$languagesWithCounts[$surveys['languageid']]['name']</td>
-								<td></td>
-                                <td></td>
-                                <td></td>
                             </tr>   			
                         </tbody>
                     </table> <br>
@@ -61,19 +48,18 @@
                                     }
                                     @if($question['type'] == statics::QUESTION_MULTIPLE ) {
                                         @foreach($choices[$question['questionid']] as $choice){
-                                            <input type="radio" name="@$question['questionid']" value="@$choice['questionchoiceid']">  @$choice['content']<br>
+                                            <input type="radio" name="@$question['questionid']" value="@$choice['questionchoiceid']">  @$choice['content']
+                                            @if($choice['type'] != 0) { <input type="text" name="@$question['questionid']value"> }<br>
                                         }
                                     }
                                 </td>
                             </tr>
                           </tbody>
                      }
-
                      </table>
                      <br>
                      <p> <input type="submit" value="Submit"> </p>
                      </form>
 				</div>
                 <!-- Page Content End -->
-    
 @views::view('shared/footer.cshtml')

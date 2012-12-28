@@ -53,18 +53,19 @@
 			statics::requireAuthentication(1);
 
 			$this->load('publishSurveyModel');
-
+			$checkPast = $this->publishSurveyModel->checkPast(statics::$user['userid'],$uSurveyPublishId);
+			if(count($checkPast) > 0) {
+				//return ( bu anketi doldurdunuz sayfası.
+				exit;
+			}
 			// gather all survey data from model
 			$survey = $this->publishSurveyModel->get($uSurveyPublishId);
-
 			$this->load('questionModel');
 			$questions = $this->questionModel->getBySurveyID($survey['surveyid']);
-
 			$choices = array();
 			foreach($questions as $question) {
 				$choices[$question['questionid']] = $this->questionModel->getChoicesByQuestionID($question['questionid']);
 			}
-
 
 			// assign the user data to view
 			$this->setRef('surveys', $survey);
@@ -88,14 +89,14 @@
 			$answers = array();
 			foreach($questions as $question) {
 				$answers[$question['questionid']] = http::post($question['questionid']);
-
+				$answersvalues[$question['questionid']] = http::post($question['questionid'].'value');
 				if($question['type'] == statics::QUESTION_MULTIPLE){
 					$input = array(
 						'surveypublishid' => $uSurveyPublishId,
 						'questionid' => $question['questionid'],
 						'userid' => statics::$user['userid'],
 						'questionchoiceid' => $answers[$question['questionid']],
-						'value'=> null
+						'value'=> $answersvalues[$question['questionid']]
 					);
 				} else {
 					$input = array(
@@ -108,8 +109,7 @@
 				}
 				$this->questionModel->insertAnswer($input);
 			}
-
-			echo "<script>alert('Your Answers Recorded Succesfully.');</script>";
+			//Anketi Doldurdunuz uyarısı flash filan koyulmalı.
 			mvc::redirect('home/index');
 			// render the page
 			$this->view();

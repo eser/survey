@@ -54,6 +54,7 @@
 			$this->load('publishSurveyModel');
 			$this->load('surveyModel');
 			// gather all survey data from model
+
 			$tSurveyPublishs = $this->publishSurveyModel->getAllByOwner(statics::$user['userid']);
 
 
