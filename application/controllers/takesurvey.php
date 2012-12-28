@@ -75,20 +75,23 @@
 			$this->view();
 		}
 
-		public function post_index($surveryid) {
+		public function post_index($uSurveyPublishId) {
 			statics::requireAuthentication(1);
-			$this->load('surveyModel');
+			
+			$this->load('publishSurveyModel');
 			$this->load('questionModel');
+
 			// gather all survey data from model
-			$survey = $this->surveyModel->getDetail($surveryid);
-			$questions = $this->questionModel->getBySurveyID($surveryid);
+			$survey = $this->publishSurveyModel->get($uSurveyPublishId);
+			$questions = $this->questionModel->getBySurveyID($survey['surveyid']);
+
 			$answers = array();
 			foreach($questions as $question) {
 				$answers[$question['questionid']] = http::post($question['questionid']);
 
 				if($question['type'] == statics::QUESTION_MULTIPLE){
 					$input = array(
-						'surveyid' => $surveryid,
+						'surveypublishid' => $uSurveyPublishId,
 						'questionid' => $question['questionid'],
 						'userid' => statics::$user['userid'],
 						'questionchoiceid' => $answers[$question['questionid']],
@@ -96,7 +99,7 @@
 					);
 				} else {
 					$input = array(
-						'surveyid' => $surveryid,
+						'surveyid' => $uSurveyPublishId,
 						'questionid' => $question['questionid'],
 						'userid' => statics::$user['userid'],
 						'questionchoiceid' => null,
