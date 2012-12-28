@@ -5,39 +5,31 @@
                     <h1><em>interesting news and events</em>Blog</h1>
                     <ul id="breadcrumbs">
                         <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li>Blog</li>
+                        <li><a href="@mvc::url('blog/index')">Blog</a></li>
+						<li>@$post['title']</li>
                     </ul>
                 </div>
                 
                 <!-- Posts Container Start -->
                 <div id="cat-container">
 
-					@foreach($posts as &$tPost) {
 					@{
-						$tTimestamp = time::convert($tPost['createdate'], 'Y-m-d H:i:s');
+						$tTimestamp = time::convert($post['createdate'], 'Y-m-d H:i:s');
 					}
                     <div class="post format-standard">
                     	<div class="p-meta">
                         	<div class="p-type"></div>
 	                        <div class="date"><strong>@date('d', $tTimestamp)</strong>@statics::$months[date('m', $tTimestamp)]</div>
                         </div>
-                        <h2 class="p-title"><a href="@mvc::url('home/blog/' . $tPost['postid'])">@$tPost['title']</a></h2>
+                        <h2 class="p-title"><a href="@mvc::url('blog/post/' . $post['postid'])">@$post['title']</a></h2>
                         <div class="post-content">
                             <p>
-                            	@$tPost['content']
+                            	@$post['content']
                             </p>
                         </div>
                     </div>
-					}
 
                 </div>
                 <!-- Posts Container End -->
-                
-                <!-- Pagination -->
-                <ul id="pagination">
-                    <li><a href="#">&laquo;</a></li>
-                    <li class="act"><a href="#">1</a></li>
-                    <li><a href="#">&raquo;</a></li>
-                </ul>
-    
+
 @views::view('shared/footer.cshtml')

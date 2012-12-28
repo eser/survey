@@ -17,7 +17,10 @@
 </head>
 <body id="@{
 		if(mvc::$route['controller'] == 'home') {
-			echo (mvc::$route['action'] == 'blog') ? 'blog' : 'home';
+			echo 'home';
+		}
+		else if(mvc::$route['controller'] == 'blog') {
+			echo 'blog';
 		}
 		else {
 			echo 'portfolio';

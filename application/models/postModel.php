@@ -43,6 +43,16 @@
 				->get()
 				->all();
 		}
+
+		/**
+		 * @ignore
+		 */
+		public function count() {
+			return $this->db->createQuery()
+				->setTable('posts')
+				->addField('*')
+				->calculate('COUNT');
+		}
 	}
 
 ?>

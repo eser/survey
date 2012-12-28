@@ -67,10 +67,10 @@
 					<ul id="pagination" class="margintop10px">
 						@html::pager(array(
 							'total' => $pagerTotal,
-							'pagesize' => surveys::PAGE_SIZE,
+							'pagesize' => categories::PAGE_SIZE,
 							'current' => $pagerCurrent,
-							'link' => '<li><a href="' . mvc::url('surveys/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
-							'activelink' => '<li class="act"><a href="' . mvc::url('surveys/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
+							'link' => '<li><a href="' . mvc::url('categories/list/' . $category['categoryid'] . '/{page}') . '" class="pagerlink">{pagetext}</a></li>',
+							'activelink' => '<li class="act"><a href="' . mvc::url('categories/list/' . $category['categoryid'] . '/{page}') . '" class="pagerlink">{pagetext}</a></li>',
 							'firstlast' => false
 						))
 					</ul>

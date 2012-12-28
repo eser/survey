@@ -146,6 +146,37 @@
 		/**
 		 * @ignore
 		 */
+		public function post_register() {
+			statics::requireAuthentication(-1);
+
+			$this->load('userModel');
+
+			$tUser = http::postArray(['displayname', 'firstname', 'lastname', 'phonenumber', 'email', 'password']);
+			$tUser['userid'] = string::generateUuid();
+			$tUser['logo'] = ''; // facebook profile picture - https://graph.facebook.com/hasan.atbinici/picture
+			$tUser['facebookid'] = $uUser->object['id'];
+			$tUser['languageid'] = 'en';
+
+			if($tUser['password'] != http::post('password2')) {
+				throw new Exception('passwords do not match.');
+			}
+
+			$this->userModel->insert($tUser);
+
+			smtp::send(
+				'info@survey-e-bot.com', // 'Survey-e-bot <info@survey-e-bot.com>',
+				$tUser['email'], // $tRealUser['displayname'] . ' <' . $tRealUser['email'] . '>',
+				'Your account | Welcome to the survey-e-bot',
+				'Your password is: ' . $tUser['password']
+			);
+
+			// render the page
+			$this->view();
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function get_forgottenpassword() {
 			statics::requireAuthentication(-1);
 
@@ -169,9 +200,7 @@
 		public function post_profile() {
 			statics::requireAuthentication(1);
 
-			$tValues = http::postArray(
-				array('displayname', 'firstname', 'lastname', 'phonenumber', 'email', 'password')
-			);
+			$tValues = http::postArray(['displayname', 'firstname', 'lastname', 'phonenumber', 'email', 'password']);
 
 			$tValues['logo'] = '';
 

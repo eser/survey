@@ -6,7 +6,7 @@
 				@if(is_null(statics::$user)) {
                 <ul>
                     <li class="current-menu-item"><a href="@mvc::url('home/index')">Home</a></li>
-                    <li><a href="@mvc::url('home/blog')">Blog</a></li>
+                    <li><a href="@mvc::url('blog/index')">Blog</a></li>
 					<li><a href="@mvc::url('home/faq')">FAQ</a></li>
                     <li><a href="@mvc::url('home/about')">About Us</a></li>
 					<li><a href="@mvc::url('home/contact')">Contact</a></li>
@@ -14,7 +14,7 @@
 				} else {
                 <ul>
                     <li class="current-menu-item"><a href="@mvc::url('home/index')">Home</a></li>
-						<li><a class="paddingLeft50px" href="@mvc::url('home/blog')">Blog</a></li>
+						<li><a class="paddingLeft50px" href="@mvc::url('blog/index')">Blog</a></li>
 						<li><a class="paddingLeft50px" href="@mvc::url('home/faq')">FAQ</a></li>
 						<li><a class="paddingLeft50px" href="@mvc::url('home/about')">About Us</a></li>
 						<li><a class="paddingLeft50px" href="@mvc::url('home/contact')">Contact</a></li>
@@ -66,7 +66,7 @@
 						}
                         <li>
                             <span><strong>@date('d', $tTimestamp)</strong>@statics::$months[date('m', $tTimestamp)]</span>
-                            <a href="@mvc::url('home/blog/' . $tPost['postid'])">@$tPost['title']</a>: @string::cut(strip_tags($tPost['content']), 20)
+                            <a href="@mvc::url('blog/post/' . $tPost['postid'])">@$tPost['title']</a>: @string::cut(strip_tags($tPost['content']), 20)
                         </li>
                         }
                     </ul>
