@@ -7,21 +7,21 @@
                 <ul>
                     <li class="current-menu-item"><a href="@mvc::url('home/index')">Home</a></li>
                     <li><a href="@mvc::url('home/blog')">Blog</a></li>
+					<li><a href="@mvc::url('home/faq')">FAQ</a></li>
                     <li><a href="@mvc::url('home/about')">About Us</a></li>
 					<li><a href="@mvc::url('home/contact')">Contact</a></li>
                 </ul>
 				} else {
                 <ul>
-                    <li class="current-menu-item">
-						<a href="@mvc::url('home/index')">Home</a>
-					</li>
-					<li><a class="paddingLeft50px" href="@mvc::url('home/blog')">Blog</a></li>
-					<li><a class="paddingLeft50px" href="@mvc::url('home/about')">About Us</a></li>
-					<li><a class="paddingLeft50px" href="@mvc::url('home/contact')">Contact</a></li>
+                    <li class="current-menu-item"><a href="@mvc::url('home/index')">Home</a></li>
+						<li><a class="paddingLeft50px" href="@mvc::url('home/blog')">Blog</a></li>
+						<li><a class="paddingLeft50px" href="@mvc::url('home/faq')">FAQ</a></li>
+						<li><a class="paddingLeft50px" href="@mvc::url('home/about')">About Us</a></li>
+						<li><a class="paddingLeft50px" href="@mvc::url('home/contact')">Contact</a></li>
 					<li><a href="@mvc::url('surveys/index')">Surveys</a></li>
-					<li><a class="paddingLeft50px" href="@mvc::url('surveys/new')">Create New Survey</a></li>
-					<li><a class="paddingLeft50px" href="@mvc::url('surveys/index')">Existing Surveys</a></li>
-					<li><a class="paddingLeft50px" href="@mvc::url('questions/index')">Question Pool</a></li>
+						<li><a class="paddingLeft50px" href="@mvc::url('surveys/new')">Create New Survey</a></li>
+						<li><a class="paddingLeft50px" href="@mvc::url('surveys/index')">Existing Surveys</a></li>
+						<li><a class="paddingLeft50px" href="@mvc::url('questions/index')">Question Pool</a></li>
 					<li><a href="@mvc::url('user/profile')">Profile</a></li>
 					<li><a href="@mvc::url('user/login')">Logout</a></li>
                 </ul>

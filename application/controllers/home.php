@@ -46,6 +46,16 @@
 		/**
 		 * @ignore
 		 */
+		public function get_faq() {
+			statics::requireAuthentication(0);
+
+			// render the page
+			$this->view();
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function get_about() {
 			statics::requireAuthentication(0);
 
