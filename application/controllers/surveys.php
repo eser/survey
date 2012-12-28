@@ -9,43 +9,6 @@
 		/**
 		 * @ignore
 		 */
-		public function get_new() {
-			statics::requireAuthentication(1);
-
-			// render the page
-			$this->view();
-		}
-		/**
-		 * @ignore
-		 */
-		public function post_new() {
-			statics::requireAuthentication(1);
-
-			$input = array(
-				'surveyid' => string::generateUuid(),
-				'ownerid' => statics::$user['userid'],
-				'title' => http::post('title'),
-				'categoryid' => http::post('categoryid'),
-				'themeid' => http::post('themeid'),
-				'languageid' => http::post('languageid')
-			);
-
-			$this->load('surveyModel');
-			$insertSurvey = $this->surveyModel->insert($input);
-
-			if($insertSurvey > 0){
-				echo "<script>alert('Survey Added Successfuly');</script>";
-			}
-			else {
-				echo "<script>alert('Unexpected Error.');</script>";
-			}
-
-			$this->view();
-		}
-
-		/**
-		 * @ignore
-		 */
 		public function get_index($uPage = '1') {
 			statics::requireAuthentication(1);
 
@@ -80,6 +43,41 @@
 		/**
 		 * @ignore
 		 */
+		public function get_new() {
+			statics::requireAuthentication(1);
+
+			// render the page
+			$this->view();
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function post_new() {
+			statics::requireAuthentication(1);
+
+			$input = http::postArray(
+				array('title', 'description', 'categoryid', 'themeid', 'languageid')
+			);
+			$input['surveyid'] = string::generateUuid();
+			$input['ownerid'] = statics::$user['userid'];
+
+			$this->load('surveyModel');
+			$insertSurvey = $this->surveyModel->insert($input);
+
+			if($insertSurvey > 0){
+				echo "<script>alert('Survey Added Successfuly');</script>";
+			}
+			else {
+				echo "<script>alert('Unexpected Error.');</script>";
+			}
+
+			$this->view();
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function get_edit($uSurveyId) {
 			statics::requireAuthentication(1);
 
@@ -102,11 +100,8 @@
 
 			$this->load('surveyModel');
 
-			$input = array(
-				'title' => http::post('title'),
-				'categoryid' => http::post('categoryid'),
-				'themeid' => http::post('themeid'),
-				'languageid' => http::post('languageid')
+			$input = http::postArray(
+				array('title', 'description', 'categoryid', 'themeid', 'languageid')
 			);
 
 			$updateSurvey = $this->surveyModel->update($uSurveyId, $input);
