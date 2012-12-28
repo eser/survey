@@ -37,9 +37,10 @@
 		 */
 		public function get($uId) {
 			return $this->db->createQuery()
-				->setTable('surveypublishs INNER JOIN surveys ON surveypublishs.surveyid=surveys.surveyid')
-				->addField('*')
-				->setWhere(['surveypublishid=:surveypublishid'])
+				->setTable('surveypublishs sp')
+				->joinTable('surveys s', 's.surveyid=sp.surveyid', 'INNER')
+				->addField('sp.*, s.*')
+				->setWhere(['sp.surveypublishid=:surveypublishid'])
 				->addParameter('surveypublishid', $uId)
 				->setLimit(1)
 				->get()

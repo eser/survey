@@ -34,8 +34,8 @@
                         <tbody>
                             <tr>
 								<td>@$surveys['title']</td>
-                                <td>@$surveys['name']</td>
-                                <td>@$surveys['languagename']</td>
+                                <td>@statics::$categoriesWithCounts[$surveys['categoryid']]['name']</td>
+                                <td>@statics::$languagesWithCounts[$surveys['languageid']]['name']</td>
 								<td></td>
                                 <td></td>
                                 <td></td>

@@ -49,13 +49,17 @@
 		 * @ignore
 		 */
 
-		public function get_index($surveryid) {
+		public function get_index($uSurveyPublishId) {
 			statics::requireAuthentication(1);
-			$this->load('surveyModel');
-			$this->load('questionModel');
+
+			$this->load('publishSurveyModel');
+
 			// gather all survey data from model
-			$survey = $this->surveyModel->getDetail($surveryid);
-			$questions = $this->questionModel->getBySurveyID($surveryid);
+			$survey = $this->publishSurveyModel->get($uSurveyPublishId);
+
+			$this->load('questionModel');
+			$questions = $this->questionModel->getBySurveyID($survey['surveyid']);
+
 			$choices = array();
 			foreach($questions as $question) {
 				$choices[$question['questionid']] = $this->questionModel->getChoicesByQuestionID($question['questionid']);
@@ -70,6 +74,7 @@
 			// render the page
 			$this->view();
 		}
+
 		public function post_index($surveryid) {
 			statics::requireAuthentication(1);
 			$this->load('surveyModel');
