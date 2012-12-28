@@ -1,39 +1,48 @@
 <?php
 
 	/**
-	 * @ignore
+	 * surveys controller
+	 * action methods for all surveys/* urls
 	 */
 	class surveys extends controller {
+		/**
+		 * number of surveys per page
+		 */
 		const PAGE_SIZE = statics::DEFAULT_PAGE_SIZE;
 
 		/**
-		 * @ignore
+		 * lists all surveys created by user
+		 *
+		 * @param $uPage int number of page which is going to be displayed
 		 */
 		public function get_index($uPage = '1') {
+			// load and validate session data
 			statics::requireAuthentication(1);
 
+			// validate the request: page numbers
 			$tPage = intval($uPage);
-			if($tPage < 1) {
-				$tPage = 1;
-			}
-
-			$this->load('surveyModel');
-
-			// gather all survey data from model
+			contracts::isMinimum($tPage, 1)->exception('invalid page number');
 			$tOffset = ($tPage - 1) * self::PAGE_SIZE;
-			$tSurveys = $this->surveyModel->getAllPagedByOwner(statics::$user['userid'], $tOffset, self::PAGE_SIZE);
 
-			$this->load('publishSurveyModel');
-			$tSurveyIds = arrays::column($tSurveys, 'surveyid');
-			$tSurveyPublishs = arrays::categorize($this->publishSurveyModel->getAllBySurvey($tSurveyIds), 'surveyid');
-
-			$tAllSurveyNames = $this->surveyModel->getAllNamesByOwner(statics::$user['userid']);
-
-			// assign the user data to view
+			// pass pager data to view
+			$this->load('surveyModel');
 			$this->set('pagerTotal', $this->surveyModel->countByOwner(statics::$user['userid']));
 			$this->setRef('pagerCurrent', $tPage);
+
+			// gather all survey data from model
+			$tSurveys = $this->surveyModel->getAllPagedByOwner(statics::$user['userid'], $tOffset, self::PAGE_SIZE);
 			$this->setRef('surveys', $tSurveys);
+
+			// construct an array of survey ids in order to use it to enquiry published surveys
+			$tSurveyIds = arrays::column($tSurveys, 'surveyid');
+
+			// gather specified published survey data from model and group them by survey id
+			$this->load('publishSurveyModel');
+			$tSurveyPublishs = arrays::categorize($this->publishSurveyModel->getAllBySurvey($tSurveyIds), 'surveyid');
 			$this->setRef('surveypublishs', $tSurveyPublishs);
+
+			// get all survey names from database
+			$tAllSurveyNames = $this->surveyModel->getAllNamesByOwner(statics::$user['userid']);
 			$this->setRef('surveynames', $tAllSurveyNames);
 
 			// render the page
@@ -41,9 +50,10 @@
 		}
 
 		/**
-		 * @ignore
+		 * new survey page
 		 */
 		public function get_new() {
+			// load and validate session data
 			statics::requireAuthentication(1);
 
 			// render the page
@@ -51,85 +61,96 @@
 		}
 
 		/**
-		 * @ignore
+		 * postback method for new survey page
 		 */
 		public function post_new() {
+			// load and validate session data
 			statics::requireAuthentication(1);
 
-			$input = http::postArray(
-				array('title', 'description', 'categoryid', 'themeid', 'languageid')
-			);
-			$input['surveyid'] = string::generateUuid();
-			$input['ownerid'] = statics::$user['userid'];
+			// construct values for the record
+			$tInput = http::postArray(['title', 'description', 'categoryid', 'themeid', 'languageid']);
+			$tInput['surveyid'] = string::generateUuid();
+			$tInput['ownerid'] = statics::$user['userid'];
 
+			// validate values
+			contracts::lengthMinimum($tInput['title'], 3)->exception('title length must be 3 at least');
+			contracts::lengthMinimum($tInput['description'], 3)->exception('description length must be 3 at least');
+			contracts::isUuid($tInput['categoryid'])->exception('invalid category id format');
+			contracts::inKeys($tInput['categoryid'], statics::$categoriesWithCounts)->exception('invalid category id');
+			contracts::isUuid($tInput['themeid'])->exception('invalid theme id format');
+			contracts::inKeys($tInput['themeid'], statics::$themesWithCounts)->exception('invalid theme id');
+			contracts::isUuid($tInput['languageid'])->exception('invalid language id format');
+			contracts::inKeys($tInput['languageid'], statics::$languagesWithCounts)->exception('invalid language id');
+
+			// insert the record into database
 			$this->load('surveyModel');
-			$insertSurvey = $this->surveyModel->insert($input);
+			$this->surveyModel->insert($tInput);
 
-			if($insertSurvey > 0){
-				echo "<script>alert('Survey Added Successfuly');</script>";
-			}
-			else {
-				echo "<script>alert('Unexpected Error.');</script>";
-			}
+			//TODO: set flash
 
-			$this->view();
+			mvc::redirect('surveys/index');
 		}
 
 		/**
-		 * @ignore
+		 * edit survey page
+		 *
+		 * @param $uSurveyId string the uuid represents survey id
 		 */
 		public function get_edit($uSurveyId) {
+			// load and validate session data
 			statics::requireAuthentication(1);
 
-			$this->load('surveyModel');
+			// validate the request: survey id
+			contracts::isUuid($uSurveyId)->exception('invalid survey id format');
 
 			// gather all survey data from model
+			$this->load('surveyModel');
 			$tSurvey = $this->surveyModel->get($uSurveyId);
-			
-			// assign the user data to view
+			contracts::isNotFalse($tSurvey)->exception('invalid survey id');
+			contracts::isEqual($tSurvey['ownerid'], statics::$user['userid'])->exception('unauthorized access');
 			$this->setRef('survey', $tSurvey);
 
+			// render the page
 			$this->view();
 		}
 		
 		/**
-		 * @ignore
+		 * postback method for edit survey page
+		 *
+		 * @param $uSurveyId string the uuid represents survey id
 		 */
 		public function post_edit($uSurveyId) {
+			// load and validate session data
 			statics::requireAuthentication(1);
 
+			// validate the request: question id
+			contracts::isUuid($uSurveyId)->exception('invalid survey id format');
+
+			// check record
 			$this->load('surveyModel');
-
-			$input = http::postArray(
-				array('title', 'description', 'categoryid', 'themeid', 'languageid')
-			);
-
-			$updateSurvey = $this->surveyModel->update($uSurveyId, $input);
-
-			if($updateSurvey > 0){
-				echo "<script>alert('Survey Edited Successfuly');</script>";
-			}
-			else {
-				echo "<script>alert('Unexpected Error.');</script>";
-			}
-		}
-
-		/**
-		 * @ignore
-		 */
-		public function get_report($uSurveyId) {
-			statics::requireAuthentication(1);
-
-			$this->load('surveyModel');
-
-			// gather all survey data from model
 			$tSurvey = $this->surveyModel->get($uSurveyId);
-			
-			// assign the user data to view
-			$this->setRef('survey', $tSurvey);
+			contracts::isNotFalse($tSurvey)->exception('invalid survey id');
+			contracts::isEqual($tSurvey['ownerid'], statics::$user['userid'])->exception('unauthorized access');
 
-			// render the page
-			$this->view();
+			// construct values for the record
+			$tInput = http::postArray(['title', 'description', 'categoryid', 'themeid', 'languageid']);
+
+			// validate values
+			contracts::lengthMinimum($tInput['title'], 3)->exception('title length must be 3 at least');
+			contracts::lengthMinimum($tInput['description'], 3)->exception('description length must be 3 at least');
+			contracts::isUuid($tInput['categoryid'])->exception('invalid category id format');
+			contracts::inKeys($tInput['categoryid'], statics::$categoriesWithCounts)->exception('invalid category id');
+			contracts::isUuid($tInput['themeid'])->exception('invalid theme id format');
+			contracts::inKeys($tInput['themeid'], statics::$themesWithCounts)->exception('invalid theme id');
+			contracts::isUuid($tInput['languageid'])->exception('invalid language id format');
+			contracts::inKeys($tInput['languageid'], statics::$languagesWithCounts)->exception('invalid language id');
+
+			// update the record
+			$this->surveyModel->update($uSurveyId, $input);
+
+			//TODO: set flash
+
+			mvc::redirect('surveys/index');
 		}
 	}
 

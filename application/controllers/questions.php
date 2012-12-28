@@ -56,9 +56,25 @@
 			statics::requireAuthentication(1);
 
 			// construct values for the record
-			$tInput = http::postArray(['content', 'type', 'typefilter']);
+			$tInput = http::postArray(['content', 'type', 'typefilter', 'isshared']);
 			$tInput['questionid'] = string::generateUuid();
 			$tInput['ownerid'] = statics::$user['userid'];
+
+			// validate values
+			contracts::lengthMinimum($tInput['content'], 3)->exception('question length must be 3 at least');
+			contracts::inKeys($tInput['type'], statics::$questiontypes)->exception('question type is invalid');
+			contracts::inKeys($tInput['typefilter'], statics::$questiontypefilters)->exception('question type filter is invalid');
+			contracts::inKeys($tInput['isshared'], statics::$sharedboolean)->exception('accessibility is invalid');
+
+			if($tInput['type'] == statics::QUESTION_MULTIPLE) {
+				$tOptions = http::post('options');
+				$tOptionTypes = http::post('optiontypes');
+
+				foreach($tOptions as $tKey => &$tOption) {
+					contracts::lengthMinimum($tOption, 1)->exception('a question choice length must be 3 at least');
+					contracts::inKeys($tOptionTypes[$tKey], statics::$questionoptiontypes)->exception('a question choice type is invalid');
+				}
+			}
 
 			// insert the record into database
 			$this->load('questionModel');
@@ -66,10 +82,8 @@
 
 			// insert question choices if and only if question's type is multiple choice
 			if($tInput['type'] == statics::QUESTION_MULTIPLE) {
-				$tOptions = http::post('options');
-				$tOptionTypes = http::post('optiontypes');
-
-				foreach($tOptions as $tKey => &$tOption){
+				// loop for each option of question
+				foreach($tOptions as $tKey => &$tOption) {
 					$tOptionInput = [
 						'questionchoiceid' => string::generateUuid(),
 						'questionid' => $tInput['questionid'],
@@ -134,9 +148,25 @@
 			contracts::isEqual($tQuestion['ownerid'], statics::$user['userid'])->exception('unauthorized access');
 
 			// construct values for the record
-			$tInput = http::postArray(['content', 'type', 'typefilter']);
+			$tInput = http::postArray(['content', 'type', 'typefilter', 'isshared']);
 
-			// insert the record into database
+			// validate values
+			contracts::lengthMinimum($tInput['content'], 3)->exception('question length must be 3 at least');
+			contracts::inKeys($tInput['type'], statics::$questiontypes)->exception('question type is invalid');
+			contracts::inKeys($tInput['typefilter'], statics::$questiontypefilters)->exception('question type filter is invalid');
+			contracts::inKeys($tInput['isshared'], statics::$sharedboolean)->exception('accessibility is invalid');
+
+			if($tInput['type'] == statics::QUESTION_MULTIPLE) {
+				$tOptions = http::post('options');
+				$tOptionTypes = http::post('optiontypes');
+
+				foreach($tOptions as $tKey => &$tOption) {
+					contracts::lengthMinimum($tOption, 1)->exception('a question choice length must be 3 at least');
+					contracts::inKeys($tOptionTypes[$tKey], statics::$questionoptiontypes)->exception('a question choice type is invalid');
+				}
+			}
+
+			// update the record
 			$this->questionModel->update($tQuestion['questionid'], $tInput);
 
 			// wipe the previous question choices anyway 
@@ -147,7 +177,9 @@
 				$tOptions = http::post('options');
 				$tOptionTypes = http::post('optiontypes');
 
+				// loop for each option of question
 				foreach($tOptions as $tKey => &$tOption){
+					// determine whether question choice were exist before or not by looking its key
 					$tQuestionChoiceId = ((!is_integer($tKey)) ? $tKey : string::generateUuid());
 
 					$tOptionInput = [

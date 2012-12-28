@@ -28,7 +28,7 @@
 			$this->set('pagerTotal', $this->postModel->count());
 			$this->setRef('pagerCurrent', $tPage);
 
-			// pass post data to view
+			// get and redirect post data to view
 			$this->load('postModel');
 			$this->set('posts', $this->postModel->getAllPaged($tOffset, self::PAGE_SIZE));
 
@@ -49,7 +49,7 @@
 			contracts::isUuid($uPostId)->exception('invalid post id format');
 
 			$this->load('postModel');
-			$tPost = $this->postModel->get($uPostId);
+			$tPost = $this->postModel->get($uPostId); // get from database
 			contracts::isNotFalse($tPost)->exception('invalid post id');
 
 			// pass post data to view

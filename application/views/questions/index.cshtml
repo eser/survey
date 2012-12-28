@@ -26,6 +26,7 @@
                             <tr>
                                 <th>Question</th>
                                 <th>Type</th>
+                                <th>Accessibility</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -38,6 +39,9 @@
 									@if($question['type'] == statics::QUESTION_FILL) {
 										@statics::$questiontypefilters[$question['typefilter']]
 									}
+								</td>
+                                <td>
+									@statics::$sharedboolean[$question['isshared']]
 								</td>
                                 <td>
 									<a href="@mvc::url('questions/edit/' . $question['questionid'])">Edit</a> |

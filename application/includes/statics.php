@@ -13,6 +13,9 @@
 		const SURVEY_AUTHONLY = '0';
 		const SURVEY_PUBLIC = '1';
 
+		const SHARE_PRIVATE = '0';
+		const SHARE_SHARED = '1';
+
 		public static $user = null;
 		public static $categoriesWithCounts = null;
 		public static $languagesWithCounts = null;
@@ -69,6 +72,11 @@
 		public static $surveystatus = array(
 			 '0' => 'Disabled',
 			 '1' => 'Enabled'
+		);
+
+		public static $sharedboolean = array(
+			 self::SHARE_PRIVATE => 'Private',
+			 self::SHARE_SHARED => 'Shared'
 		);
 
 		/**
