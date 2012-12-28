@@ -164,6 +164,13 @@ table td {
 }
 table tr:hover td { background: #FFc; color: #888; }
 .cell-hidden { border: none; background: none; }
+.innertable tr td:first-child {
+	background: url('/survey/res/img/li-inner.png') 0px 13px no-repeat;
+}
+.innertable td, innertable th{
+	border-width: 0px 0px 1px 0px;
+	border-style: dashed;
+}
 
 /* End Typography
 --------------------------------------------------------------------------------------------------------*/

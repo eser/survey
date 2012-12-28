@@ -15,18 +15,15 @@
 
                     <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
                     
-                    <h3>How to Write a Greate Resume?</h3>
-                    <p>Put the tomatoes cut them into medium carrots and boil in the vegetable can be enough to revert to preserve at the beaten whites are colored, take four of mixed pour on a raw onion puree in two. Day blushes visitor end company old prevent chapter. Possible all ignorant supplied get settling marriage:</p>
-                    <ul class="arrow">
-                        <li>Ut ligula diam, gravida quis pulvinar vel, fermentum a est;</li>
-                        <li>Quisque eu volutpat dui. Nunc fringilla, urna bibendum sagittis hendrerit;</li>
-                        <li>Quisque libero odio, consectetur non scelerisque sed.</li>
-                    </ul>
-                    <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
-                    
-                    <div id="in-post-meta">
-                    	This entry was posted in <a href="#">Corporate Blog</a> by <a href="#">George</a> on 14 Feb, 2012.
-                    </div>
+                    <h3>Add New Survey</h3>
+                    <form id="addQuestion" method="post">
+						<p>You can add new survey to system by using this page easly.</p>
+						<p>Title : <input type="text" name="title" value="@$survey['title']" data-defaulttext="Type your question title here" /></p>
+						<p>Category : <select name="categoryid">@statics::selectboxCategories($survey['categoryid'])</select></p>
+						<p>Language : <select name="languageid">@statics::selectboxLanguages($survey['languageid'])</select></p>
+						<p>Theme : <select name="themeid">@statics::selectboxThemes($survey['themeid'])</select></p>
+						<p><input type="submit" value="Add Survey" /></p>
+                    </form>
                     
                 </div>
                 <!-- Page Content End -->

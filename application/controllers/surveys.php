@@ -91,8 +91,32 @@
 			// assign the user data to view
 			$this->setRef('survey', $tSurvey);
 
-			// render the page
 			$this->view();
+		}
+		
+		/**
+		 * @ignore
+		 */
+		public function post_edit($uSurveyId) {
+			statics::requireAuthentication(1);
+
+			$this->load('surveyModel');
+
+			$input = array(
+				'title' => http::post('title'),
+				'categoryid' => http::post('categoryid'),
+				'themeid' => http::post('themeid'),
+				'languageid' => http::post('languageid')
+			);
+
+			$updateSurvey = $this->surveyModel->update($uSurveyId, $input);
+
+			if($updateSurvey > 0){
+				echo "<script>alert('Survey Edited Successfuly');</script>";
+			}
+			else {
+				echo "<script>alert('Unexpected Error.');</script>";
+			}
 		}
 
 		/**

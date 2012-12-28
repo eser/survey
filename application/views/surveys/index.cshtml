@@ -40,31 +40,44 @@
                         <thead>
                             <tr>
                                 <th>Title</th>
+								<th>Description</th>
                                 <th>Created At</th>
 								<th>Category</th>
 								<th>Language</th>
-								<th>Responses</th>
+								<th>Total Responses</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
 						@foreach($surveys as &$survey) {
                             <tr>
-								<td><a href="@mvc::url('surveys/edit/' . $survey['surveyid'])">@$survey['title']</a></td>
+								<td><a href="@mvc::url('surveys/questions/' . $survey['surveyid'])">@$survey['title']</a></td>
+								<td>@$survey['description']</td>
                                 <td>@statics::datePrint($survey['createdate'], false)</td>
                                 <td>@statics::$categoriesWithCounts[$survey['categoryid']]['name']</td>
 								<td>@statics::$languagesWithCounts[$survey['languageid']]['name']</td>
                                 <td>0</td>
                                 <td>
 									<a href="@mvc::url('surveys/edit/' . $survey['surveyid'])">Edit</a> |
-									<a href="@mvc::url('surveys/publish/' . $survey['surveyid'])">Publish</a> |
-									<a href="@mvc::url('surveys/report/' . $survey['surveyid'])">Report</a>
+									<a href="@mvc::url('surveys/questions/' . $survey['surveyid'])">Questions</a> |
+									<a href="@mvc::url('surveys/publish/' . $survey['surveyid'])">Publish</a>
 								</td>
                             </tr>
 							@if(isset($surveypublishs[$survey['surveyid']])) {
 							<tr>
-								<td colspan="6">
-									<table width="100%" cellspacing="0" cellpadding="0">
+								<td colspan="7">
+									<table width="100%" cellspacing="0" cellpadding="0" class="innertable">
+										<!--
+										<thead>
+											<tr>
+												<th>Publisher</th>
+												<th>Validity</th>
+												<th>Properties</th>
+												<th>Responses</th>
+												<th></th>
+											</tr>
+										</thead>
+										-->
 										<tbody>
 										@foreach($surveypublishs[$survey['surveyid']] as $surveypublish) {
 											<tr>
@@ -72,6 +85,9 @@
 												<td>Between @$surveypublish['startdate'] and @$surveypublish['enddate']</td>
 												<td><em>(private, password)</em></td>
 												<td>0 response</td>
+												<td>
+													<a href="@mvc::url('surveys/report/' . $survey['surveyid'])">Report</a>
+												</td>
 											</tr>
 										}
 										</tbody>

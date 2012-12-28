@@ -20,6 +20,21 @@
 		/**
 		 * @ignore
 		 */
+		public function update($surveyid, $input) {
+			return $this->db->createQuery()
+				->setTable('surveys')
+				->setFields($input)
+				->addParameter('surveyid', $surveyid)
+				->setWhere(['surveyid=:surveyid'])
+				// ->addField('updatedate', time::toDb(time()))
+				->setLimit(1)
+				->update()
+				->execute();
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function get($uId) {
 			return $this->db->createQuery()
 				->setTable('surveys')
