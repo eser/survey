@@ -3,17 +3,7 @@
 	/**
 	 * @ignore
 	 */
-	class questionModel extends model {
-		/**
-		 * @ignore
-		 */
-		public function insert($input) {
-			return $this->db->createQuery()
-				->setTable('questions')
-				->setFields($input)
-				->insert()
-				->execute();
-		}
+	class answersModel extends model {
 		/**
 		 * @ignore
 		 */
@@ -57,14 +47,13 @@
 		/**
 		 * @ignore
 		 */
-		public function getBySurveyID($uId, $uRevision) {
+		public function getByPublishID($uSurveyPublishId, $uQuestionIds) {
 			return $this->db->createQuery()
-				->setTable('surveyquestions sq')
-				->joinTable('questions q', 'sq.questionid=q.questionid', 'INNER')
-				->addField('*')
-				->setWhere(['sq.surveyid=:surveyid', _and, 'sq.revision=:revision'])
-				->addParameter('surveyid', $uId)
-				->addParameter('revision', $uRevision)
+				->setTable('answers a')
+				->addField('a.questionid, a.questionchoiceid, a.value, COUNT(a.*)')
+				->setWhere([['a.questionid', _in, $uQuestionIds], _and, 'a.surveypublishid=:surveypublishid'])
+				->setGroupBy('a.questionid, a.questionchoiceid, a.value')
+				->addParameter('surveypublishid', $uSurveyPublishId)
 				->get()
 				->all();
 		}
