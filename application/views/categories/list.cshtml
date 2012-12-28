@@ -25,6 +25,7 @@
                         <thead>
                             <tr>
                                 <th>Title</th>
+								<th>Description</th>
                                 <th>Created At</th>
 								<th>Created By</th>
 								<th>Language</th>
@@ -35,8 +36,22 @@
                         <tbody>
 						@foreach($surveys as &$survey) {
                             <tr>
-								<td><a href="@mvc::url('takesurvey/index/' . $survey['surveyid'])">@$survey['title']</a> <em>(private, password)</em></td>
-                                <td>@statics::datePrint($survey['createdate'], false)</td>
+								<td><a href="@mvc::url('takesurvey/index/' . $survey['surveypublishid'])">@$survey['title']</a>
+								@{
+									$tProps = array();
+									if(strlen($survey['password']) > 0) {
+										$tProps[] = 'password';
+									}
+									if($survey['type'] != statics::SURVEY_PUBLIC) {
+										$tProps[] = 'private';
+									}
+
+									if(count($tProps) > 0) {
+										echo '(<em>', implode($tProps, ', '), '</em>)';
+									}
+								}</td>
+                                <td>@$survey['description']</td>
+								<td>@statics::datePrint($survey['createdate'], false)</td>
                                 <td>@$survey['ownerid']</td>
 								<td>@statics::$languagesWithCounts[$survey['languageid']]['name']</td>
 								<td>@$survey['enddate']</td>

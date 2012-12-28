@@ -33,13 +33,18 @@
 		/**
 		 * @ignore
 		 */
-		public function &getAllWithCounts() {
+		public function &getAllWithCounts($uIncludeDisabled = false) {
+			$tCondition = 'sp.surveyid=s.surveyid AND sp.startdate <= :now AND (sp.enddate IS NULL OR sp.enddate >= :now)';
+			if(!$uIncludeDisabled) {
+				$tCondition .= ' AND sp.enabled=\'1\'';
+			}
+
 			$tReturn = array();
 
 			$tQuery = $this->db->createQuery()
 				->setTable('categories c')
 				->joinTable('surveys s', 's.categoryid=c.categoryid', 'LEFT')
-				->joinTable('surveypublishs sp', 'sp.surveyid=s.surveyid AND sp.startdate <= :now AND (sp.enddate IS NULL OR sp.enddate >= :now)', 'LEFT')
+				->joinTable('surveypublishs sp', $tCondition, 'LEFT')
 				->addField('c.*')
 				->addField('COUNT(sp.*) AS count')
 				->setGroupBy('c.categoryid')

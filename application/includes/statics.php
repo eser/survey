@@ -10,6 +10,9 @@
 		const QUESTION_MULTIPLE = '1';
 		const QUESTION_FILL = '2';
 
+		const SURVEY_AUTHONLY = '0';
+		const SURVEY_PUBLIC = '1';
+
 		public static $user = null;
 		public static $categoriesWithCounts = null;
 		public static $languagesWithCounts = null;
@@ -59,8 +62,8 @@
 		);
 
 		public static $surveytypes = array(
-			 '0' => 'Auth-Only',
-			 '1' => 'Public'
+			 self::SURVEY_AUTHONLY => 'Auth-Only',
+			 self::SURVEY_PUBLIC => 'Public'
 		);
 
 		public static $surveystatus = array(

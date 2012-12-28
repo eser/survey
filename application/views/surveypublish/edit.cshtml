@@ -17,29 +17,25 @@
                     
                     <h3>Publish Survey</h3>
 
-                        <form id="addQuestion" method="post">
-                        <p>Description Goes Here:)</p>
-                        <p>Survey : @$publishSurveys['title']</p>
-                        <p> Start Date :  <input type="input" name="startdate" value="@$publishSurveys['startdate']"></p>
-                        <p> End Date :   <input type="input" name="enddate" value="@$publishSurveys['enddate']"></p>
-                        <p> Password :  <input type="password" name="password" value="@$publishSurveys['password']"></p>
-                        <p> Type :  <select type="select" name="type">
-                        <option value="0" @if($publishSurveys['type'] == '0'){ selected="selected" }> Public </option>
-                        <option value="1" @if($publishSurveys['type'] == '1'){ selected="selected" } > Authenticate </option>
-                        </select>
-                        </p>
-                        <p> Survey Publish Status :  <select type="select" name="enabled">
-                            <option value="0" @if($publishSurveys['enabled'] == '0'){ selected="selected" }> Disable </option>
-                            <option value="1" @if($publishSurveys['enabled'] == '1'){ selected="selected" } > Enable </option>
-                            </select>
-                        </p>
-                        <p> <input type="submit" value="Edit"></p>
-                        </form>
+					<form id="addQuestion" method="post" action="@mvc::url('surveypublish/edit/' . $publishSurveys['surveypublishid'])">
+					<p>Description Goes Here:)</p>
+					<p>Survey : @$publishSurveys['title']</p>
+					<p> Start Date :  <input type="text" name="startdate" value="@$publishSurveys['startdate']" /></p>
+					<p> End Date :   <input type="text" name="enddate" value="@$publishSurveys['enddate']" /></p>
+					<p> Password :  <input type="password" name="password" value="@$publishSurveys['password']" /></p>
+					<p> Limit :  <input type="text" name="limit" value="@$publishSurveys['limit']" /></p>
+					<p> Type :  <select name="type">
+					@html::selectOptions(statics::$surveytypes, $publishSurveys['type'])
+					</select>
+					</p>
+					<p> Survey Publish Status :  <select name="enabled">
+					@html::selectOptions(statics::$surveystatus, $publishSurveys['enabled'])
+					</select>
+					</p>
+					<p> <input type="submit" value="Edit" /></p>
+					</form>
 
-                    <div id="in-post-meta">
-                    	This entry was posted in <a href="#">Corporate Blog</a> by <a href="#">George</a> on 14 Feb, 2012.
-                    </div>
-                    
+                   
                 </div>
                 <!-- Page Content End -->
     

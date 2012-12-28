@@ -144,7 +144,7 @@
 		/**
 		 * @ignore
 		 */
-		public function checkPast($userid,$publishid) {
+		public function checkPast($userid, $publishid) {
 			return $this->db->createQuery()
 				->setTable('answers')
 				->addField('*')
@@ -158,10 +158,15 @@
 		/**
 		 * @ignore
 		 */
-		public function getAllByCategory($uCategoryId) {
+		public function getAllByCategory($uCategoryId, $uIncludeDisabled = false) {
+			$tCondition = 'sp.surveyid=s.surveyid AND sp.startdate <= :now AND (sp.enddate IS NULL OR sp.enddate >= :now)';
+			if(!$uIncludeDisabled) {
+				$tCondition .= ' AND sp.enabled=\'1\'';
+			}
+		
 			return $this->db->createQuery()
 				->setTable('surveys s')
-				->joinTable('surveypublishs sp', 'sp.surveyid=s.surveyid AND sp.startdate <= :now AND (sp.enddate IS NULL OR sp.enddate >= :now)', 'INNER')
+				->joinTable('surveypublishs sp', $tCondition, 'INNER')
 				->addField('s.*, sp.*')
 				->setWhere('s.categoryid=:categoryid')
 				->addParameter('now', time::toDb(time()))
@@ -173,10 +178,15 @@
 		/**
 		 * @ignore
 		 */
-		public function getAllByCategoryPaged($uCategoryId, $uOffset, $uLimit) {
+		public function getAllByCategoryPaged($uCategoryId, $uOffset, $uLimit, $uIncludeDisabled = false) {
+			$tCondition = 'sp.surveyid=s.surveyid AND sp.startdate <= :now AND (sp.enddate IS NULL OR sp.enddate >= :now)';
+			if(!$uIncludeDisabled) {
+				$tCondition .= ' AND sp.enabled=\'1\'';
+			}
+
 			return $this->db->createQuery()
 				->setTable('surveys s')
-				->joinTable('surveypublishs sp', 'sp.surveyid=s.surveyid AND sp.startdate <= :now AND (sp.enddate IS NULL OR sp.enddate >= :now)', 'INNER')
+				->joinTable('surveypublishs sp', $tCondition, 'INNER')
 				->addField('s.*, sp.*')
 				->setWhere('s.categoryid=:categoryid')
 				->setOffset($uOffset)

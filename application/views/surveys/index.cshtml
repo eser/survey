@@ -94,12 +94,13 @@
 										<tbody>
 										@foreach($surveypublishs[$survey['surveyid']] as $surveypublish) {
 											<tr>
-												<td>Revision @$surveypublish['revision']</td>
+												<td><a href="@mvc::url('surveypublish/edit/' . $surveypublish['surveypublishid'])">Revision @$surveypublish['revision']</a></td>
 												<td>Published by @$surveypublish['ownerid']</td>
 												<td>Between @$surveypublish['startdate'] and @$surveypublish['enddate']</td>
 												<td><em>(private, password)</em></td>
 												<td>0 response</td>
 												<td>
+													<a href="@mvc::url('surveypublish/edit/' . $surveypublish['surveypublishid'])">Edit</a> |
 													<a href="@mvc::url('surveys/report/' . $survey['surveyid'])">Report</a>
 												</td>
 											</tr>

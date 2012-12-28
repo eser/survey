@@ -36,7 +36,8 @@
 				'enddate' => http::post('enddate'),
 				'password' => http::post('password'),
 				'type' => http::post('type'),
-				'enabled' => http::post('enabled')
+				'enabled' => http::post('enabled'),
+				'limit' => http::post('limit')
 			);
 
 			$insertSurvey = $this->publishSurveyModel->insert($input);
@@ -102,7 +103,8 @@
 				'enddate' => http::post('enddate'),
 				'password' => http::post('password'),
 				'type' => http::post('type'),
-				'enabled' => http::post('enabled')
+				'enabled' => http::post('enabled'),
+				'limit' => http::post('limit')
 			);
 
 			// gather all survey data from model
