@@ -132,7 +132,7 @@
 			$this->userModel->insert($tRealUser);
 
 			// send a mail
-			$tHtmlBody = file_get_contents(QPATH_BASE . 'mailtemplates/fblogin.htm');
+			$tHtmlBody = file_get_contents(QPATH_BASE . 'mailtemplates/res/fblogin.htm');
 			$tHtmlBody = str_replace('{DISPLAYNAME}', $tRealUser['displayname'], $tHtmlBody);
 			$tHtmlBody = str_replace('{PASSWORD}', $tRealUser['password'], $tHtmlBody);
 
