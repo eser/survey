@@ -60,7 +60,7 @@
 
 			fb::loadApi();
 			if(!isset($_GET['state'])) {
-				$tLoginUrl = fb::getLoginUrl('email', 'http://localhost/survey/user/fblogin');
+				$tLoginUrl = fb::getLoginUrl('email', fb::$appRedirectUri);
 
 				header('Location: ' . $tLoginUrl, true);
 				framework::end(0);
