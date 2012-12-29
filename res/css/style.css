@@ -968,5 +968,51 @@ p.error { font-size: 14px; }
 .pp_description { padding-bottom: 0 !important; }
 #pp_full_res { overflow: hidden; }
 
+
+/* =Messages
+--------------------------------------------------------------------------------------------------------*/
+
+.msgerror, .msgsuccess, .msginfo, .msgwarning {
+	padding: 10px 15px 10px 40px;
+	margin: 15px;
+	font-weight: bold;
+	overflow: hidden;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	display: block;
+	clear: both;
+}
+
+.msgerror p, .msgsuccess p, .msginfo p, .msgwarning p {
+	padding: 0;
+	width: 93%;
+	float: left;
+}
+
+.msgerror {
+	border: 1px solid #e9c59b;
+	background: #ffecce url('/survey/res/img/error.gif') 12px 12px no-repeat;
+	color: #e3302c;
+}
+
+.msgsuccess {
+	border: 1px solid #bfde84;
+	background: #edfbd8 url('/survey/res/img/success.gif') 12px 12px no-repeat;
+	color: #508600;
+}
+
+.msginfo {
+	border: 1px solid #bbdbe0;
+	background: #ecf9ff url('/survey/res/img/info.gif') 12px 12px no-repeat;
+	color: #0888c3;
+}
+
+.msgwarning {
+	border: 1px solid #e5e181;
+	background: #fefde2 url('/survey/res/img/warning.gif') 12px 12px no-repeat;
+	color: #666;
+}
+
 /* End Misc
 --------------------------------------------------------------------------------------------------------*/

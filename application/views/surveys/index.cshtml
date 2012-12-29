@@ -22,7 +22,14 @@
                     </ul>
                 </div>
                 
-                <!-- Page Content Start -->
+				@if(session::existsFlash('notification')) {
+					@{ $notification = session::getFlash('notification'); }
+					<div class="msg@$notification[0]">
+					   <p>@$notification[1]</p>
+					</div>
+				}
+
+				<!-- Page Content Start -->
                 <div class="full-page-text">
 
                     <p>At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable.</p>

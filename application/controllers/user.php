@@ -29,6 +29,10 @@
 			// construct values from the request
 			$tInput = http::postArray(['email', 'password']);
 
+			// validate the request: login credentials
+			contracts::isEmail($tInput['email'])->exception('invalid e-mail address input');
+			contracts::isRequired($tInput['password'])->exception('password left empty');
+
 			// gather all user data from model
 			$this->load('userModel');
 			$tUser = $this->userModel->getByEmail($tInput['email']);
@@ -40,6 +44,7 @@
 			// assign the user data to view
 			$this->set('user', $tUser);
 
+			// assign the user data to session
 			session::set('user', $tUser);
 			statics::$user = &$tUser;
 			
