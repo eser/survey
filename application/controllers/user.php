@@ -347,7 +347,49 @@
 			// load and validate session data - only guests
 			statics::requireAuthentication(-1);
 
-			//TODO: mechanism
+			$this->load('userModel');
+
+			try {
+				// construct values for the record
+				$tInput = http::postArray(['email', 'verification']);
+
+				// validate the request
+				validation::addRule('email')->isEmail()->errorMessage('invalid e-mail address input');
+				$tUser = $this->userModel->getByEmail($tInput['email']); // get the account by e-mail
+
+				validation::addRule('email')->isNotFalse()->errorMessage('e-mail is not registered in system');
+				validation::addRule('verification')->custom(function($uValue) { // checks captcha is entered correctly
+					return captcha::check($uValue, 'registration');
+				})->errorMessage('verification code is invalid');
+
+				// if the input variables passes validation,
+				// create user and redirect user to homepage.
+				if(validation::validate($tInput)) {
+					// send an e-mail - apply template file
+					$tHtmlBody = statics::emailTemplate('res/mailtemplates/forgottenPassword.htm', $tUser);
+
+					// send an e-mail
+					$tNewMail = new mail();
+					$tNewMail->to = $tUser['email'];
+					$tNewMail->from = 'info@survey-e-bot.com';
+					$tNewMail->subject = 'Forgotten password for survey-e-bot account';
+					$tNewMail->headers['Content-Type'] = 'text/html; charset=utf-8';
+					$tNewMail->content = $tHtmlBody;
+					$tNewMail->send();
+
+					// set notification and redirect user to homepage after registration
+					session::setFlash('loginNotification', ['success', 'Your password is sent to your inbox. Check your e-mail for details.']);
+					mvc::redirect('home/index');
+
+					return;
+				}
+
+				session::setFlash('notification', ['warning', 'Validation Errors:<br />' . implode('<br />', validation::getErrorMessages(true))]);
+			}
+			catch(Exception $ex) {
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
+			}
 
 			// render the page
 			$this->view();
