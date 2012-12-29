@@ -131,12 +131,18 @@
 			
 			$this->userModel->insert($tRealUser);
 
-			smtp::send(
-				'info@survey-e-bot.com', // 'Survey-e-bot <info@survey-e-bot.com>',
-				$tRealUser['email'], // $tRealUser['displayname'] . ' <' . $tRealUser['email'] . '>',
-				'Your account | Welcome to the survey-e-bot',
-				'Your password is: ' . $tRealUser['password']
-			);
+			// send a mail
+			$tHtmlBody = file_get_contents(QPATH_BASE) . 'mailtemplates/fblogin.htm';
+			$tHtmlBody = str_replace('{DISPLAYNAME}', $tRealUser['displayname'], $tHtmlBody);
+			$tHtmlBody = str_replace('{PASSWORD}', $tRealUser['password'], $tHtmlBody);
+
+			$tNewMail = new mail();
+			$tNewMail->to = $tRealUser['email'];
+			$tNewMail->from = 'info@survey-e-bot.com';
+			$tNewMail->subject = 'Your survey-e-bot account';
+			$tNewMail->headers['Content-Type'] = 'text/html; charset=utf-8';
+			$tNewMail->content = $tHtmlBody;
+			$tNewMail->send();
 
 			return $tRealUser;
 		}
