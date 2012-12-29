@@ -190,6 +190,10 @@ $l.ready(function() {
 			userlogout,
 			'click',
 			function() {
+				if(!confirm('Are you sure to log out?')) {
+					return false;
+				}
+
 				window.location = $l.baseLocation + '/user/login';
 				return false;
 			}

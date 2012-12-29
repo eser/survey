@@ -40,6 +40,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 .padding10px { padding: 10px; }
 .paddingLeft50px { padding-left: 50px !important; }
 .cellpadding4px td { padding: 4px; }
+.width200px { width: 200px; }
 .bglight { background: #F1FDEB; }
 img { border: 0; }
 

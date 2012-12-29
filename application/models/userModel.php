@@ -11,7 +11,6 @@
 			return $this->db->createQuery()
 				->setTable('users')
 				->addField('*')
-				// ->setWhere(['deletedate IS NULL'])
 				->get()
 				->all();
 		}

@@ -21,6 +21,7 @@
 		<extension>captcha</extension>
 		<extension>fb</extension>
 		<extension>smtp</extension>
+		<extension>media</extension>
 	</extensionList>
 
 	<i8n>

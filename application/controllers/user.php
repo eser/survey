@@ -48,6 +48,10 @@
 				throw new Exception('no such user or password incorrect.');
 			}
 
+			if(!is_null($tUser['emailverification'])) {
+				throw new Exception('your account is not verified, check your e-mail account to complete verification phase');
+			}
+
 			// assign the user data to view
 			$this->set('user', $tUser);
 
@@ -134,7 +138,8 @@
 				[
 					'displayname' => $uUser->object['name'],
 					'email' => $uUser->object['email'],
-					'facebookid' => $uUser->object['id']
+					'facebookid' => $uUser->object['id'],
+					'emailverification' => null
 				]
 			);
 
@@ -156,7 +161,8 @@
 				'phonenumber' => '',
 				'password' => string::generatePassword(6),
 				'facebookid' => $uUser->object['id'],
-				'languageid' => 'en'
+				'languageid' => 'en',
+				'emailverification' => null
 			];
 
 			// insert the constructed record into the database
@@ -179,6 +185,51 @@
 		}
 
 		/**
+		 * verifies user account
+		 */
+		public function get_verify($uUserId, $uCode) {
+			// load and validate session data
+			statics::requireAuthentication(0);
+
+			// logout user first
+			session::remove('user');
+			statics::$user = null;
+
+			try {
+				// validate the request
+				contracts::isUuid($uUserId)->exception('invalid user id format');
+				contracts::length($uCode, 8)->exception('invalid verification code');
+
+				$this->load('userModel');
+				$tUser = $this->userModel->get($uUserId);
+				contracts::isNotFalse($tUser)->exception('invalid user id');
+				contracts::isRequired($tUser['emailverification'])->exception('user account is already verified');
+				contracts::isEqual($uCode, $tUser['emailverification'])->exception('verification codes does not match');
+
+				// update user record as verified
+				$this->userModel->update(
+					$tUser['userid'],
+					[
+						'emailverification' => null
+					]
+				);
+
+				// assign the user data to session
+				session::set('user', $tUser);
+				// statics::$user = &$tUser; // not necessary
+
+				session::setFlash('loginNotification', ['success', 'You have just verified your user account']);
+			}
+			catch(Exception $ex) {
+				// logout notification
+				session::setFlash('loginNotification', ['error', $ex->getMessage()]);
+			}
+
+			// redirect user to homepage
+			mvc::redirect('home/index');
+		}
+
+		/**
 		 * registration page
 		 */
 		public function get_register() {
@@ -196,33 +247,83 @@
 			// load and validate session data - only guests
 			statics::requireAuthentication(-1);
 
-			// construct values for the record
-			$tUser = http::postArray(['displayname', 'firstname', 'lastname', 'phonenumber', 'email', 'password']);
-			$tUser['userid'] = string::generateUuid();
-			$tUser['logo'] = ''; // facebook profile picture - https://graph.facebook.com/hasan.atbinici/picture
-			$tUser['facebookid'] = $uUser->object['id'];
-			$tUser['languageid'] = 'en';
-
-			// compare the passwords
-			if($tUser['password'] != http::post('password2')) {
-				throw new Exception('passwords do not match.');
-			}
-
-			// insert the constructed record into the database
 			$this->load('userModel');
-			$this->userModel->insert($tUser);
 
-			// send an e-mail - apply template file
-			$tHtmlBody = statics::emailTemplate('res/mailtemplates/register.htm', $tUser);
+			try {
+				// construct values for the record
+				$tUser = http::postArray(['displayname', 'firstname', 'lastname', 'phonenumber', 'email', 'password', 'languageid', 'verification']);
+				$tUser['userid'] = string::generateUuid();
+				$tUser['emailverification'] = string::generate(8);
+				$tUser['facebookid'] = '';
 
-			// send an e-mail
-			$tNewMail = new mail();
-			$tNewMail->to = $tRealUser['email'];
-			$tNewMail->from = 'info@survey-e-bot.com';
-			$tNewMail->subject = 'Your survey-e-bot account';
-			$tNewMail->headers['Content-Type'] = 'text/html; charset=utf-8';
-			$tNewMail->content = $tHtmlBody;
-			$tNewMail->send();
+				// if logo is being uploaded
+				if(isset($_FILES['logofile']) && strlen($_FILES['logofile']['tmp_name']) > 0) {
+					// open the temporary file and resize it
+					$tFile = media::open($_FILES['logofile']['tmp_name']);
+					$tFile->resize('400', '150');
+					$tFile->mime = 'image/png';
+
+					// write the modified file in proper path
+					$tUser['logo'] = 'logos/' . $tUser['userid'];
+					$tPath = framework::writablePath($tUser['logo']);
+					if(file_exists($tPath)) {
+						unlink($tPath);
+					}
+					$tFile->save($tPath);
+				}
+				else {
+					$tUser['logo'] = '';
+				}
+
+				// validate the request
+				validation::addRule('displayname')->lengthMinimum(3)->errorMessage('display name length must be 3 at least');
+				validation::addRule('firstname')->lengthMinimum(3)->errorMessage('first name length must be 3 at least');
+				validation::addRule('lastname')->lengthMinimum(3)->errorMessage('last name length must be 3 at least');
+				validation::addRule('email')->isEmail()->errorMessage('invalid e-mail address input');
+				validation::addRule('email')->custom(function($uValue) /* use ($this) */ { // checks e-mail is already taken
+					$tTempCheck = $this->userModel->getByEmail($uValue);
+					return ($tTempCheck === false);
+				})->errorMessage('e-mail is already registered in system');
+				validation::addRule('password')->lengthMinimum(3)->errorMessage('password length must be 3 at least');
+				validation::addRule('languageid')->inKeys(statics::$languagesWithCounts)->errorMessage('primary language is invalid');
+				validation::addRule('password')->isEqual(http::post('password2'))->errorMessage('passwords do not match');
+				validation::addRule('verification')->custom(function($uValue) { // checks captcha is entered correctly
+					return captcha::check($uValue, 'registration');
+				})->errorMessage('verification code is invalid');
+
+				// if the input variables passes validation,
+				// create user and redirect user to homepage.
+				if(validation::validate($tUser)) {
+					unset($tUser['verification']);
+
+					// insert the constructed record into the database
+					$this->userModel->insert($tUser);
+
+					// send an e-mail - apply template file
+					$tHtmlBody = statics::emailTemplate('res/mailtemplates/register.htm', $tUser);
+
+					// send an e-mail
+					$tNewMail = new mail();
+					$tNewMail->to = $tUser['email'];
+					$tNewMail->from = 'info@survey-e-bot.com';
+					$tNewMail->subject = 'Your survey-e-bot account';
+					$tNewMail->headers['Content-Type'] = 'text/html; charset=utf-8';
+					$tNewMail->content = $tHtmlBody;
+					$tNewMail->send();
+
+					// set notification and redirect user to homepage after registration
+					session::setFlash('loginNotification', ['success', 'You have just created an user account. Check your e-mail for details.']);
+					mvc::redirect('home/index');
+
+					return;
+				}
+
+				session::setFlash('notification', ['warning', 'Validation Errors:<br />' . implode('<br />', validation::getErrorMessages(true))]);
+			}
+			catch(Exception $ex) {
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
+			}
 
 			// render the page
 			$this->view();
