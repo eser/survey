@@ -42,6 +42,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 .cellpadding4px td { padding: 4px; }
 .width200px { width: 200px; }
 .bglight { background: #F1FDEB; }
+.valignTop { vertical-align: top; }
 img { border: 0; }
 
 

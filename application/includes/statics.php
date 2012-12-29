@@ -207,15 +207,20 @@
 		 * gets the specified template file and replace bindings with the user data
 		 *
 		 * @param $uPath string template file's path
-		 * @param $uUser array user data
+		 * @param $uValues array array of replacements will be made
+		 * @param $uArray base array
 		 */
-		public static function &emailTemplate($uPath, $uUser) {
+		public static function &emailTemplate($uPath, $uValues, $uArray = array()) {
 			$tHtmlBody = file_get_contents(QPATH_BASE . $uPath);
-			$tHtmlBody = str_replace('{URL}', http::baseUrl(), $tHtmlBody);
-			$tHtmlBody = str_replace('{DISPLAYNAME}', $uUser['displayname'], $tHtmlBody);
-			$tHtmlBody = str_replace('{PASSWORD}', $uUser['password'], $tHtmlBody);
-			$tHtmlBody = str_replace('{USERID}', $uUser['userid'], $tHtmlBody);
-			$tHtmlBody = str_replace('{EMAILVERIFICATION}', $uUser['emailverification'], $tHtmlBody);
+
+			$uArray['{URL}'] = http::baseUrl();
+			foreach($uValues as $tKey => &$tValue) {
+				$uArray['{' . strtoupper($tKey) . '}'] = $tValue;
+			}
+
+			foreach($uArray as $tKey => &$tValue) {
+				$tHtmlBody = str_replace($tKey, $tValue, $tHtmlBody);
+			}
 
 			return $tHtmlBody;
 		}

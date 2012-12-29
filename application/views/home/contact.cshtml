@@ -9,31 +9,44 @@
                     </ul>
                 </div>
                 
+				@if(session::existsFlash('notification')) {
+					@{ $notification = session::getFlash('notification'); }
+					<div class="msg@$notification[0]">
+					   <p>@$notification[1]</p>
+					</div>
+				}
+
                 <!-- Page Content Start -->
                 <div class="full-page-text">
                 
                     <p>At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable.</p>
-                    
+
                     <!-- Contact Form -->
                     <h3>Contact Form</h3>
                     <form id="contact" action="@mvc::url('home/contact')" method="post">
-                        <fieldset>
-                            <label id="name_label" for="name">Name</label>
-                            <span id="name">@statics::$user['displayname']</span>
-                        </fieldset>
-                        <fieldset>
-                            <label id="email_label" for="email">E-mail</label>
-                            <span id="email">@statics::$user['email']</span>
-                        </fieldset>
-                        <fieldset>
-                            <label id="subject_label" for="subject">Subject</label>
-                            <input type="text" size="50" value="" id="subject" name="subject" />
-                        </fieldset>
-                        <fieldset>
-                            <label id="msg_label" for="msg">Message *</label>
-                            <textarea id="msg" name="msg" rows="10" cols="10" class="required"></textarea>
-                        </fieldset>
-                        <input type="submit" value="Send Message" id="submit_btn" name="submit" />
+                        <table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td class="width200px"><label id="name_label" for="name">Name</label></td>
+								<td><span id="name">@statics::$user['displayname']</span></td>
+							</tr>
+							<tr>
+								<td><label id="email_label" for="email">E-mail</label></td>
+								<td><span id="email">@statics::$user['email']</span></td>
+							</tr>
+							<tr>
+								<td><label id="subject_label" for="subject">Subject *</label></td>
+								<td><input type="text" size="50" value="@http::post('subject', '')" id="subject" name="subject" class="required" /></td>
+							</tr>
+							<tr>
+								<td class="valignTop"><label id="msg_label" for="msg">Message *</label></td>
+								<td><textarea id="msg" name="msg" rows="10" cols="10" class="required">@http::post('msg', '')</textarea></td>
+							</tr>
+							<tr>
+                            	<td colspan="2" class="alignRight">
+									<input type="submit" value="Send" id="submit_btn" name="submit" />
+								</td>
+							</tr>
+						</table>
                     </form>
     
                 </div>
