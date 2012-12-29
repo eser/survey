@@ -23,33 +23,54 @@
 						<li><a class="paddingLeft50px" href="@mvc::url('surveys/index')">Existing Surveys</a></li>
 						<li><a class="paddingLeft50px" href="@mvc::url('questions/index')">Question Pool</a></li>
 					<li><a href="@mvc::url('user/profile')">Profile</a></li>
-					<li><a href="@mvc::url('user/login')">Logout</a></li>
                 </ul>
 				}
             </div>
 
-			@if(is_null(statics::$user)) {
+		@if(session::existsFlash('loginNotification')) {
+			@{ $loginNotification = session::getFlash('loginNotification'); }
+			<div class="msg@$loginNotification[0]">
+			   <p>@$loginNotification[1]</p>
+			</div>
+		}
+
+		@if(is_null(statics::$user)) {
 			<!-- Login Widget -->
             <div class="widget w-login">
                 <h4 class="w-title title-light">Login</h4>
                 <div class="w-content">
 					<form id="loginform" method="post" action="@mvc::url('user/login')">
-						E-Mail: <input type="text" name="email" value="" /><br />
-						Password: <input type="password" name="password" value="" /><br />
-						<input class="inlineBlock" type="submit" value="Send" />
-						<input id="fblogin" type="button" />
+						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr><td>E-Mail:</td><td><input type="text" name="email" value="" /></td></tr>
+							<tr><td>Password:</td><td><input type="password" name="password" value="" /></td></tr>
+							<tr><td colspan="2" class="alignRight">
+								<input id="fblogin" type="button" />
+								<input class="inlineBlock" type="submit" value="Send" />
+							</td></tr>
+						</table>
 					</form>
 				</div>
-			</div>
-			
-			<div class="widget w-login">
-                <h4 class="w-title title-light">Login</h4>
+
 				<ul>
 					<li><a href="@mvc::url('user/register')">Register</a></li>
 					<li><a href="@mvc::url('user/forgottenpassword')">Forgotten Password</a></li>
 				</ul>
 			</div>
-			}
+		} else {
+			<!-- Login Widget -->
+            <div class="widget w-login">
+                <h4 class="w-title title-light">Login</h4>
+                <div class="w-content">
+					<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr><td>Name:</td><td><input type="text" value="@statics::$user['displayname']" disabled="disabled" /></td></tr>
+						<tr><td>E-Mail:</td><td><input type="text" value="@statics::$user['email']" disabled="disabled" /></td></tr>
+						<tr><td colspan="2" class="alignRight">
+							<input id="userlogout" class="inlineBlock" type="button" value="Logout" />
+						</td></tr>
+					</table>
+				</div>
+			</div>
+		}
 
 			<!-- News Widget -->
 @{

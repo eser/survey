@@ -183,4 +183,16 @@ $l.ready(function() {
 			}
 		);
 	}
+
+	var userlogout = $l.dom.selectSingle('#userlogout');
+	if(userlogout != null) {
+		$l.dom.setEvent(
+			userlogout,
+			'click',
+			function() {
+				window.location = $l.baseLocation + '/user/login';
+				return false;
+			}
+		);
+	}
 });

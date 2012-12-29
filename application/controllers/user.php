@@ -16,6 +16,9 @@
 			session::remove('user');
 			statics::$user = null;
 
+			// logout notification
+			session::setFlash('loginNotification', ['success', 'You have signed out successfully']);
+
 			// redirect user to homepage
 			mvc::redirect('home/index');
 		}
@@ -96,6 +99,8 @@
 			if($tRealUser === false) {
 				// if there is no such user, just register it
 				$tRealUser = $this->registerWithFacebook($tUser);
+
+				session::setFlash('loginNotification', ['success', 'You have created a login by using Facebook. Check your e-mail for your generated password.']);
 			}
 
 			// assign the user data to view
@@ -104,8 +109,6 @@
 			// assign the user data to session
 			session::set('user', $tRealUser);
 			statics::$user = &$tRealUser;
-
-			//TODO: flash notification
 
 			// redirect user to homepage
 			mvc::redirect('home/index');

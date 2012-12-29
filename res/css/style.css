@@ -39,6 +39,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 .marginBottom30px { margin-bottom: 30px; }
 .padding10px { padding: 10px; }
 .paddingLeft50px { padding-left: 50px !important; }
+.cellpadding4px td { padding: 4px; }
 .bglight { background: #F1FDEB; }
 img { border: 0; }
 
@@ -149,20 +150,20 @@ blockquote {
 #portfolio .col-33 { width: 188px; }
 
 /* tables */
-table { border-collapse: collapse; font-size: 12px; cursor: default; }
-table th {
+table.extable { border-collapse: collapse; font-size: 12px; cursor: default; }
+table.extable th {
 	background: #EFEFEF;
 	font-weight: 300;
 	text-align: left;
 	padding: 5px 10px 6px 14px;
 	border: #DDE0E4 1px solid;
 }
-table td {
+table.extable td {
 	padding: 5px 10px 6px 14px;
 	border: #DDE0E4 1px solid;
 	color: #999999;
 }
-table tr:hover td { background: #FFc; color: #888; }
+table.extable tr:hover td { background: #FFc; color: #888; }
 .cell-hidden { border: none; background: none; }
 .innertable tr td:first-child {
 	background: url('/survey/res/img/li-inner.png') 0px 13px no-repeat;
