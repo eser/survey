@@ -161,6 +161,17 @@
 		public static function selectboxThemes($uDefault = null) {
 			return html::selectOptions(self::$themesWithCounts, $uDefault, 'name');
 		}
+
+		/**
+		 * @ignore
+		 */
+		public static function &emailTemplate($uPath, $uUser) {
+			$tHtmlBody = file_get_contents(QPATH_BASE) . $uPath;
+			$tHtmlBody = str_replace('{DISPLAYNAME}', $uUser['displayname'], $tHtmlBody);
+			$tHtmlBody = str_replace('{PASSWORD}', $uUser['password'], $tHtmlBody);
+
+			return $tHtmlBody;
+		}
 	}
 
 ?>
