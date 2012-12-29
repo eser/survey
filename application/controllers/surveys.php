@@ -135,7 +135,7 @@
 			// construct values for the record
 			$tInput = http::postArray(['title', 'description', 'categoryid', 'themeid', 'languageid']);
 
-			// validate values
+			// validate the request
 			contracts::lengthMinimum($tInput['title'], 3)->exception('title length must be 3 at least');
 			contracts::lengthMinimum($tInput['description'], 3)->exception('description length must be 3 at least');
 			contracts::isUuid($tInput['categoryid'])->exception('invalid category id format');

@@ -19,7 +19,7 @@
 			// load and validate session data
 			statics::requireAuthentication(1);
 
-			// #1 validate the request: page numbers
+			// validate the request: page numbers
 			$tPage = intval($uPage);
 			contracts::isMinimum($tPage, 1)->exception('invalid page number');
 			$tOffset = ($tPage - 1) * self::PAGE_SIZE;
@@ -60,7 +60,7 @@
 			$tInput['questionid'] = string::generateUuid();
 			$tInput['ownerid'] = statics::$user['userid'];
 
-			// validate values
+			// validate the request
 			contracts::lengthMinimum($tInput['content'], 3)->exception('question length must be 3 at least');
 			contracts::inKeys($tInput['type'], statics::$questiontypes)->exception('question type is invalid');
 			contracts::inKeys($tInput['typefilter'], statics::$questiontypefilters)->exception('question type filter is invalid');

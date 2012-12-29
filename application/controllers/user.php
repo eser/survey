@@ -1,24 +1,39 @@
 <?php
 
 	/**
-	 * @ignore
+	 * user controller
+	 * action methods for all user/* urls
 	 */
 	class user extends controller {
 		/**
-		 * @ignore
+		 * removes the previous session and makes user ready to login
+		 */
+		public function get_login() {
+			// load and validate session data
+			statics::requireAuthentication(0);
+
+			// removes user information from the session
+			session::remove('user');
+			statics::$user = null;
+
+			// redirect user to homepage
+			mvc::redirect('home/index');
+		}
+
+		/**
+		 * ajaxified login
 		 */
 		public function postajax_login() {
 			// statics::requireAuthentication(0);
 
-			$this->load('userModel');
-
-			$tEmail = http::post('email');
-			$tPassword = http::post('password');
+			// construct values from the request
+			$tInput = http::postArray(['email', 'password']);
 
 			// gather all user data from model
-			$tUser = $this->userModel->getByEmail($tEmail);
+			$this->load('userModel');
+			$tUser = $this->userModel->getByEmail($tInput['email']);
 
-			if($tUser === false || strcmp($tPassword, $tUser['password']) != 0) {
+			if($tUser === false || strcmp($tInput['password'], $tUser['password']) != 0) {
 				throw new Exception('no such user or password incorrect.');
 			}
 
@@ -30,18 +45,6 @@
 			
 			// render the page
 			$this->json();
-		}
-
-		/**
-		 * @ignore
-		 */
-		public function get_login() {
-			statics::requireAuthentication(0);
-
-			session::remove('user');
-			statics::$user = null;
-
-			mvc::redirect('home/index');
 		}
 
 		/**
