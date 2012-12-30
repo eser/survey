@@ -23,6 +23,12 @@
 			// load and validate session data - guests allowed
 			statics::requireAuthentication(0);
 
+			// gather all question data from model
+			$this->load('faqModel');
+			$tFaqData = $this->faqModel->getAll();
+
+			$this->setRef('faq', arrays::categorize($tFaqData, 'name'));
+
 			// render the page
 			$this->view();
 		}

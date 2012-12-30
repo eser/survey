@@ -285,8 +285,8 @@ h6 {
 #main-nav {
 	line-height: 33px;
 	font-size: 14px;
-	margin-bottom: 40px;
 	float: left;
+	background: #24D4FA;
 }
 #main-nav ul li a {
 	text-decoration: none;
@@ -552,8 +552,8 @@ a:hover.comments-count { background-position: 0 -48px; text-decoration: none; }
 
 img.thumbnail { margin-bottom: 14px !important; }
 
-.accordion { padding-bottom: 20px; clear: both; }
-.accordionTitle, .tabs li a {
+.accordion, .accordion2 { padding-bottom: 20px; clear: both; }
+.accordionTitle, .accordionTitle2, .tabs li a {
 	margin-top: 10px;
 	background: #EFEFEF url('/survey/res/img/plus-minus.png') 14px 7px no-repeat;
 	border: 1px solid #e3e3e3;
@@ -566,14 +566,14 @@ img.thumbnail { margin-bottom: 14px !important; }
 }
 .accordionTitle:hover { background-color: #ffc; }
 .a-open { background-position: 14px -75px; }
-.accordionContent {
+.accordionContent, .accordionContent2 {
 	padding: 14px;
 	overflow: hidden;
 	border: 1px solid #e3e3e3;
 	border-top: none;
 }
-.accordionContent .l-child, .tab-content .l-child { padding-bottom: 5px; }
-.accordionContent *:last-child, .tab-content *:last-child { padding-bottom: 5px; }
+.accordionContent .l-child, .accordionContent2 .l-child, .tab-content .l-child { padding-bottom: 5px; }
+.accordionContent *:last-child, .accordionContent2 *:last-child, .tab-content *:last-child { padding-bottom: 5px; }
 
 .tabs_table { clear: both; }
 .tabs {	padding: 0 0 0 1px !important; margin-bottom: -1px; height: 34px; }
@@ -697,7 +697,7 @@ a:hover.more {
 	font-size: 12px;
 	line-height: 18px;
 }
-#left-col .widget { padding: 0 25px 35px 25px; width: 230px; }
+#left-col .widget { padding: 30px 25px 5px 25px; width: 230px; }
 #left-col .w-title { padding: 0 0 6px; font-weight: normal; }
 
 /* homepage widgets */
