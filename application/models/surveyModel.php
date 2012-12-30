@@ -146,6 +146,7 @@
 				->setOffset($uOffset)
 				->setLimit($uLimit)
 				->setWhere(['ownerid=:ownerid'])
+				->setOrderBy('categoryid ASC')
 				->addParameter('ownerid', $uOwnerId)
 				->get()
 				->all();

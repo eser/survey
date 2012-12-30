@@ -32,94 +32,87 @@
 				<!-- Page Content Start -->
                 <div class="full-page-text">
 
-                    <p>At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable.</p>
-
                     <!-- User Details -->
-					<div class="marginBottom30px">
-						<h3>Publish a Survey</h3>
-						<div class="bglight padding10px">
-							<form method="post" action="@mvc::url('surveypublish/new')">
-								<p>
-									Survey :
-									<select name="surveyid" id="surveyid">
-									@html::selectOptions($surveynames, null, 'title')
-									</select>
-								</p>
-								<p><input type="submit" value="Publish Survey" id="publishsurvey" /></p>
-							</form>
-						</div>
-					</div>
-
 					<div>
 						<h3 class="floatleft">Existing Surveys</h3>
 						<a href="@mvc::url('surveys/new')" class="more floatright">Create New</a>
 						<div class="clear"></div>
 					</div>
 
-                    <table class="extable" width="100%" cellspacing="0" cellpadding="0">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-								<th>Description</th>
-                                <th>Created At</th>
-								<th>Category</th>
-								<th>Language</th>
-								<th>Total Responses</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-						@foreach($surveys as &$survey) {
-                            <tr>
-								<td><a href="@mvc::url('surveys/questions/' . $survey['surveyid'])">@$survey['title']</a></td>
-								<td>@$survey['description']</td>
-                                <td>@statics::datePrint($survey['createdate'], false)</td>
-                                <td>@statics::$categoriesWithCounts[$survey['categoryid']]['name']</td>
-								<td>@statics::$languagesWithCounts[$survey['languageid']]['name']</td>
-                                <td>0</td>
-                                <td>
-									<a href="@mvc::url('surveys/edit/' . $survey['surveyid'])">Edit</a> |
-									<a href="@mvc::url('surveys/questions/' . $survey['surveyid'])">Questions</a> |
-									<a href="@mvc::url('surveypublish/new/' . $survey['surveyid'])">Publish</a>
-								</td>
-                            </tr>
-							@if(isset($surveypublishs[$survey['surveyid']])) {
-							<tr>
-								<td colspan="7">
-									<table class="extable" width="100%" cellspacing="0" cellpadding="0" class="innertable">
-										<!--
-										<thead>
-											<tr>
-												<th>Publisher</th>
-												<th>Validity</th>
-												<th>Properties</th>
-												<th>Responses</th>
-												<th></th>
-											</tr>
-										</thead>
-										-->
-										<tbody>
-										@foreach($surveypublishs[$survey['surveyid']] as $surveypublish) {
-											<tr>
-												<td><a href="@mvc::url('surveypublish/edit/' . $surveypublish['surveypublishid'])">Revision @$surveypublish['revision']</a></td>
-												<td>Published by @$surveypublish['ownerid']</td>
-												<td>Between @$surveypublish['startdate'] and @$surveypublish['enddate']</td>
-												<td><em>(private, password)</em></td>
-												<td>0 response</td>
-												<td>
-													<a href="@mvc::url('surveypublish/edit/' . $surveypublish['surveypublishid'])">Edit</a> |
-													<a href="@mvc::url('surveys/report/' . $survey['surveyid'])">Report</a>
-												</td>
-											</tr>
-										}
-										</tbody>
-									</table>
-								</td>
-                            </tr>
-							}
+                    <p>At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable.</p>
+
+					@{ $tLastCategory = null; }
+					@foreach($surveys as &$survey) {
+						@if($survey['categoryid'] != $tLastCategory) {
+							<h3>@statics::$categoriesWithCounts[$survey['categoryid']]['name']</h3>
+							@{ $tLastCategory = $survey['categoryid']; }
 						}
-                        </tbody>
-                    </table>
+
+						<div class="accordion">
+							<div class="accordionTitle">@$survey['title']</div>
+							<div class="accordionContent">
+								<table class="cellpadding4px" width="100%" cellpadding="0" cellspacing="0">
+								<tr>
+									<th>Title:</th>
+									<td><a href="@mvc::url('surveys/questions/' . $survey['surveyid'])">@$survey['title']</a></td>
+									<th>Created At:</th>
+									<td>@statics::datePrint($survey['createdate'], false)</td>
+								</tr>
+								<tr>
+									<th>Category:</th>
+									<td>@statics::$categoriesWithCounts[$survey['categoryid']]['name']</td>
+									<th>Language:</th>
+									<td>@statics::$languagesWithCounts[$survey['languageid']]['name']</td>
+								</tr>
+								<tr>
+									<th>Theme:</th>
+									<td>@statics::$themesWithCounts[$survey['themeid']]['name']</td>
+									<th>Total Responses:</th>
+									<td>0</td>
+								</tr>
+								<tr>
+									<th>Description:</th>
+									<td colspan="3">@$survey['description']</td>
+								</tr>
+								</table>
+								@if(isset($surveypublishs[$survey['surveyid']])) {
+								<table class="extable innertable" width="100%" cellspacing="0" cellpadding="0">
+									<thead>
+										<tr>
+											<th>Revision</th>
+											<th>Start Date</th>
+											<th>End Date</th>
+											<th>Responses</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+									@foreach($surveypublishs[$survey['surveyid']] as $surveypublish) {
+										<tr>
+											<td>
+												<a href="@mvc::url('surveypublish/edit/' . $surveypublish['surveypublishid'])">Revision @$surveypublish['revision']</a>
+												<em>(private, password)</em>
+											</td>
+											<td>@$surveypublish['startdate']</td>
+											<td>@$surveypublish['enddate']</td>
+											<td>0</td>
+											<td>
+												<a href="@mvc::url('surveypublish/edit/' . $surveypublish['surveypublishid'])">Edit</a> |
+												<a href="@mvc::url('surveys/report/' . $survey['surveyid'])">Report</a>
+											</td>
+										</tr>
+									}
+									</tbody>
+								</table>
+								}
+								<p class="alignRight marginTop10px">
+									<a class="xbutton" href="@mvc::url('surveys/edit/' . $survey['surveyid'])">Edit</a>
+									<a class="xbutton" href="@mvc::url('surveys/questions/' . $survey['surveyid'])">Questions</a>
+									<a class="xbutton" href="@mvc::url('surveypublish/new/' . $survey['surveyid'])">Publish</a>
+								</p>
+							</div>
+						</div>
+					}
 
 					<!-- Pagination -->
 					<ul id="pagination" class="margintop10px">
