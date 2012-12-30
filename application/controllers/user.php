@@ -254,7 +254,7 @@
 				$tUser = http::postArray(['displayname', 'firstname', 'lastname', 'phonenumber', 'email', 'password', 'languageid', 'verification']);
 				$tUser['userid'] = string::generateUuid();
 				$tUser['emailverification'] = string::generate(8);
-				$tUser['facebookid'] = '';
+				$tUser['facebookid'] = null;
 
 				// validate the request
 				validation::addRule('displayname')->lengthMinimum(3)->errorMessage('display name length must be 3 at least');
