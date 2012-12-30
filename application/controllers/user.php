@@ -256,25 +256,6 @@
 				$tUser['emailverification'] = string::generate(8);
 				$tUser['facebookid'] = '';
 
-				// if logo is being uploaded
-				if(isset($_FILES['logofile']) && strlen($_FILES['logofile']['tmp_name']) > 0) {
-					// open the temporary file and resize it
-					$tFile = media::open($_FILES['logofile']['tmp_name']);
-					$tFile->resize('400', '150');
-					$tFile->mime = 'image/png';
-
-					// write the modified file in proper path
-					$tUser['logo'] = 'logos/' . $tUser['userid'];
-					$tPath = framework::writablePath($tUser['logo']);
-					if(file_exists($tPath)) {
-						unlink($tPath);
-					}
-					$tFile->save($tPath);
-				}
-				else {
-					$tUser['logo'] = '';
-				}
-
 				// validate the request
 				validation::addRule('displayname')->lengthMinimum(3)->errorMessage('display name length must be 3 at least');
 				validation::addRule('firstname')->lengthMinimum(3)->errorMessage('first name length must be 3 at least');
@@ -285,8 +266,8 @@
 					return ($tTempCheck === false);
 				})->errorMessage('e-mail is already registered in system');
 				validation::addRule('password')->lengthMinimum(3)->errorMessage('password length must be 3 at least');
-				validation::addRule('languageid')->inKeys(statics::$languagesWithCounts)->errorMessage('primary language is invalid');
 				validation::addRule('password')->isEqual(http::post('password2'))->errorMessage('passwords do not match');
+				validation::addRule('languageid')->inKeys(statics::$languagesWithCounts)->errorMessage('primary language is invalid');
 				validation::addRule('verification')->custom(function($uValue) { // checks captcha is entered correctly
 					return captcha::check($uValue, 'registration');
 				})->errorMessage('verification code is invalid');
@@ -295,6 +276,25 @@
 				// create user and redirect user to homepage.
 				if(validation::validate($tUser)) {
 					unset($tUser['verification']);
+
+					// if logo is being uploaded
+					if(isset($_FILES['logofile']) && strlen($_FILES['logofile']['tmp_name']) > 0) {
+						// open the temporary file and resize it
+						$tFile = media::open($_FILES['logofile']['tmp_name'], $_FILES['logofile']['name']);
+						$tFile->resize('400', '150');
+						$tFile->mime = 'image/png';
+
+						// write the modified file in proper path
+						$tUser['logo'] = 'logos/' . $tUser['userid'] . '.png';
+						$tPath = framework::writablePath($tUser['logo']);
+						if(file_exists($tPath)) {
+							unlink($tPath);
+						}
+						$tFile->save($tPath);
+					}
+					else {
+						$tUser['logo'] = '';
+					}
 
 					// insert the constructed record into the database
 					$this->userModel->insert($tUser);
@@ -413,21 +413,60 @@
 			// load and validate session data
 			statics::requireAuthentication(1);
 
-			// construct values for the record
-			$tValues = http::postArray(['displayname', 'firstname', 'lastname', 'phonenumber', 'email', 'password']);
-			$tValues['logo'] = '';
+			try {
+				// construct values for the record
+				$tValues = http::postArray(['displayname', 'firstname', 'lastname', 'phonenumber', 'password', 'languageid']);
 
-			// check password couple, throw an exception if it's incorrect.
-			if($tValues['password'] != http::post('password2')) {
-				throw new Exception('passwords do not match.');
+				// validate the request
+				validation::addRule('displayname')->lengthMinimum(3)->errorMessage('display name length must be 3 at least');
+				validation::addRule('firstname')->lengthMinimum(3)->errorMessage('first name length must be 3 at least');
+				validation::addRule('lastname')->lengthMinimum(3)->errorMessage('last name length must be 3 at least');
+				validation::addRule('password')->lengthMinimum(3)->errorMessage('password length must be 3 at least');
+				validation::addRule('password')->isEqual(http::post('password2'))->errorMessage('passwords do not match');
+				validation::addRule('languageid')->inKeys(statics::$languagesWithCounts)->errorMessage('primary language is invalid');
+
+				// if the input variables passes validation,
+				// update user and redirect user to homepage.
+				if(validation::validate($tValues)) {
+					// if logo is being uploaded
+					if(isset($_FILES['logofile']) && strlen($_FILES['logofile']['tmp_name']) > 0) {
+						// open the temporary file and resize it
+						$tFile = media::open($_FILES['logofile']['tmp_name'], $_FILES['logofile']['name']);
+						$tFile->resize('400', '150');
+						$tFile->mime = 'image/png';
+
+						// write the modified file in proper path
+						$tValues['logo'] = 'logos/' . statics::$user['userid'] . '.png';
+						$tPath = framework::writablePath($tValues['logo']);
+						if(file_exists($tPath)) {
+							unlink($tPath);
+						}
+						$tFile->save($tPath);
+					}
+					else {
+						$tValues['logo'] = '';
+					}
+
+					// update the user record
+					$this->load('userModel');
+					$this->userModel->update(statics::$user['userid'], $tValues);
+
+					// reload the stored user in session
+					statics::reloadUserInfo(true);
+
+					// set notification and redirect user to homepage after registration
+					session::setFlash('loginNotification', ['success', 'You have updated your account information.']);
+					mvc::redirect('home/index');
+
+					return;
+				}
+
+				session::setFlash('notification', ['warning', 'Validation Errors:<br />' . implode('<br />', validation::getErrorMessages(true))]);
 			}
-
-			// update the user record
-			$this->load('userModel');
-			$this->userModel->update(statics::$user['userid'], $tValues);
-
-			// reload the stored user in session
-			statics::reloadUserInfo(true);
+			catch(Exception $ex) {
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
+			}
 
 			// render the page
 			$this->view();

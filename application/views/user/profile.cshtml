@@ -8,7 +8,14 @@
                         <li>Profile</li>
                     </ul>
                 </div>
-                
+
+				@if(session::existsFlash('notification')) {
+					@{ $notification = session::getFlash('notification'); }
+					<div class="msg@$notification[0]">
+					   <p>@$notification[1]</p>
+					</div>
+				}
+
                 <!-- Page Content Start -->
                 <div class="full-page-text">
 
@@ -16,40 +23,50 @@
 
                     <!-- User Details -->
                     <h3>User Details</h3>
-                    <form action="@mvc::url('user/profile')" method="post" id="contact">
-                        <fieldset>
-                            <label id="displayname_label" for="displayname">Display Name *</label>
-                            <input type="text" size="50" id="displayname" name="displayname" class="required" value="@statics::$user['displayname']" />
-                        </fieldset>
-                        <fieldset>
-                            <label id="firstname_label" for="firstname">First Name *</label>
-                            <input type="text" size="50" id="firstname" name="firstname" class="required" value="@statics::$user['firstname']" />
-                        </fieldset>
-                        <fieldset>
-                            <label id="lastname_label" for="lastname">Last Name *</label>
-                            <input type="text" size="50" id="lastname" name="lastname" class="required" value="@statics::$user['lastname']" />
-                        </fieldset>
-                        <fieldset>
-                            <label id="phonenumber_label" for="phonenumber">Phone</label>
-                            <input type="text" size="50" id="phonenumber" name="phonenumber" value="@statics::$user['phonenumber']" />
-                        </fieldset>
-                        <fieldset>
-                            <label id="email_label" for="email">E-mail *</label>
-                            <input type="text" size="50" id="email" name="email" class="required email" value="@statics::$user['email']" />
-                        </fieldset>
-                        <fieldset>
-                            <label id="password_label" for="password">Password *</label>
-                            <input type="password" size="50" id="password" name="password" class="required" value="@statics::$user['password']" />
-                        </fieldset>
-                        <fieldset>
-                            <label id="password2_label" for="password2">Password *</label>
-                            <input type="password" size="50" id="password2" name="password2" class="required" value="@statics::$user['password']" />
-                        </fieldset>
-                        <fieldset>
-                            <label id="logo_label" for="logo">Logo</label>
-                            <input type="file" id="logo" name="logo" />
-                        </fieldset>
-                        <input type="submit" value="Submit" id="submit_btn" name="submit" />
+                    <form action="@mvc::url('user/profile')" method="post" id="contact" enctype="multipart/form-data">
+						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td class="width200px"><label id="displayname_label" for="displayname">Display Name *</label></td>
+								<td><input type="text" size="50" id="displayname" name="displayname" class="required" value="@statics::$user['displayname']" /></td>
+							</tr>
+							<tr>
+                            	<td><label id="firstname_label" for="firstname">First Name *</label></td>
+								<td><input type="text" size="50" id="firstname" name="firstname" class="required" value="@statics::$user['firstname']" /></td>
+							</tr>
+							<tr>
+                            	<td><label id="lastname_label" for="lastname">Last Name *</label></td>
+								<td><input type="text" size="50" id="lastname" name="lastname" class="required" value="@statics::$user['lastname']" /></td>
+							</tr>
+							<tr>
+                            	<td><label id="phonenumber_label" for="phonenumber">Phone</label></td>
+								<td><input type="text" size="50" id="phonenumber" name="phonenumber" value="@statics::$user['phonenumber']" /></td>
+							</tr>
+							<tr>
+                            	<td><label id="email_label" for="email">E-mail *</label></td>
+								<td><input type="text" size="50" id="email" name="email" class="required email" value="@statics::$user['email']" disabled="disabled" /></td>
+							</tr>
+							<tr>
+                            	<td><label id="password_label" for="password">Password *</label></td>
+								<td><input type="password" size="50" id="password" name="password" class="required" value="@statics::$user['password']" /></td>
+							</tr>
+							<tr>
+                            	<td><label id="password2_label" for="password2">Password Again *</label></td>
+								<td><input type="password" size="50" id="password2" name="password2" class="required" value="@statics::$user['password']" /></td>
+							</tr>
+							<tr>
+                            	<td><label id="logofile_label" for="logofile">Logo</label></td>
+                            	<td><input type="file" id="logofile" name="logofile" /></td>
+							</tr>
+							<tr>
+                            	<td><label id="languageid_label" for="languageid">Primary Language</label></td>
+                            	<td><select name="languageid">@statics::selectboxLanguages(@statics::$user['languageid'])</select></td>
+							</tr>
+							<tr>
+                            	<td colspan="2" class="alignRight">
+									<input type="submit" value="Update" id="submit_btn" name="submit" />
+								</td>
+							</tr>
+						</table>
                     </form>
     
                 </div>
