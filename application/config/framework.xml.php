@@ -22,6 +22,7 @@
 		<extension>fb</extension>
 		<extension>smtp</extension>
 		<extension>media</extension>
+		<extension>surveyAdmin</extension>
 	</extensionList>
 
 	<i8n>

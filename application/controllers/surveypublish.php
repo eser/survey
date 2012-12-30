@@ -1,13 +1,15 @@
 <?php
 
 	/**
-	 * @ignore
+	 * surveypublish controller
+	 * action methods for all surveypublish/* urls
 	 */
 	class surveypublish extends controller {
 		/**
 		 * @ignore
 		 */
 		public function get_new($uSurveyId = null) {
+			// load and validate session data
 			statics::requireAuthentication(1);
 
 			$this->setRef('surveyid', $uSurveyId);

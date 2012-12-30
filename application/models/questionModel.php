@@ -89,7 +89,6 @@
 			return $this->db->createQuery()
 				->setTable('questions')
 				->addField('*')
-				// ->setWhere(['deletedate IS NULL'])
 				->setOrderBy('startdate', 'DESC')
 				->setLimit($uLimit)
 				->get()
@@ -103,7 +102,19 @@
 			return $this->db->createQuery()
 				->setTable('questions')
 				->addField('*')
-				// ->setWhere(['deletedate IS NULL'])
+				->get()
+				->all();
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function getAllAccessible($uOwnerId) {
+			return $this->db->createQuery()
+				->setTable('questions')
+				->addField('*')
+				->setWhere(['ownerid=:ownerid', _or, 'isshared=\'1\''])
+				->addParameter('ownerid', $uOwnerId)
 				->get()
 				->all();
 		}
@@ -117,7 +128,6 @@
 				->addField('*')
 				->setOffset($uOffset)
 				->setLimit($uLimit)
-				// ->setWhere(['deletedate IS NULL'])
 				->get()
 				->all();
 		}

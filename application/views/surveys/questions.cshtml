@@ -1,15 +1,19 @@
 @views::view('shared/header.cshtml')
 
 				<script type="text/javascript">
-					function publishSurvey() {
-						var surveyid = $l.dom.selectSingle('#surveyid').value;
-						location.href = $l.baseLocation + '/surveypublish/new/' + surveyid;
-
-						return false;
-					}
-
 					$l.ready(function() {
-						$l.dom.setEvent($l.dom.selectSingle('#publishsurvey'), 'click', publishSurvey);
+						$l.ui.autocomplete(
+							$('#query'),
+							{
+								delay: 0,
+								minLength: 0,
+								source: @json_encode($querySuggestions),
+								labelfieldname: 'label',
+								hiddenfield: $('#queryhidden'),
+								hiddenfieldname: 'value',
+								alllist: true
+							}
+						);
 					});
 				</script>
 
@@ -40,7 +44,8 @@
 						<div class="clear"></div>
 					</div>
 
-                    
+                    <input id="query" type="text" />
+					<input id="queryhidden" type="hidden" name="query" value="" />
 
 				</div>
                 <!-- Page Content End -->

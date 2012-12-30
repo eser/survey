@@ -201,6 +201,14 @@
 				contracts::isNotFalse($tSurvey)->exception('invalid survey id');
 				contracts::isEqual($tSurvey['ownerid'], statics::$user['userid'])->exception('unauthorized access');
 				$this->setRef('survey', $tSurvey);
+
+				// gather all questions from data model
+				$this->load('questionModel');
+				$tQuerySuggestions = [];
+				foreach($this->questionModel->getAllAccessible(statics::$user['userid']) as $tRow) {
+					$tQuerySuggestions[] = ['hiddenvalue' => $tRow['questionid'], 'label' => $tRow['content']];
+				}
+				$this->setRef('querySuggestions', $tQuerySuggestions);
 			}
 			catch(Exception $ex) {
 				// set an error message to be passed thru session if an exception occurred.
