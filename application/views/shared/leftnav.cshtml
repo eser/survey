@@ -27,6 +27,8 @@
 				}
             </div>
 
+			<div class="clear marginBottom30px"></div>
+
 		@if(session::existsFlash('loginNotification')) {
 			@{ $loginNotification = session::getFlash('loginNotification'); }
 			<div class="msg@$loginNotification[0]">

@@ -172,6 +172,10 @@ $l.ready(function() {
 				}
 
 				$l.ui.msgbox(5, 'nothing...');
+			},
+			function() {
+				loginform.setAttribute('disabled', 'disabled');
+				$l.ui.msgbox(3, 'sending login request...');
 			}
 		);
 
