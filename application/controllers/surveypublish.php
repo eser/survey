@@ -128,24 +128,6 @@
 		/**
 		 * @ignore
 		 */
-		public function get_report($uSurveyId) {
-			statics::requireAuthentication(1);
-
-			$this->load('surveyModel');
-
-			// gather all survey data from model
-			$tSurvey = $this->surveyModel->get($uSurveyId);
-			
-			// assign the user data to view
-			$this->setRef('survey', $tSurvey);
-
-			// render the page
-			$this->view();
-		}
-
-		/**
-		 * @ignore
-		 */
 		public function get_take($uSurveyPublishId) {
 			statics::requireAuthentication(0);
 
@@ -241,6 +223,34 @@
 
 			//Anketi Doldurdunuz uyarısı flash filan koyulmalı.
 			mvc::redirect('home/index');
+
+			// render the page
+			$this->view();
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function get_report($uSurveyPublishId) {
+			statics::requireAuthentication(1);
+			$this->load('publishSurveyModel');
+
+			// gather all survey data from model
+			$survey = $this->publishSurveyModel->get($uSurveyPublishId);
+
+			$this->load('questionModel');
+			$questions = $this->questionModel->getBySurveyID($survey['surveyid'], $survey['revision']);
+			$questionids = arrays::column($questions, 'questionid');
+
+			$this->load('answersModel');
+			$answers = $this->answersModel->getByPublishID($uSurveyPublishId, $questionids);
+			string::vardump($answers);
+
+			// assign the user data to view
+			$this->setRef('reports', $categorize);
+			$this->setRef('surveys', $survey);
+			$this->setRef('questions', $questionsTest);
+			$this->setRef('choices', $choices);
 
 			// render the page
 			$this->view();
