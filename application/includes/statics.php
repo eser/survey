@@ -172,8 +172,8 @@
 			$tThemeModel = mvc::load('themeModel');
 			self::$themesWithCounts = $tThemeModel->getAllWithCounts();
 
-			$tPublishSurveyModel = mvc::load('publishSurveyModel');
-			self::$recentSurveys = $tPublishSurveyModel->getRecent(6);
+			$tsurveypublishModel = mvc::load('surveypublishModel');
+			self::$recentSurveys = $tsurveypublishModel->getRecent(6);
 		}
 
 		/**

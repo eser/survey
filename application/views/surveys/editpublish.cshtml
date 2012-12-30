@@ -7,7 +7,7 @@
                         <li><a href="@mvc::url('home/index')">Home</a></li>
                         <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
 						<li>Publishs</li>
-                        <li>@$publishSurveys['title']</li>
+                        <li>@$surveypublishs['title']</li>
                     </ul>
                 </div>
                 
@@ -18,19 +18,19 @@
                     
                     <h3>Publish Survey</h3>
 
-					<form id="addQuestion" method="post" action="@mvc::url('surveys/editpublish/' . $publishSurveys['surveypublishid'])">
+					<form id="addQuestion" method="post" action="@mvc::url('surveys/editpublish/' . $surveypublishs['surveypublishid'])">
 					<p>Description Goes Here:)</p>
-					<p>Survey : @$publishSurveys['title']</p>
-					<p> Start Date :  <input type="text" name="startdate" value="@$publishSurveys['startdate']" /></p>
-					<p> End Date :   <input type="text" name="enddate" value="@$publishSurveys['enddate']" /></p>
-					<p> Password :  <input type="password" name="password" value="@$publishSurveys['password']" /></p>
-					<p> Limit :  <input type="text" name="limit" value="@$publishSurveys['limit']" /></p>
+					<p>Survey : @$surveypublishs['title']</p>
+					<p> Start Date :  <input type="text" name="startdate" value="@$surveypublishs['startdate']" /></p>
+					<p> End Date :   <input type="text" name="enddate" value="@$surveypublishs['enddate']" /></p>
+					<p> Password :  <input type="password" name="password" value="@$surveypublishs['password']" /></p>
+					<p> Limit :  <input type="text" name="limit" value="@$surveypublishs['limit']" /></p>
 					<p> Type :  <select name="type">
-					@html::selectOptions(statics::$surveytypes, $publishSurveys['type'])
+					@html::selectOptions(statics::$surveytypes, $surveypublishs['type'])
 					</select>
 					</p>
 					<p> Survey Publish Status :  <select name="enabled">
-					@html::selectOptions(statics::$surveystatus, $publishSurveys['enabled'])
+					@html::selectOptions(statics::$surveystatus, $surveypublishs['enabled'])
 					</select>
 					</p>
 					<p> <input type="submit" value="Edit" /></p>

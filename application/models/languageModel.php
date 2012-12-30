@@ -25,7 +25,6 @@
 			return $this->db->createQuery()
 				->setTable('languages')
 				->addField('*')
-				// ->setWhere(['deletedate IS NULL'])
 				->get()
 				->all();
 		}
@@ -41,7 +40,6 @@
 				->joinTable('surveys s', 's.languageid=l.languageid', 'LEFT')
 				->addField('l.*')
 				->addField('COUNT(s.*) AS count')
-				// ->setWhere(['deletedate IS NULL'])
 				->setGroupBy('l.languageid')
 				->get();
 
@@ -63,7 +61,6 @@
 				->addField('*')
 				->setOffset($uOffset)
 				->setLimit($uLimit)
-				// ->setWhere(['deletedate IS NULL'])
 				->get()
 				->all();
 		}

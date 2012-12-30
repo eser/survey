@@ -25,7 +25,6 @@
 			return $this->db->createQuery()
 				->setTable('posts')
 				->addField('*')
-				// ->setWhere(['deletedate IS NULL'])
 				->get()
 				->all();
 		}
@@ -39,7 +38,6 @@
 				->addField('*')
 				->setOffset($uOffset)
 				->setLimit($uLimit)
-				// ->setWhere(['deletedate IS NULL'])
 				->get()
 				->all();
 		}

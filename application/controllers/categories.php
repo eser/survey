@@ -53,8 +53,8 @@
 			$this->setRef('category', $tCategory);
 
 			// #3 gather all survey data from model
-			$this->load('publishSurveyModel');
-			$tPublishedSurveys = $this->publishSurveyModel->getAllByCategoryPaged($uCategoryId, $tOffset, self::PAGE_SIZE);
+			$this->load('surveypublishModel');
+			$tPublishedSurveys = $this->surveypublishModel->getAllByCategoryPaged($uCategoryId, $tOffset, self::PAGE_SIZE);
 
 			// #3 pass survey data to view
 			$this->setRef('surveys', $tPublishedSurveys);

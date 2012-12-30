@@ -3,7 +3,7 @@
 	/**
 	 * @ignore
 	 */
-	class publishSurveyModel extends model {
+	class surveypublishModel extends model {
 		/**
 		 * @ignore
 		 */
@@ -30,7 +30,6 @@
 				->update()
 				->execute();
 		}
-
 
 		/**
 		 * @ignore

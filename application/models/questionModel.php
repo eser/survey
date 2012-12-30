@@ -14,16 +14,6 @@
 				->insert()
 				->execute();
 		}
-		/**
-		 * @ignore
-		 */
-		public function insertAnswer($input) {
-			return $this->db->createQuery()
-				->setTable('answers')
-				->setFields($input)
-				->insert()
-				->execute();
-		}
 
 		/**
 		 * @ignore
@@ -206,6 +196,31 @@
 				->addParameter('questionid', $uQuestionId)
 				->delete()
 				->execute();
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function insertAnswer($input) {
+			return $this->db->createQuery()
+				->setTable('answers')
+				->setFields($input)
+				->insert()
+				->execute();
+		}
+
+		/**
+		 * @ignore
+		 */
+		public function getByPublishID($uSurveyPublishId, $uQuestionIds) {
+			return $this->db->createQuery()
+				->setTable('answers a')
+				->addField('a.questionid, a.questionchoiceid, a.value, COUNT(a.*)')
+				->setWhere([['a.questionid', _in, $uQuestionIds], _and, 'a.surveypublishid=:surveypublishid'])
+				->setGroupBy('a.questionid, a.questionchoiceid, a.value')
+				->addParameter('surveypublishid', $uSurveyPublishId)
+				->get()
+				->all();
 		}
 	}
 

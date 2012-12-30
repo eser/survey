@@ -3,7 +3,7 @@
 	/**
 	 * @ignore
 	 */
-	class surveyVisitorModel extends model {
+	class surveyvisitorModel extends model {
 		/**
 		 * @ignore
 		 */

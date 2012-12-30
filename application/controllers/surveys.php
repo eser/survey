@@ -38,8 +38,8 @@
 				$tSurveyIds = arrays::column($tSurveys, 'surveyid');
 
 				// gather specified published survey data from model and group them by survey id
-				$this->load('publishSurveyModel');
-				$tSurveyPublishs = arrays::categorize($this->publishSurveyModel->getAllBySurvey($tSurveyIds), 'surveyid');
+				$this->load('surveypublishModel');
+				$tSurveyPublishs = arrays::categorize($this->surveypublishModel->getAllBySurvey($tSurveyIds), 'surveyid');
 				$this->setRef('surveypublishs', $tSurveyPublishs);
 
 				// get all survey names from database
@@ -186,6 +186,8 @@
 
 		/**
 		 * questions form
+		 *
+		 * ** INCOMPLETE
 		 */
 		public function get_questions($uSurveyId) {
 			/// load and validate session data
@@ -225,6 +227,8 @@
 
 		/**
 		 * new survey publish page
+		 *
+		 * ** INCOMPLETE
 		 */
 		public function get_publish($uSurveyId = null) {
 			// load and validate session data
@@ -253,12 +257,14 @@
 
 		/**
 		 * postback method for new survey publish page
+		 *
+		 * ** INCOMPLETE
 		 */
 		public function post_publish() {
 			// load and validate session data
 			statics::requireAuthentication(1);
 
-			$this->load('publishSurveyModel');
+			$this->load('surveypublishModel');
 			$input = array(
 				'surveypublishid' => string::generateUuid(),
 				'surveyid' => http::post('surveyid'),
@@ -272,7 +278,7 @@
 				'limit' => http::post('limit')
 			);
 
-			$insertSurvey = $this->publishSurveyModel->insert($input);
+			$insertSurvey = $this->surveypublishModel->insert($input);
 			if($insertSurvey > 0){
 				echo "<script>alert('Survey Added Successfuly');</script>";
 			}
@@ -289,25 +295,29 @@
 
 		/**
 		 * @ignore
+		 *
+		 * ** INCOMPLETE
 		 */
 		public function get_editpublish($uSurveyPublishsId) {
 			statics::requireAuthentication(1);
-			$this->load('publishSurveyModel');
+			$this->load('surveypublishModel');
 			// gather all survey data from model
-			$tSurvey = $this->publishSurveyModel->get($uSurveyPublishsId);
+			$tSurvey = $this->surveypublishModel->get($uSurveyPublishsId);
 
 			// assign the user data to view
-			$this->set('publishSurveys', $tSurvey);
+			$this->set('surveypublishs', $tSurvey);
 			// render the page
 			$this->view();
 		}
 
 		/**
 		 * @ignore
+		 *
+		 * ** INCOMPLETE
 		 */
 		public function post_editpublish($uSurveyPublishId) {
 			statics::requireAuthentication(1);
-			$this->load('publishSurveyModel');
+			$this->load('surveypublishModel');
 			$update = array(
 				'revision' => '1',
 				'ownerid' => statics::$user['userid'],
@@ -320,7 +330,7 @@
 			);
 
 			// gather all survey data from model
-			$tEditPublish = $this->publishSurveyModel->update($uSurveyPublishId, $update);
+			$tEditPublish = $this->surveypublishModel->update($uSurveyPublishId, $update);
 			if($tEditPublish > 0){
 				echo "<script> alert('Record updated successfuly.');</script>";
 			}
@@ -328,10 +338,10 @@
 				echo "<script> alert('Unexpected Error. Try Again Later.');</script>";
 			}
 
-			$tSurvey = $this->publishSurveyModel->get($uSurveyPublishId);
+			$tSurvey = $this->surveypublishModel->get($uSurveyPublishId);
 
 			// assign the user data to view
-			$this->set('publishSurveys', $tSurvey);
+			$this->set('surveypublishs', $tSurvey);
 
 			// render the page
 			$this->view();
@@ -339,27 +349,29 @@
 
 		/**
 		 * @ignore
+		 *
+		 * ** INCOMPLETE
 		 */
 		public function get_take($uSurveyPublishId) {
 			statics::requireAuthentication(0);
 
 			/*
-			$checkPast = $this->publishSurveyModel->checkPast(statics::$user['userid'],$uSurveyPublishId);
+			$checkPast = $this->surveypublishModel->checkPast(statics::$user['userid'],$uSurveyPublishId);
 			if(count($checkPast) > 0) {
 				//return ( bu anketi doldurdunuz sayfası.
 				exit;
 			}
 			*/
 
-			$this->load('surveyVisitorModel');
-			$tExistingSurveyVisitor = $this->surveyVisitorModel->get(session::$id);
+			$this->load('surveyvisitorModel');
+			$tExistingSurveyVisitor = $this->surveyvisitorModel->get(session::$id);
 			if($tExistingSurveyVisitor !== false) {
 				throw new Exception('dolmus o anket');
 			}
 			
 			// gather all survey data from model
-			$this->load('publishSurveyModel');
-			$survey = $this->publishSurveyModel->get($uSurveyPublishId);
+			$this->load('surveypublishModel');
+			$survey = $this->surveypublishModel->get($uSurveyPublishId);
 			$this->load('questionModel');
 			$questions = $this->questionModel->getBySurveyID($survey['surveyid'], $survey['revision']);
 			$choices = array();
@@ -378,19 +390,21 @@
 
 		/**
 		 * @ignore
+		 *
+		 * ** INCOMPLETE
 		 */
 		public function post_take($uSurveyPublishId) {
 			statics::requireAuthentication(0);
 			
 			// check auth-only
 			
-			$this->load('publishSurveyModel');
-			$this->load('surveyVisitorModel');
+			$this->load('surveypublishModel');
+			$this->load('surveyvisitorModel');
 			$this->load('questionModel');
 
 			// gather all survey data from model
-			$survey = $this->publishSurveyModel->get($uSurveyPublishId);
-			$tExistingSurveyVisitor = $this->surveyVisitorModel->get(session::$id);
+			$survey = $this->surveypublishModel->get($uSurveyPublishId);
+			$tExistingSurveyVisitor = $this->surveyvisitorModel->get(session::$id);
 			if($tExistingSurveyVisitor !== false) {
 				throw new Exception('dolmus o anket');
 			}
@@ -403,7 +417,7 @@
 				'useragent' => $_SERVER['HTTP_USER_AGENT'],
 				'recorddate' => time::toDb(time())
 			);
-			$this->surveyVisitorModel->insert($tSurveyVisitor);
+			$this->surveyvisitorModel->insert($tSurveyVisitor);
 
 			$questions = $this->questionModel->getBySurveyID($survey['surveyid']);
 
@@ -442,20 +456,21 @@
 
 		/**
 		 * @ignore
+		 *
+		 * ** INCOMPLETE
 		 */
 		public function get_report($uSurveyPublishId) {
 			statics::requireAuthentication(1);
-			$this->load('publishSurveyModel');
+			$this->load('surveypublishModel');
 
 			// gather all survey data from model
-			$survey = $this->publishSurveyModel->get($uSurveyPublishId);
+			$survey = $this->surveypublishModel->get($uSurveyPublishId);
 
 			$this->load('questionModel');
 			$questions = $this->questionModel->getBySurveyID($survey['surveyid'], $survey['revision']);
 			$questionids = arrays::column($questions, 'questionid');
 
-			$this->load('answersModel');
-			$answers = $this->answersModel->getByPublishID($uSurveyPublishId, $questionids);
+			$answers = $this->questionModel->getByPublishID($uSurveyPublishId, $questionids);
 			string::vardump($answers);
 
 			// assign the user data to view
