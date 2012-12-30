@@ -1,3 +1,7 @@
+function notifyLogin() {
+	alert('You should be logged in to perform this action.');
+}
+
 $(function() {
 
 /* ----- CONTENT ----- */

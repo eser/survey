@@ -52,24 +52,10 @@
 		 */
 		public function getRecent($uLimit) {
 			return $this->db->createQuery()
-				->setTable('surveypublishs')
-				->addField('*')
-				// ->setWhere(['deletedate IS NULL'])
-				->setOrderBy('createdate', 'DESC')
-				->setLimit($uLimit)
-				->get()
-				->all();
-		}
-
-		/**
-		 * @ignore
-		 */
-		public function getPublishedRecent($uLimit) {
-			return $this->db->createQuery()
 				->setTable('surveypublishs sp')
 				->joinTable('surveys s', 's.surveyid=sp.surveyid', 'INNER')
 				->addField('s.*')
-				// ->setWhere(['deletedate IS NULL'])
+				->setWhere(['sp.enabled=\'1\''])
 				->setOrderBy('sp.startdate', 'DESC')
 				->setLimit($uLimit)
 				->get()
@@ -83,7 +69,6 @@
 			return $this->db->createQuery()
 				->setTable('surveypublishs')
 				->addField('*')
-				// ->setWhere(['deletedate IS NULL'])
 				->get()
 				->all();
 		}
@@ -97,7 +82,6 @@
 				->addField('*')
 				->setOffset($uOffset)
 				->setLimit($uLimit)
-				// ->setWhere(['deletedate IS NULL'])
 				->get()
 				->all();
 		}
@@ -107,8 +91,9 @@
 		 */
 		public function getAllByOwner($uOwnerId) {
 			return $this->db->createQuery()
-				->setTable('surveypublishs AS sp INNER JOIN surveys AS s ON sp.surveyid=s.surveyid')
-				->addField('sp.*,s.title')
+				->setTable('surveypublishs sp')
+				->joinTable('surveys s', 'sp.surveyid=s.surveyid', 'INNER')
+				->addField('sp.*, s.title')
 				->setWhere(['sp.ownerid=:ownerid'])
 				->addParameter('ownerid', $uOwnerId)
 				->get()

@@ -1,0 +1,48 @@
+@views::view('shared/header.cshtml')
+
+				<script type="text/javascript">
+					function publishSurvey() {
+						var surveyid = $l.dom.selectSingle('#surveyid').value;
+						location.href = $l.baseLocation + '/surveypublish/new/' + surveyid;
+
+						return false;
+					}
+
+					$l.ready(function() {
+						$l.dom.setEvent($l.dom.selectSingle('#publishsurvey'), 'click', publishSurvey);
+					});
+				</script>
+
+                <!-- Breadcrumbs, Page Title -->
+                <div id="page-head">
+                    <h1>Survey Questions</h1>
+                    <ul id="breadcrumbs">
+                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
+						<li>@$survey['title']</li>
+                    </ul>
+                </div>
+                
+				@if(session::existsFlash('notification')) {
+					@{ $notification = session::getFlash('notification'); }
+					<div class="msg@$notification[0]">
+					   <p>@$notification[1]</p>
+					</div>
+				}
+
+				<!-- Page Content Start -->
+                <div class="full-page-text">
+
+                    <!-- User Details -->
+					<div>
+						<h3 class="floatleft">Existing Surveys</h3>
+						<a href="@mvc::url('surveys/new')" class="more floatright">Create New</a>
+						<div class="clear"></div>
+					</div>
+
+                    
+
+				</div>
+                <!-- Page Content End -->
+    
+@views::view('shared/footer.cshtml')

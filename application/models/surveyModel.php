@@ -37,9 +37,9 @@
 		 */
 		public function get($uId) {
 			return $this->db->createQuery()
-				->setTable('surveys')
-				->addField('*')
-				->setWhere(['surveyid=:surveyid'])
+				->setTable('surveys s')
+				->addField('s.*, (SELECT MAX(sr.revision) FROM surveyrevisions sr WHERE sr.surveyid=s.surveyid) AS lastrevision')
+				->setWhere(['s.surveyid=:surveyid'])
 				->addParameter('surveyid', $uId)
 				->setLimit(1)
 				->get()
@@ -51,9 +51,11 @@
 		 */
 		public function getDetail($uId) {
 			return $this->db->createQuery()
-				->setTable('surveys AS s INNER JOIN categories AS c ON s.categoryid=c.categoryid INNER JOIN languages AS l ON s.languageid=l.languageid')
-				->addField('s.*,c.name,l.name as languagename')
-				->setWhere(['surveyid=:surveyid'])
+				->setTable('surveys s')
+				->joinTable('categories c', 'c.categoryid=s.categoryid', 'INNER')
+				->joinTable('languages l', 'l.languageid=s.languageid', 'INNER')
+				->addField('s.*, c.name, l.name AS languagename')
+				->setWhere(['s.surveyid=:surveyid'])
 				->addParameter('surveyid', $uId)
 				->setLimit(1)
 				->get()
@@ -67,23 +69,7 @@
 			return $this->db->createQuery()
 				->setTable('surveys')
 				->addField('*')
-				// ->setWhere(['deletedate IS NULL'])
 				->setOrderBy('createdate', 'DESC')
-				->setLimit($uLimit)
-				->get()
-				->all();
-		}
-
-		/**
-		 * @ignore
-		 */
-		public function getPublishedRecent($uLimit) {
-			return $this->db->createQuery()
-				->setTable('surveypublishs sp')
-				->joinTable('surveys s', 's.surveyid=sp.surveyid', 'INNER')
-				->addField('s.*')
-				// ->setWhere(['deletedate IS NULL'])
-				->setOrderBy('sp.startdate', 'DESC')
 				->setLimit($uLimit)
 				->get()
 				->all();
@@ -94,9 +80,8 @@
 		 */
 		public function getAll() {
 			return $this->db->createQuery()
-				->setTable('surveys')
-				->addField('*')
-				// ->setWhere(['deletedate IS NULL'])
+				->setTable('surveys s')
+				->addField('s.*, (SELECT MAX(sr.revision) FROM surveyrevisions sr WHERE sr.surveyid=s.surveyid) AS lastrevision')
 				->get()
 				->all();
 		}
@@ -106,11 +91,10 @@
 		 */
 		public function getAllPaged($uOffset, $uLimit) {
 			return $this->db->createQuery()
-				->setTable('surveys')
-				->addField('*')
+				->setTable('surveys s')
+				->addField('s.*, (SELECT MAX(sr.revision) FROM surveyrevisions sr WHERE sr.surveyid=s.surveyid) AS lastrevision')
 				->setOffset($uOffset)
 				->setLimit($uLimit)
-				// ->setWhere(['deletedate IS NULL'])
 				->get()
 				->all();
 		}
@@ -122,9 +106,9 @@
 			$tResult = array();
 
 			$tQuery = $this->db->createQuery()
-				->setTable('surveys')
-				->addField('*')
-				->setWhere(['ownerid=:ownerid'])
+				->setTable('surveys s')
+				->addField('s.*, (SELECT MAX(sr.revision) FROM surveyrevisions sr WHERE sr.surveyid=s.surveyid) AS lastrevision')
+				->setWhere(['s.ownerid=:ownerid'])
 				->addParameter('ownerid', $uOwnerId)
 				->get();
 
@@ -141,12 +125,12 @@
 		 */
 		public function getAllPagedByOwner($uOwnerId, $uOffset, $uLimit) {
 			return $this->db->createQuery()
-				->setTable('surveys')
-				->addField('*')
+				->setTable('surveys s')
+				->addField('s.*, (SELECT MAX(sr.revision) FROM surveyrevisions sr WHERE sr.surveyid=s.surveyid) AS lastrevision')
 				->setOffset($uOffset)
 				->setLimit($uLimit)
-				->setWhere(['ownerid=:ownerid'])
-				->setOrderBy('categoryid ASC')
+				->setWhere(['s.ownerid=:ownerid'])
+				->setOrderBy('s.categoryid ASC')
 				->addParameter('ownerid', $uOwnerId)
 				->get()
 				->all();

@@ -15,7 +15,7 @@
 		 */
 		public function get_index() {
 			// load and validate session data
-			statics::requireAuthentication(1);
+			statics::requireAuthentication(0);
 
 			// pass the previously loaded category to the view
 			$this->load('categoryModel');
@@ -33,7 +33,7 @@
 		 */
 		public function get_list($uCategoryId, $uPage = '1') {
 			// load and validate session data
-			statics::requireAuthentication(1);
+			statics::requireAuthentication(0);
 
 			// #1 validate the request: page numbers
 			$tPage = intval($uPage);

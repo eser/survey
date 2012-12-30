@@ -183,6 +183,37 @@
 
 			mvc::redirect('surveys/index');
 		}
+
+		/**
+		 * questions form
+		 */
+		public function get_questions($uSurveyId) {
+			/// load and validate session data
+			statics::requireAuthentication(1);
+
+			try {
+				// validate the request: survey id
+				contracts::isUuid($uSurveyId)->exception('invalid survey id format');
+
+				// gather all survey data from model
+				$this->load('surveyModel');
+				$tSurvey = $this->surveyModel->get($uSurveyId);
+				contracts::isNotFalse($tSurvey)->exception('invalid survey id');
+				contracts::isEqual($tSurvey['ownerid'], statics::$user['userid'])->exception('unauthorized access');
+				$this->setRef('survey', $tSurvey);
+			}
+			catch(Exception $ex) {
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
+
+				// redirect user to parent page in order to display error message
+				mvc::redirect('surveys/index');
+				return;
+			}
+
+			// render the page
+			$this->view();
+		}
 	}
 
 ?>
