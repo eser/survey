@@ -63,17 +63,24 @@
                 <!-- Start Page Content -->
                 <div class="full-page-text">
 
-                    <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
+                    <p>You can add new survey to system by using this page easly.</p>
                     
                     <h3>Add New Question</h3>
                     <form id="addQuestion" method="post" action="@mvc::url('questions/new')">
 						<input id="questionType" type="hidden" name="type" value="@statics::QUESTION_EVALUATION" />
 
-						<p>You can add new survey to system by using this page easly.</p>
-						<p>Question : <input type="text" name="content" value="" data-defaulttext="Type your question here" /></p>
-						<p>Accessibility : <select name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></p>
+						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td class="width200px"><label id="title_content" for="content">Question *</label></td>
+								<td><input type="text" size="50" id="content" name="content" class="required" value="" data-defaulttext="Type your question here" /></td>
+							</tr>
+							<tr>
+								<td><label id="isshared_label" for="isshared">Accessibility *</label></td>
+								<td><select name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
+							</tr>
+						</table>
 
-						<div class="tabs_table">
+						<div class="marginTop20px tabs_table">
 							<ul class="tabs">
 								<li><a rel="tab_1">Evaluation</a></li>
 								<li><a rel="tab_2">Multiple Choices</a></li>

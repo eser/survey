@@ -212,7 +212,7 @@
 
 						$tOptionInput = [
 							'questionchoiceid' => $tQuestionChoiceId,
-							'questionid' => $tInput['questionid'],
+							'questionid' => $tQuestion['questionid'],
 							'content' => $tOption,
 							'type' => $tOptionTypes[$tKey]
 						];

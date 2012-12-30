@@ -13,17 +13,37 @@
                 <!-- Start Page Content -->
                 <div class="full-page-text">
 
-                    <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
+                    <p>You can add new survey to system by using this page easly.</p>
                     
-                    <h3>Add New Survey</h3>
-                    <form id="addQuestion" method="post">
-						<p>You can add new survey to system by using this page easly.</p>
-						<p>Title : <input type="text" name="title" value="@$survey['title']" data-defaulttext="Type your question title here" /></p>
-						<p>Description : <textarea name="description">@$survey['description']</textarea></p>
-						<p>Category : <select name="categoryid">@statics::selectboxCategories($survey['categoryid'])</select></p>
-						<p>Language : <select name="languageid">@statics::selectboxLanguages($survey['languageid'])</select></p>
-						<p>Theme : <select name="themeid">@statics::selectboxThemes($survey['themeid'])</select></p>
-						<p><input type="submit" value="Add Survey" /></p>
+                    <h3>Edit Survey</h3>
+                    <form id="editSurvey" action="@mvc::url('surveys/edit/' . $survey['surveyid'])" method="post">
+						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td class="width200px"><label id="title_label" for="title">Title *</label></td>
+								<td><input type="text" size="50" id="title" name="title" class="required" value="@$survey['title']" data-defaulttext="Type your survey title here" /></td>
+							</tr>
+							<tr>
+								<td class="valignTop"><label id="description_label" for="description">Description *</label></td>
+								<td><textarea id="description" name="description" class="required" rows="10" cols="10">@$survey['description']</textarea></td>
+							</tr>
+							<tr>
+								<td><label id="category_label" for="category">Category *</label></td>
+								<td><select name="categoryid">@statics::selectboxCategories($survey['categoryid'])</select></td>
+							</tr>
+							<tr>
+								<td><label id="language_label" for="language">Language *</label></td>
+								<td><select name="languageid">@statics::selectboxLanguages($survey['languageid'])</select></td>
+							</tr>
+							<tr>
+								<td><label id="theme_label" for="theme">Theme *</label></td>
+								<td><select name="themeid">@statics::selectboxThemes($survey['themeid'])</select></td>
+							</tr>
+							<tr>
+                            	<td colspan="2" class="alignRight">
+									<input type="submit" value="Update Survey" id="submit_btn" name="submit" />
+								</td>
+							</tr>
+						</table>
                     </form>
                     
                 </div>

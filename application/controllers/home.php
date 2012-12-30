@@ -27,6 +27,7 @@
 			$this->load('faqModel');
 			$tFaqData = $this->faqModel->getAll();
 
+			// assign the data with categorizing it by the name of the faqcategory
 			$this->setRef('faq', arrays::categorize($tFaqData, 'name'));
 
 			// render the page

@@ -63,17 +63,24 @@
                 <!-- Start Page Content -->
                 <div class="full-page-text">
 
-                    <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
+                    <p>You can add new survey to system by using this page easly.</p>
                     
                     <h3>Edit Question</h3>
                     <form id="editQuestion" method="post" action="@mvc::url('questions/edit/' . $question['questionid'])">
 						<input id="questionType" type="hidden" name="type" value="@$question['type']" />
 
-						<p>You can add new survey to system by using this page easly.</p>
-						<p>Question : <input type="text" name="content" value="@$question['content']" data-defaulttext="Type your question here" /></p>
-						<p>Accessibility : <select name="isshared">@html::selectOptions(statics::$sharedboolean, $question['isshared'])</select></p>
+						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td class="width200px"><label id="title_content" for="content">Question *</label></td>
+								<td><input type="text" size="50" id="content" name="content" class="required" value="@$question['content']" data-defaulttext="Type your question here" /></td>
+							</tr>
+							<tr>
+								<td><label id="isshared_label" for="isshared">Accessibility *</label></td>
+								<td><select name="isshared">@html::selectOptions(statics::$sharedboolean, $question['isshared'])</select></td>
+							</tr>
+						</table>
 
-						<div class="tabs_table">
+						<div class="marginTop20px tabs_table">
 							<ul class="tabs">
 								<li><a rel="tab_1"@{ if($question['type'] == statics::QUESTION_EVALUATION) { echo ' class="selected"'; } }>Evaluation</a></li>
 								<li><a rel="tab_2"@{ if($question['type'] == statics::QUESTION_MULTIPLE) { echo ' class="selected"'; } }>Multiple Choices</a></li>
