@@ -37,7 +37,7 @@
 						@foreach($surveys as &$survey) {
 							@{
 								if(!is_null(statics::$user) || $survey['type'] == statics::SURVEY_PUBLIC) {
-									$url = @mvc::url('surveypublish/take/' . $survey['surveypublishid']);
+									$url = @mvc::url('surveys/take/' . $survey['surveypublishid']);
 								}
 								else {
 									$url = 'javascript:notifyLogin();';

@@ -5,8 +5,9 @@
                     <h1>Create New Publish</h1>
                     <ul id="breadcrumbs">
                         <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li><a href="@mvc::url('surveys/index')">Publish Surveys</a></li>
-                        <li>New Survey</li>
+                        <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
+						<li>Publishs</li>
+                        <li>@$publishSurveys['title']</li>
                     </ul>
                 </div>
                 
@@ -17,7 +18,7 @@
                     
                     <h3>Publish Survey</h3>
 
-					<form id="addQuestion" method="post" action="@mvc::url('surveypublish/edit/' . $publishSurveys['surveypublishid'])">
+					<form id="addQuestion" method="post" action="@mvc::url('surveys/editpublish/' . $publishSurveys['surveypublishid'])">
 					<p>Description Goes Here:)</p>
 					<p>Survey : @$publishSurveys['title']</p>
 					<p> Start Date :  <input type="text" name="startdate" value="@$publishSurveys['startdate']" /></p>

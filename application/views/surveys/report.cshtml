@@ -4,7 +4,9 @@
                     <h1><em>add, edit and organize surveys</em>Surveys</h1>
                     <ul id="breadcrumbs">
                         <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li>Surveys</li>
+                        <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
+						<li>Reports</li>
+						<li>@$surveys['title']</li>
                     </ul>
                 </div>
                 <!-- Page Content Start -->
@@ -30,30 +32,29 @@
                     </table> <br>
                      <form name="takeSurvey" method="POST" action="">
                      <table class="extable" width="100%" cellspacing="0" cellpadding="0">
-                     @foreach($questions as $question){
-                          <thead>
-                          <tr>
-                              <th>@$question['content']</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                                <td>
-                                    @if($question['type'] == statics::QUESTION_EVALUATION ) {
-                                        @html::radioOptions(@$question['questionid'], statics::$evaluationoptions)
-                                    }
-                                    @if($question['type'] == statics::QUESTION_FILL ) {
-                                        @html::textBox($question['questionid'])
-                                    }
-                                    @if($question['type'] == statics::QUESTION_MULTIPLE ) {
-                                        @foreach($choices[$question['questionid']] as $choice){
-                                            <input type="radio" name="@$question['questionid']" value="@$choice['questionchoiceid']">  @$choice['content']
-                                            @if($choice['type'] != 0) { <input type="text" name="@$question['questionid']value"> }<br>
-                                        }
-                                    }
-                                </td>
-                            </tr>
-                          </tbody>
+                     @foreach($questions as $keyQuestion=> $question){
+                     <thead>
+                        <tr>
+                           <th>@$question['content']</th>
+                           <th>Responses</th>
+                       </tr>
+                     </thead>
+                     @foreach($choices as $key2=> $choice2){
+                     @foreach($choice2 as $key=> $choice){
+                         <tbody>
+                           <tr>
+                               <td>@$choice['content']</td>
+                               <td>@{
+                                foreach($reports[$key2] as $report){
+                                echo $report['questionchoiceid'] .'+ ';
+
+                                }
+                            string::vardump($reports);
+                               }</td>
+                           </tr>
+                         </tbody>
+                     }
+                     }
                      }
                      </table>
                      <br>

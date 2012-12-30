@@ -3,7 +3,7 @@
 				<script type="text/javascript">
 					function publishSurvey() {
 						var surveyid = $l.dom.selectSingle('#surveyid').value;
-						location.href = $l.baseLocation + '/surveypublish/new/' + surveyid;
+						location.href = $l.baseLocation + '/surveys/publish/' + surveyid;
 
 						return false;
 					}
@@ -90,16 +90,16 @@
 									@foreach($surveypublishs[$survey['surveyid']] as $surveypublish) {
 										<tr>
 											<td>
-												<a href="@mvc::url('surveypublish/edit/' . $surveypublish['surveypublishid'])">Revision @$surveypublish['revision']</a>
+												<a href="@mvc::url('surveys/editpublish/' . $surveypublish['surveypublishid'])">Revision @$surveypublish['revision']</a>
 												<em>(private, password)</em>
 											</td>
 											<td>@$surveypublish['startdate']</td>
 											<td>@$surveypublish['enddate']</td>
 											<td>0</td>
 											<td>
-												<a href="@mvc::url('surveypublish/edit/' . $surveypublish['surveypublishid'])">Edit</a> ·
-												<a href="@mvc::url('surveypublish/share/' . $surveypublish['surveypublishid'])">Share</a> ·
-												<a href="@mvc::url('surveypublish/report/' . $surveypublish['surveypublishid'])">Report</a>
+												<a href="@mvc::url('surveys/editpublish/' . $surveypublish['surveypublishid'])">Edit</a> ·
+												<a href="@mvc::url('surveys/share/' . $surveypublish['surveypublishid'])">Share</a> ·
+												<a href="@mvc::url('surveys/report/' . $surveypublish['surveypublishid'])">Report</a>
 											</td>
 										</tr>
 									}
@@ -109,7 +109,7 @@
 								<p class="alignRight marginTop10px">
 									<a class="xbutton" href="@mvc::url('surveys/edit/' . $survey['surveyid'])">Edit</a>
 									<a class="xbutton" href="@mvc::url('surveys/questions/' . $survey['surveyid'])">Questions</a>
-									<a class="xbutton" href="@mvc::url('surveypublish/new/' . $survey['surveyid'])">Publish</a>
+									<a class="xbutton" href="@mvc::url('surveys/publish/' . $survey['surveyid'])">Publish</a>
 								</p>
 							</div>
 						</div>

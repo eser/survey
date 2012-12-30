@@ -5,8 +5,9 @@
                     <h1>Create New Publish</h1>
                     <ul id="breadcrumbs">
                         <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li><a href="@mvc::url('surveys/index')">Publish Surveys</a></li>
-                        <li>New Survey</li>
+                        <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
+						<li>Publishs</li>
+                        <li>New Survey Publish</li>
                     </ul>
                 </div>
                 
@@ -16,7 +17,7 @@
                     <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
                     
                     <h3>Publish Survey</h3>
-                    <form id="addQuestion" method="post" action="@mvc::url('surveypublish/new')">
+                    <form id="addQuestion" method="post" action="@mvc::url('surveys/publish')">
                     <p>Description Goes Here :)</p>
                     <p>Survey : <select name="surveyid">
 					@html::selectOptions($surveys, $surveyid, 'title')
