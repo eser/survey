@@ -111,7 +111,27 @@
                 <h4 class="w-title title-light">Recent Surveys</h4>
                 <ul>
 					@foreach(statics::$recentSurveys as &$survey) {
-						<li><a href="#">@$survey['title']</a></li>
+						@{
+							if(!is_null(statics::$user) || $survey['type'] == statics::SURVEY_PUBLIC) {
+								$url = @mvc::url('surveypublish/take/' . $survey['surveypublishid']);
+							}
+							else {
+								$url = 'javascript:notifyLogin();';
+							}
+
+							$tProps = array();
+							if(strlen($survey['password']) > 0) {
+								$tProps[] = 'password';
+							}
+							if($survey['type'] != statics::SURVEY_PUBLIC) {
+								$tProps[] = 'private';
+							}
+						}
+						<li><a href="@$url">@$survey['title']
+						@if(count($tProps) > 0) {
+							<em>(@implode($tProps, ', '))</em>;
+						}
+						</a></li>
 					}
                 </ul>
             </div>

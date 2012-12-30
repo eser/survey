@@ -50,14 +50,19 @@
 		/**
 		 * @ignore
 		 */
-		public function getRecent($uLimit) {
+		public function getRecent($uLimit, $uIncludeDisabled = false) {
+			$tCondition = 'sp.surveyid=s.surveyid AND sp.startdate <= :now AND (sp.enddate IS NULL OR sp.enddate >= :now)';
+			if(!$uIncludeDisabled) {
+				$tCondition .= ' AND sp.enabled=\'1\'';
+			}
+
 			return $this->db->createQuery()
-				->setTable('surveypublishs sp')
-				->joinTable('surveys s', 's.surveyid=sp.surveyid', 'INNER')
-				->addField('s.*')
-				->setWhere(['sp.enabled=\'1\''])
+				->setTable('surveys s')
+				->joinTable('surveypublishs sp', $tCondition, 'INNER')
+				->addField('s.*, sp.*')
 				->setOrderBy('sp.startdate', 'DESC')
 				->setLimit($uLimit)
+				->addParameter('now', time::toDb(time()))
 				->get()
 				->all();
 		}
@@ -126,6 +131,7 @@
 				->get()
 				->all();
 		}
+
 		/**
 		 * @ignore
 		 */
