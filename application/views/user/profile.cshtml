@@ -54,8 +54,13 @@
 								<td><input type="password" size="50" id="password2" name="password2" class="required" value="@statics::$user['password']" /></td>
 							</tr>
 							<tr>
-                            	<td><label id="logofile_label" for="logofile">Logo</label></td>
-                            	<td><input type="file" id="logofile" name="logofile" /></td>
+                            	<td class="valignTop"><label id="logofile_label" for="logofile">Logo</label></td>
+                            	<td>
+									@if(strlen(statics::$user['logo']) > 0) {
+										<img src="@$root/application/writable/@statics::$user['logo']" alt="" /><br />
+									}
+									<input type="file" id="logofile" name="logofile" />
+								</td>
 							</tr>
 							<tr>
                             	<td><label id="languageid_label" for="languageid">Primary Language</label></td>

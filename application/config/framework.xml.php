@@ -57,6 +57,6 @@
 		<host>ssl://mail.messagingengine.com</host>
 		<port>465</port>
 		<username>eser@sent.com</username>
-		<password>@Padded33</password>
+		<password></password>
 	</smtp>
 </scabbia>

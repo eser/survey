@@ -443,9 +443,6 @@
 						}
 						$tFile->save($tPath);
 					}
-					else {
-						$tValues['logo'] = '';
-					}
 
 					// update the user record
 					$this->load('userModel');
