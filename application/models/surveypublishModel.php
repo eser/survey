@@ -134,20 +134,6 @@
 		/**
 		 * @ignore
 		 */
-		public function checkPast($userid, $publishid) {
-			return $this->db->createQuery()
-				->setTable('answers')
-				->addField('*')
-				->setWhere(['surveypublishid=:surveypublishid' , _and ,'userid=:userid'])
-				->addParameter('surveypublishid', $publishid)
-				->addParameter('userid', $userid)
-				->get()
-				->all();
-		}
-
-		/**
-		 * @ignore
-		 */
 		public function getAllByCategory($uCategoryId, $uIncludeDisabled = false) {
 			$tCondition = 'sp.surveyid=s.surveyid AND sp.startdate <= :now AND (sp.enddate IS NULL OR sp.enddate >= :now)';
 			if(!$uIncludeDisabled) {

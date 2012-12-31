@@ -67,7 +67,7 @@
                 <div class="full-page-text">
 
                     <h3>Add Question</h3>
-					<div class="marginTop20px tabs_table">
+					<div class="tabs_table">
 						<ul class="tabs">
 							<li><a rel="tab_1">Question Pool</a></li>
 							<li><a rel="tab_2">Evaluation</a></li>
@@ -81,7 +81,7 @@
 										<tr>
 											<td class="width200px"><label id="title_content1" for="content1">Question *</label></td>
 											<td>
-												<input id="query" type="text" size="50" id="content1" name="content1" value="" data-defaulttext="Type to search from question pool" />
+												<input id="query" type="text" size="50" id="content1" value="" data-defaulttext="Type to search from question pool" />
 												<input id="queryhidden" type="hidden" name="query" value="" />
 											</td>
 										</tr>
@@ -95,11 +95,11 @@
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content2" for="content2">Question *</label></td>
-											<td><input type="text" size="50" id="content2" name="content2" value="" data-defaulttext="Type your question here" /></td>
+											<td><input type="text" size="50" id="content2" name="content" value="" data-defaulttext="Type your question here" /></td>
 										</tr>
 										<tr>
 											<td><label id="isshared_label2" for="isshared2">Accessibility *</label></td>
-											<td><select name="isshared2">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
+											<td><select name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
 										</tr>
 									</table>
 									<div class="xline"></div>
@@ -120,11 +120,11 @@
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content3" for="content3">Question *</label></td>
-											<td><input type="text" size="50" id="content3" name="content3" value="" data-defaulttext="Type your question here" /></td>
+											<td><input type="text" size="50" id="content3" name="content" value="" data-defaulttext="Type your question here" /></td>
 										</tr>
 										<tr>
 											<td><label id="isshared_label3" for="isshared3">Accessibility *</label></td>
-											<td><select name="isshared3">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
+											<td><select name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
 										</tr>
 									</table>
 									<div class="xline"></div>
@@ -146,11 +146,11 @@
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content4" for="content4">Question *</label></td>
-											<td><input type="text" size="50" id="content4" name="content4" value="" data-defaulttext="Type your question here" /></td>
+											<td><input type="text" size="50" id="content4" name="content" value="" data-defaulttext="Type your question here" /></td>
 										</tr>
 										<tr>
 											<td><label id="isshared_label4" for="isshared4">Accessibility *</label></td>
-											<td><select name="isshared4">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
+											<td><select name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
 										</tr>
 									</table>
 									<div class="xline"></div>
@@ -166,7 +166,15 @@
 							</div>
 						</div>
 					</div>
-					
+
+					<h3 class="marginTop10px">Questions</h3>
+					<div>
+						@{ $count = 0; }
+						@foreach($questions as $question) {
+							@{ echo ++$count; }. @$question['content']<br />
+						}
+					</div>
+
 				</div>
                 <!-- Page Content End -->
     

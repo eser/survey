@@ -212,6 +212,17 @@
 					$tQuerySuggestions[] = ['hiddenvalue' => $tRow['questionid'], 'label' => $tRow['content']];
 				}
 				$this->setRef('querySuggestions', $tQuerySuggestions);
+
+				$questions = $this->questionModel->getBySurveyID($tSurvey['surveyid'], $tSurvey['lastrevision']);
+				$this->setRef('questions', $questions);
+
+				/*
+				$choices = [];
+				foreach($questions as $question) {
+					$choices[$question['questionid']] = $this->questionModel->getChoicesByQuestionID($question['questionid']);
+				}
+				$this->setRef('choices', $choices);
+				*/
 			}
 			catch(Exception $ex) {
 				// set an error message to be passed thru session if an exception occurred.
@@ -356,14 +367,6 @@
 		public function get_take($uSurveyPublishId) {
 			statics::requireAuthentication(0);
 
-			/*
-			$checkPast = $this->surveypublishModel->checkPast(statics::$user['userid'],$uSurveyPublishId);
-			if(count($checkPast) > 0) {
-				//return ( bu anketi doldurdunuz sayfası.
-				exit;
-			}
-			*/
-
 			$this->load('surveyvisitorModel');
 			$tExistingSurveyVisitor = $this->surveyvisitorModel->get(session::$id);
 			if($tExistingSurveyVisitor !== false) {
@@ -373,17 +376,17 @@
 			// gather all survey data from model
 			$this->load('surveypublishModel');
 			$survey = $this->surveypublishModel->get($uSurveyPublishId);
+			$this->setRef('surveys', $survey);
+
 			$this->load('questionModel');
 			$questions = $this->questionModel->getBySurveyID($survey['surveyid'], $survey['revision']);
-			$choices = array();
+			$this->setRef('questions', $questions);
+
+			$choices = [];
 			foreach($questions as $question) {
 				$choices[$question['questionid']] = $this->questionModel->getChoicesByQuestionID($question['questionid']);
 			}
-
-			// assign the user data to view
-			$this->setRef('surveys', $survey);
 			$this->setRef('choices', $choices);
-			$this->setRef('questions', $questions);
 
 			// render the page
 			$this->view();
