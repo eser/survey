@@ -247,23 +247,35 @@
 		public function post_questions($uSurveyId, $uQuestionType) {
 			switch($uQuestionType) {
 			case statics::QUESTION_EVALUATION:
-				
+				$this->post_questions_evaluation($uSurveyId);
 				break;
 
 			case statics::QUESTION_MULTIPLE:
+				$this->post_questions_multiple($uSurveyId);
 				break;
 
 			case statics::QUESTION_FILL:
+				$this->post_questions_fill($uSurveyId);
+				break;
+
+			default:
+				$this->post_questions_questionpool($uSurveyId);
 				break;
 			}
 
-			$this->post_questions_evaluation($uSurveyId);
+			
 		}
 
-		private function post_questions_evaluation($uSurveyId) {
+		private function post_questions_questionpool($uSurveyId) {
 		}
 		
 		private function post_questions_evaluation($uSurveyId) {
+		}
+		
+		private function post_questions_multiple($uSurveyId) {
+		}
+
+		private function post_questions_fill($uSurveyId) {
 		}
 
 		/**
