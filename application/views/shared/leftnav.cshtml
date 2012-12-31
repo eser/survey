@@ -43,20 +43,21 @@
                 <div class="w-content">
 					<form id="loginform" method="post" action="@mvc::url('user/login')">
 						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
-							<tr><td>E-Mail:</td><td><input type="text" name="email" value="" /></td></tr>
-							<tr><td>Password:</td><td><input type="password" name="password" value="" /></td></tr>
-							<tr><td colspan="2" class="alignRight">
-								<input id="fblogin" type="button" />
-								<input class="inlineBlock" type="submit" value="Send" />
+							<tr>
+								<td><input type="text" name="email" value="" data-defaulttext="E-mail" /></td>
+								<td><input class="inlineBlock classiclogin" type="submit" value="Send" /></td>
+							</tr>
+							<tr>
+								<td><input type="password" name="password" value="" data-defaulttext="Password" /></td>
+								<td><input id="fblogin" type="button" /></td>
+							</tr>
+							<tr><td colspan="2" class="alignCenter">
+								<a href="@mvc::url('user/register')">Register</a> ·
+								<a href="@mvc::url('user/forgottenpassword')">Forgotten Password</a>
 							</td></tr>
 						</table>
 					</form>
 				</div>
-
-				<ul>
-					<li><a href="@mvc::url('user/register')">Register</a></li>
-					<li><a href="@mvc::url('user/forgottenpassword')">Forgotten Password</a></li>
-				</ul>
 			</div>
 		} else {
 			<!-- Login Widget -->
