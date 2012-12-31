@@ -21,11 +21,13 @@
 		<include>admin_questions.php</include>
 		<include>admin_languages.php</include>
 		<include>admin_themes.php</include>
+		<include>admin_categories.php</include>
 	</includeList>
 	<classList>
 		<class>admin_questions</class>
 		<class>admin_languages</class>
 		<class>admin_themes</class>
+		<class>admin_categories</class>
 	</classList>
 	<eventList>
 		<event>
@@ -39,6 +41,10 @@
 		<event>
 			<name>blackmore_registerModules</name>
 			<callback>admin_themes::blackmore_registerModules</callback>
+		</event>
+		<event>
+			<name>blackmore_registerModules</name>
+			<callback>admin_categories::blackmore_registerModules</callback>
 		</event>
 	</eventList>
 </scabbia>

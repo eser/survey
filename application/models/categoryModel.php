@@ -73,6 +73,35 @@
 				->get()
 				->all();
 		}
+		
+		public function insert($input) {
+			return $this->db->createQuery()
+				->setTable('categories')
+				->setFields($input)
+				->insert()
+				->execute();
+		}
+
+		public function update($categoryID, $input) {
+			return $this->db->createQuery()
+				->setTable('categories')
+				->setFields($input)
+				->addParameter('categoryid', $categoryID)
+				->setWhere(['categoryid=:categoryid'])
+				->setLimit(1)
+				->update()
+				->execute();
+		}
+
+		public function delete($categoryID) {
+			return $this->db->createQuery()
+				->setTable('categories')
+				->addParameter('categoryid', $categoryID)
+				->setWhere('categoryid=:categoryid')
+				->setLimit(1)
+				->delete()
+				->execute();
+		}
 	}
 
 ?>

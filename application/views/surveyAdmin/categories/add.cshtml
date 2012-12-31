@@ -1,0 +1,61 @@
+@views::viewFile('{core}views/blackmore/header.php')
+@if(isset($message)) {
+	<span>@_($message)</span>
+} 
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#frmAdd").validate();
+  });
+</script>
+
+<section id="pageMiddle">
+<div class="wrapper">
+	<div class="inner">
+		<table id="pageMiddleTable">
+		<tbody>
+		<tr>
+			<td id="pageMiddleSidebar" style="">
+				<div class="middleLine">
+					<div class="menuDivContainer">
+						<div class="menuDiv">
+							<div class="menuDivHeader">
+								<a class="boxed" href="@$root/blackmore/categories/categoryList">@_('Categories')</a>
+							</div>
+							<ul>
+								<li><a class="boxed iconcategoryadd" href="@$root/blackmore/categories/categoryList">@_('Category list')</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="clear">
+				</div>
+			</td>
+			<td id="pageMiddleSidebarToggle">
+				 «
+			</td>
+			<td id="pageMiddleContent">
+				<div class="topLine">
+				</div>
+				<div class="middleLine">
+					<h2 class="iconxcategories">@_('Category')</h2>
+					<form id="frmAdd" method="post" action="@$root/blackmore/categories/add">
+							<input type="hidden" name="categoryid" value="@if(isset($category['categoryid'])){@$category['categoryid']}">
+							@_('Name') : <input type="text" name="name" class="required" minlength="3" value="@if(isset($category['name'])){@$category['name']}"></input><br>
+							<input type="submit" name="submit" value="@_('Save')"></input>
+					</form>
+				</div>
+				<div class="bottomLine">
+				</div>
+				<div class="clear">
+				</div>
+			</td>
+			<td id="pageMiddleExtra">
+			</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+</div>
+</section> 
+
+@views::viewFile('{core}views/blackmore/footer.php')
