@@ -262,22 +262,11 @@
 				// revision handling
 				$tNextRevision = $this->post_questions_revisionwork($tSurvey['surveyid'], $tSurvey['lastrevision']);
 
-				switch($uQuestionType) {
-				case statics::QUESTION_EVALUATION:
-					$this->post_questions_evaluation($uSurveyId, $tNextRevision);
-					break;
-
-				case statics::QUESTION_MULTIPLE:
-					$this->post_questions_multiple($uSurveyId, $tNextRevision);
-					break;
-
-				case statics::QUESTION_FILL:
-					$this->post_questions_fill($uSurveyId, $tNextRevision);
-					break;
-
-				default:
+				if(!is_null($uQuestionType)) {
+					$this->post_questions_other($uQuestionType, $uSurveyId, $tNextRevision);
+				}
+				else {
 					$this->post_questions_questionpool($uSurveyId, $tNextRevision);
-					break;
 				}
 			}
 			catch(Exception $ex) {
@@ -321,21 +310,69 @@
 		}
 
 		private function post_questions_questionpool($uSurveyId, $uRevision) {
-			$tInput = http::postArray(['questionid']);
-			$tInput['surveyid'] = $uSurveyId;
-			$tInput['revision'] = $uRevision;
+			$tSurveyQuestion = http::postArray(['questionid']);
+			$tSurveyQuestion['surveyid'] = $uSurveyId;
+			$tSurveyQuestion['revision'] = $uRevision;
 			
 			$this->load('surveyquestionModel');
-			$this->surveyquestionModel->insert($tInput);
-		}
-		
-		private function post_questions_evaluation($uSurveyId, $uRevision) {
-		}
-		
-		private function post_questions_multiple($uSurveyId, $uRevision) {
+			$this->surveyquestionModel->insert($tSurveyQuestion);
 		}
 
-		private function post_questions_fill($uSurveyId, $uRevision) {
+		private function post_questions_other($uType, $uSurveyId, $uRevision) {
+			// construct values for the record
+			$tInput = http::postArray(['content', 'typefilter', 'isshared']);
+			$tInput['questionid'] = string::generateUuid();
+			$tInput['type'] = $uType;
+			$tInput['ownerid'] = statics::$user['userid'];
+
+			// validate the request
+			contracts::lengthMinimum($tInput['content'], 3)->exception('question length must be 3 at least');
+			contracts::inKeys($uType, statics::$questiontypes)->exception('question type is invalid');
+			if(isset($tInput['typefilter'])) {
+				contracts::inKeys($tInput['typefilter'], statics::$questiontypefilters)->exception('question type filter is invalid');
+			}
+			else {
+				$tInput['typefilter'] = '0';
+			}
+			contracts::inKeys($tInput['isshared'], statics::$sharedboolean)->exception('accessibility is invalid');
+
+			if($uType == statics::QUESTION_MULTIPLE) {
+				$tOptions = http::post('options');
+				$tOptionTypes = http::post('optiontypes');
+
+				foreach($tOptions as $tKey => &$tOption) {
+					contracts::lengthMinimum($tOption, 1)->exception('a question choice length must be 3 at least');
+					contracts::inKeys($tOptionTypes[$tKey], statics::$questionoptiontypes)->exception('a question choice type is invalid');
+				}
+			}
+
+			// insert the record into database
+			$this->load('questionModel');
+			$this->questionModel->insert($tInput);
+
+			// insert question choices if and only if question's type is multiple choice
+			if($uType == statics::QUESTION_MULTIPLE) {
+				// loop for each option of question
+				foreach($tOptions as $tKey => &$tOption) {
+					$tOptionInput = [
+						'questionchoiceid' => string::generateUuid(),
+						'questionid' => $tInput['questionid'],
+						'content' => $tOption,
+						'type' => $tOptionTypes[$tKey]
+					];
+
+					$this->questionModel->insertChoice($tOptionInput);
+				}
+			}
+
+			$tSurveyQuestion = [
+				'questionid' => $tInput['questionid'],
+				'surveyid' => $uSurveyId,
+				'revision' => $uRevision
+			];
+			
+			$this->load('surveyquestionModel');
+			$this->surveyquestionModel->insert($tSurveyQuestion);
 		}
 
 		/**
