@@ -27,7 +27,8 @@
 				}
             </div>
 
-			<div class="clear marginBottom30px"></div>
+			<div class="clear"></div>
+			<div class="marginBottom30px"></div>
 
 		@if(session::existsFlash('loginNotification')) {
 			@{ $loginNotification = session::getFlash('loginNotification'); }
@@ -45,17 +46,18 @@
 						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 							<tr>
 								<td><input type="text" name="email" value="" data-defaulttext="E-mail" /></td>
-								<td><input class="inlineBlock classiclogin" type="submit" value="Send" /></td>
+								<td><input class="inlineBlock classiclogin" type="submit" value="Send" tabindex="-1" /></td>
 							</tr>
 							<tr>
 								<td><input type="password" name="password" value="" data-defaulttext="Password" /></td>
-								<td><input id="fblogin" type="button" /></td>
+								<td></td>
 							</tr>
 							<tr><td colspan="2" class="alignCenter">
 								<a href="@mvc::url('user/register')">Register</a> ·
 								<a href="@mvc::url('user/forgottenpassword')">Forgotten Password</a>
 							</td></tr>
 						</table>
+						<input id="fblogin" class="marginTop10px" type="button" />
 					</form>
 				</div>
 			</div>
