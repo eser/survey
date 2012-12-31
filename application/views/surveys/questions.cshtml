@@ -26,25 +26,6 @@
 						}
 					}
 
-					function formSubmit() {
-						var activeElement = $l.dom.selectSingle('.tabs li a.selected');
-
-						switch(activeElement.getAttribute('rel')) {
-						case 'tab_1':
-							$l.dom.selectSingle('#questionType').value = '';
-							break;
-						case 'tab_2':
-							$l.dom.selectSingle('#questionType').value = '@statics::QUESTION_EVALUATION';
-							break;
-						case 'tab_3':
-							$l.dom.selectSingle('#questionType').value = '@statics::QUESTION_MULTIPLE';
-							break;
-						case 'tab_4':
-							$l.dom.selectSingle('#questionType').value = '@statics::QUESTION_FILL';
-							break;
-						}
-					}
-
 					$l.ready(function() {
 						$l.ui.autocomplete(
 							$('#query'),
@@ -61,8 +42,6 @@
 
 						$l.dom.setEvent($l.dom.selectSingle('#addnewchoice'), 'click', addNewChoice);
 						renumber();
-
-						$l.dom.setEvent($l.dom.selectSingle('#addQuestion'), 'submit', formSubmit);
 					});
 				</script>
 
@@ -88,18 +67,16 @@
                 <div class="full-page-text">
 
                     <h3>Add Question</h3>
-                    <form id="addQuestion" method="post" action="@mvc::url('surveys/questions')">
-						<input id="questionType" type="hidden" name="type" value="@statics::QUESTION_EVALUATION" />
-
-						<div class="marginTop20px tabs_table">
-							<ul class="tabs">
-								<li><a rel="tab_1">Question Pool</a></li>
-								<li><a rel="tab_2">Evaluation</a></li>
-								<li><a rel="tab_3">Multiple Choices</a></li>
-								<li><a rel="tab_4">Fill In The Blanks</a></li>
-							</ul>
-							<div class="panes">
-								<div id="tab_1" class="tab-content">
+					<div class="marginTop20px tabs_table">
+						<ul class="tabs">
+							<li><a rel="tab_1">Question Pool</a></li>
+							<li><a rel="tab_2">Evaluation</a></li>
+							<li><a rel="tab_3">Multiple Choices</a></li>
+							<li><a rel="tab_4">Fill In The Blanks</a></li>
+						</ul>
+						<div class="panes">
+							<div id="tab_1" class="tab-content">
+								<form id="addQuestion1" method="post" action="@mvc::url('surveys/questions/1')">
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content1" for="content1">Question *</label></td>
@@ -109,8 +86,12 @@
 											</td>
 										</tr>
 									</table>
-								</div>
-								<div id="tab_2" class="tab-content">
+
+									<p class="alignRight"><input type="submit" value="Add Question" /></p>
+								</form>
+							</div>
+							<div id="tab_2" class="tab-content">
+								<form id="addQuestion2" method="post" action="@mvc::url('surveys/questions/2')">
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content2" for="content2">Question *</label></td>
@@ -121,6 +102,7 @@
 											<td><select name="isshared2">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
 										</tr>
 									</table>
+									<div class="xline"></div>
 
 									<ul class="marginTop10px l-child">
 										<li>Strongly Agree</li>
@@ -129,8 +111,12 @@
 										<li>Disagree</li>
 										<li>Strongly Disagree</li>
 									</ul>
-								</div>
-								<div id="tab_3" class="tab-content">
+
+									<p class="alignRight"><input type="submit" value="Add Question" /></p>
+								</form>
+							</div>
+							<div id="tab_3" class="tab-content">
+								<form id="addQuestion3" method="post" action="@mvc::url('surveys/questions/3')">
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content3" for="content3">Question *</label></td>
@@ -141,6 +127,7 @@
 											<td><select name="isshared3">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
 										</tr>
 									</table>
+									<div class="xline"></div>
 
 									<a id="addnewchoice" href="#">Add New Choice</a>
 									<ul class="marginTop10px arrow l-child" id="options">
@@ -150,8 +137,12 @@
 											<a class="remove" href="#">Remove</a>
 										</li>
 									</ul>
-								</div>
-								<div id="tab_4" class="tab-content">
+
+									<p class="alignRight"><input type="submit" value="Add Question" /></p>
+								</form>
+							</div>
+							<div id="tab_4" class="tab-content">
+								<form id="addQuestion4" method="post" action="@mvc::url('surveys/questions/4')">
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content4" for="content4">Question *</label></td>
@@ -162,17 +153,19 @@
 											<td><select name="isshared4">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
 										</tr>
 									</table>
+									<div class="xline"></div>
 
 									<ul class="marginTop10px l-child">
 									@foreach(html::radioOptionsArray('typefilter', statics::$questiontypefilters, '0') as $option) {
 										<li>@$option</li>
 									}
 									</ul>
-								</div>
+
+									<p class="alignRight"><input type="submit" value="Add Question" /></p>
+								</form>
 							</div>
-							<p class="alignRight"><input type="submit" value="Add Question" /></p>
 						</div>
-					</form>
+					</div>
 					
 				</div>
                 <!-- Page Content End -->
