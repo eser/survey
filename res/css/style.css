@@ -180,13 +180,6 @@ table.extable tr:hover td { background-color: #FFFFCC; }
 	border-style: dashed;
 }
 
-.classiclogin {
-	height: 24px !important;
-	width: 72px;
-	padding: 0px !important;
-	background: #0AC6EF !important;
-}
-
 /* End Typography
 --------------------------------------------------------------------------------------------------------*/
 
@@ -797,8 +790,18 @@ a:hover.xbutton {
 #fblogin {
 	background: url('/survey/res/img/fblogin.png') no-repeat;
 	width: 72px;
-	height: 24px;
+	height: 28px;
 	display: inline-block;
+}
+
+.classiclogin {
+	height: 28px !important;
+	width: 72px;
+	padding: 3px 18px !important;
+	background: #D6D6D6 !important;
+	line-height: 30px !important;
+	border: 1px solid #DDE0E4 !important;
+	color: #5E5E5E !important;
 }
 
 /* list widget */
