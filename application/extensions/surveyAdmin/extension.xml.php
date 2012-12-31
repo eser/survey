@@ -19,14 +19,20 @@
 	</info>
 	<includeList>
 		<include>admin_questions.php</include>
+		<include>admin_languages.php</include>
 	</includeList>
 	<classList>
 		<class>admin_questions</class>
+		<class>admin_languages</class>
 	</classList>
 	<eventList>
 		<event>
 			<name>blackmore_registerModules</name>
 			<callback>admin_questions::blackmore_registerModules</callback>
+		</event>
+		<event>
+			<name>blackmore_registerModules</name>
+			<callback>admin_languages::blackmore_registerModules</callback>
 		</event>
 	</eventList>
 </scabbia>

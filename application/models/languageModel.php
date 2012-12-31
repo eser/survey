@@ -64,6 +64,35 @@
 				->get()
 				->all();
 		}
+
+		public function insert($input) {
+			return $this->db->createQuery()
+				->setTable('languages')
+				->setFields($input)
+				->insert()
+				->execute();
+		}
+
+		public function update($languageID, $input) {
+			return $this->db->createQuery()
+				->setTable('languages')
+				->setFields($input)
+				->addParameter('languageid', $languageID)
+				->setWhere(['languageid=:languageid'])
+				->setLimit(1)
+				->update()
+				->execute();
+		}
+
+		public function delete($languageID) {
+			return $this->db->createQuery()
+				->setTable('languages')
+				->addParameter('languageid', $languageID)
+				->setWhere('languageid=:languageid')
+				->setLimit(1)
+				->delete()
+				->execute();
+		}
 	}
 
 ?>

@@ -86,22 +86,3 @@
 </section> 
 
 @views::viewFile('{core}views/blackmore/footer.php')
-@views::viewFile('{core}views/blackmore/header.php')
-
-@if(isset($message)) {
-	<span>@_($message)</span>
-} 
-
-<form method="post" action="@$root/blackmore/questions/add">
-		<input type="hidden" name="questionid" value="@if(isset($question['questionid'])){@$question['questionid']}">
-		@_('question name') : <input type="text" name="name" value="@if(isset($question['name'])){@$question['name']}"></input><br>
-		@_('Slug') : <input type="text" name="slug" value="@if(isset($question['slug'])){@$question['slug']}"></input><br>
-		@_('Parent') : 
-		<select name="parentid"> 
-			@foreach($questions as $cat){
-				<option value="@$cat['questionid']" @if(isset($question['parentid']) && ($question['parentid'] == $cat['questionid'])){selected="selected"} >@$cat['name']</option>
-			}
-		</select>
-		<input type="submit" name="submit" value="@_('Save')"></input>
-</form>
-@views::viewFile('{core}views/blackmore/footer.php')
