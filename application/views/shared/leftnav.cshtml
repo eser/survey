@@ -3,26 +3,27 @@
 
             <!-- Main Naigation (active - .act) -->
             <div id="main-nav">
+				@{ $activePage = mvc::$route['controller'] . '/' . mvc::$route['action']; }
 				@if(is_null(statics::$user)) {
                 <ul>
-                    <li class="current-menu-item"><a href="@mvc::url('home/index')">Home</a></li>
-                    <li><a href="@mvc::url('blog/index')">Blog</a></li>
-					<li><a href="@mvc::url('home/faq')">FAQ</a></li>
-                    <li><a href="@mvc::url('home/about')">About Us</a></li>
-					<li><a href="@mvc::url('home/contact')">Contact</a></li>
+                    <li@{ if($activePage == 'home/index') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('home/index')">Home</a></li>
+                    <li@{ if($activePage == 'blog/index') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('blog/index')">Blog</a></li>
+					<li@{ if($activePage == 'home/faq') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('home/faq')">FAQ</a></li>
+                    <li@{ if($activePage == 'home/about') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('home/about')">About Us</a></li>
+					<li@{ if($activePage == 'home/contact') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('home/contact')">Contact</a></li>
                 </ul>
 				} else {
                 <ul>
-                    <li class="current-menu-item"><a href="@mvc::url('home/index')">Home</a></li>
-						<li><a class="paddingLeft50px" href="@mvc::url('blog/index')">Blog</a></li>
-						<li><a class="paddingLeft50px" href="@mvc::url('home/faq')">FAQ</a></li>
-						<li><a class="paddingLeft50px" href="@mvc::url('home/about')">About Us</a></li>
-						<li><a class="paddingLeft50px" href="@mvc::url('home/contact')">Contact</a></li>
+                    <li@{ if($activePage == 'home/index') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('home/index')">Home</a></li>
+						<li@{ if($activePage == 'blog/index') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('blog/index')">Blog</a></li>
+						<li@{ if($activePage == 'home/faq') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('home/faq')">FAQ</a></li>
+						<li@{ if($activePage == 'home/about') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('home/about')">About Us</a></li>
+						<li@{ if($activePage == 'home/contact') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('home/contact')">Contact</a></li>
 					<li><a href="@mvc::url('surveys/index')">Surveys</a></li>
-						<li><a class="paddingLeft50px" href="@mvc::url('surveys/new')">Create New Survey</a></li>
-						<li><a class="paddingLeft50px" href="@mvc::url('surveys/index')">Existing Surveys</a></li>
-						<li><a class="paddingLeft50px" href="@mvc::url('questions/index')">Question Pool</a></li>
-					<li><a href="@mvc::url('user/profile')">Profile</a></li>
+						<li@{ if($activePage == 'surveys/new') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('surveys/new')">Create New Survey</a></li>
+						<li@{ if($activePage == 'surveys/index') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('surveys/index')">Existing Surveys</a></li>
+						<li@{ if($activePage == 'questions/index') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('questions/index')">Question Pool</a></li>
+					<li@{ if($activePage == 'user/profile') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('user/profile')">Profile</a></li>
                 </ul>
 				}
             </div>
