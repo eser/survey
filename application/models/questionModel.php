@@ -112,6 +112,21 @@
 		/**
 		 * @ignore
 		 */
+		public function getAllAccessibleExcept($uOwnerId, $uSurveyId, $uRevision) {
+			return $this->db->createQuery()
+				->setTable('questions')
+				->addField('*')
+				->setWhere([['ownerid=:ownerid', _or, 'isshared=\'1\''], _and, 'questionid NOT IN (SELECT questionid FROM surveyquestions WHERE surveyid=:surveyid AND revision=:revision)'])
+				->addParameter('ownerid', $uOwnerId)
+				->addParameter('surveyid', $uSurveyId)
+				->addParameter('revision', $uRevision)
+				->get()
+				->all();
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function getAllPaged($uOffset, $uLimit) {
 			return $this->db->createQuery()
 				->setTable('questions')

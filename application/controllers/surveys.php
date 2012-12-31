@@ -208,7 +208,7 @@
 				// gather all questions from data model
 				$this->load('questionModel');
 				$tQuerySuggestions = [];
-				foreach($this->questionModel->getAllAccessible(statics::$user['userid']) as $tRow) {
+				foreach($this->questionModel->getAllAccessibleExcept(statics::$user['userid'], $tSurvey['surveyid'], $tSurvey['lastrevision']) as $tRow) {
 					$tQuerySuggestions[] = ['hiddenvalue' => $tRow['questionid'], 'label' => $tRow['content']];
 				}
 				$this->setRef('querySuggestions', $tQuerySuggestions);
