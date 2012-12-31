@@ -236,6 +236,35 @@
 			// render the page
 			$this->view();
 		}
+		
+		/**
+		 * postback method for questions form
+		 *
+		 * @param $uSurveyId string the uuid represents survey id
+		 * @param $uQuestionType int the question type
+		 * ** INCOMPLETE
+		 */
+		public function post_questions($uSurveyId, $uQuestionType) {
+			switch($uQuestionType) {
+			case statics::QUESTION_EVALUATION:
+				
+				break;
+
+			case statics::QUESTION_MULTIPLE:
+				break;
+
+			case statics::QUESTION_FILL:
+				break;
+			}
+
+			$this->post_questions_evaluation($uSurveyId);
+		}
+
+		private function post_questions_evaluation($uSurveyId) {
+		}
+		
+		private function post_questions_evaluation($uSurveyId) {
+		}
 
 		/**
 		 * new survey publish page

@@ -48,7 +48,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 .valignTop { vertical-align: top; }
 img { border: 0; }
 th { text-align: left; }
-.xline { height: 1px; background: #D0D0D0; display: block; }
+.xline { height: 1px; background: #D0D0D0; display: block !important; margin: 10px 0px 10px 0px; }
 
 body {
 	background: url('/survey/res/img/body-bg.jpg');
