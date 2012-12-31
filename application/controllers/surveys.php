@@ -260,29 +260,7 @@
 				$this->setRef('survey', $tSurvey);
 
 				// revision handling
-				$this->load('surveypublishModel');
-				$tCount = $this->surveypublishModel->getPublishCountBySurvey($tSurvey['surveyid'], $tSurvey['lastrevision']);
-				$tLastRevision = intval($tSurvey['lastrevision']);
-				if($tLastRevision <= 0 || intval($tCount) > 0) {
-					$tNextRevision = $tLastRevision + 1;
-				}
-				else {
-					$tNextRevision = $tLastRevision;
-				}
-
-				if($tNextRevision > $tLastRevision) {
-					$tNewRevision = [
-						'surveyid' => $tSurvey['surveyid'],
-						'revision' => $tNextRevision,
-						'createdate' => time::toDb(time()),
-						'ownerid' => statics::$user['userid'],
-						'details' => ''
-					];
-
-					$this->load('surveyrevisionModel');
-					$this->surveyrevisionModel->insert($tNewRevision);
-					//TODO: transfer previous revision's items to current one.
-				}
+				$tNextRevision = $this->post_questions_revisionwork($tSurvey['surveyid'], $tSurvey['lastrevision']);
 
 				switch($uQuestionType) {
 				case statics::QUESTION_EVALUATION:
@@ -305,14 +283,41 @@
 			catch(Exception $ex) {
 				// set an error message to be passed thru session if an exception occurred.
 				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
-
-				// redirect user to parent page in order to display error message
-				mvc::redirect('surveys/index');
-				return;
 			}
 
 			// render the page
-			// $this->view();
+			mvc::redirect('surveys/questions/' . $uSurveyId);
+		}
+
+		private function &post_questions_revisionwork($uSurveyId, $uLastRevision) {
+			$this->load('surveypublishModel');
+			$tCount = $this->surveypublishModel->getPublishCountBySurvey($uSurveyId, $uLastRevision);
+			$tLastRevision = intval($uLastRevision);
+			if($tLastRevision <= 0 || intval($tCount) > 0) {
+				$tNextRevision = $tLastRevision + 1;
+			}
+			else {
+				$tNextRevision = $tLastRevision;
+			}
+
+			if($tNextRevision > $tLastRevision) {
+				$tNewRevision = [
+					'surveyid' => $uSurveyId,
+					'revision' => $tNextRevision,
+					'createdate' => time::toDb(time()),
+					'ownerid' => statics::$user['userid'],
+					'details' => ''
+				];
+
+				$this->load('surveyrevisionModel');
+				$this->surveyrevisionModel->insert($tNewRevision);
+
+				// transfer previous revision's items to current one.
+				$this->load('surveyquestionModel');
+				$this->surveyquestionModel->transferQuestions($uSurveyId, $tLastRevision, $tNextRevision);
+			}
+
+			return $tNextRevision;
 		}
 
 		private function post_questions_questionpool($uSurveyId, $uRevision) {
@@ -322,8 +327,6 @@
 			
 			$this->load('surveyquestionModel');
 			$this->surveyquestionModel->insert($tInput);
-
-			exit('done');
 		}
 		
 		private function post_questions_evaluation($uSurveyId, $uRevision) {
