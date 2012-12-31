@@ -1,0 +1,88 @@
+@views::viewFile('{core}views/blackmore/header.php')
+@if(isset($message)) {
+	<span>@_($message)</span>
+} 
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#frmAdd").validate();
+  });
+</script>
+
+<section id="pageMiddle">
+<div class="wrapper">
+	<div class="inner">
+		<table id="pageMiddleTable">
+		<tbody>
+		<tr>
+			<td id="pageMiddleSidebar" style="">
+				<div class="middleLine">
+					<div class="menuDivContainer">
+						<div class="menuDiv">
+							<div class="menuDivHeader">
+								<a class="boxed" href="@$root/blackmore/questions/questionList">@_('Questions')</a>
+							</div>
+							<ul>
+								<li><a class="boxed iconquestionadd" href="@$root/blackmore/questions/choices/@$question['questionid']">@_('Choice list')</a></li>
+								<li><a class="boxed iconquestionadd" href="@$root/blackmore/questions/questionList">@_('Question list')</a></li>
+								
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="clear">
+				</div>
+			</td>
+			<td id="pageMiddleSidebarToggle">
+				 «
+			</td>
+			<td id="pageMiddleContent">
+				<div class="topLine">
+				</div>
+				<div class="middleLine">
+					<h2 class="iconxquestions">@$question['content'] @_('Choice')</h2>
+					<form id="frmAdd" method="post" action="@$root/blackmore/questions/addChoice/@$question['questionid']">
+							<input type="hidden" name="questionchoiceid" value="@if(isset($choice['questionchoiceid'])){@$choice['questionchoiceid']}">
+							@_('Content') : <input type="text" name="content" class="required" minlength="3" value="@if(isset($choice['content'])){@$choice['content']}"></input><br>
+							@_('Type') :
+							<select name="type">
+								@foreach(statics::$questionoptiontypes as $key=> $type){
+									<option value="@$key" @if(isset($choice['type']) && $choice['type']==$key){selected="seleceted"} >@$type</option>
+								}
+							</select><br/>	
+							<input type="submit" name="submit" value="@_('Save')"></input>
+					</form>
+				</div>
+				<div class="bottomLine">
+				</div>
+				<div class="clear">
+				</div>
+			</td>
+			<td id="pageMiddleExtra">
+			</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+</div>
+</section> 
+
+@views::viewFile('{core}views/blackmore/footer.php')
+@views::viewFile('{core}views/blackmore/header.php')
+
+@if(isset($message)) {
+	<span>@_($message)</span>
+} 
+
+<form method="post" action="@$root/blackmore/questions/add">
+		<input type="hidden" name="questionid" value="@if(isset($question['questionid'])){@$question['questionid']}">
+		@_('question name') : <input type="text" name="name" value="@if(isset($question['name'])){@$question['name']}"></input><br>
+		@_('Slug') : <input type="text" name="slug" value="@if(isset($question['slug'])){@$question['slug']}"></input><br>
+		@_('Parent') : 
+		<select name="parentid"> 
+			@foreach($questions as $cat){
+				<option value="@$cat['questionid']" @if(isset($question['parentid']) && ($question['parentid'] == $cat['questionid'])){selected="selected"} >@$cat['name']</option>
+			}
+		</select>
+		<input type="submit" name="submit" value="@_('Save')"></input>
+</form>
+@views::viewFile('{core}views/blackmore/footer.php')

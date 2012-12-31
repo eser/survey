@@ -40,6 +40,22 @@
 					array(
 						'callback' => 'admin_questions::edit',
 						'action' => 'edit'
+					),
+					array(
+						'callback' => 'admin_questions::choices',
+						'action' => 'choices'
+					),
+					array(
+						'callback' => 'admin_questions::addChoice',
+						'action' => 'addChoice'
+					),
+					array(
+						'callback' => 'admin_questions::editChoice',
+						'action' => 'editChoice'
+					),
+					array(
+						'callback' => 'admin_questions::deleteChoice',
+						'action' => 'deleteChoice'
 					)
 				)
 			);
@@ -92,9 +108,7 @@
 			auth::checkRedirect('admin');
 			$questionModel = mvc::load('questionModel');
 			if(contracts::isUuid($questionID)->check()) {
-				$result = $questionModel->delete($questionID);
-				$viewBag['result'] = $result;
-				$viewBag['message'] = 'Record Deleted';
+				$viewBag['message'] = $questionModel->delete($questionID).' Record Deleted';
 			}
 			$viewBag['questions'] = $questionModel->getAll();
 			views::view('surveyAdmin/questions/list.cshtml', $viewBag);
@@ -110,8 +124,63 @@
 				'users' => $userModel->getAll()
 				);
 			views::view('surveyAdmin/questions/add.cshtml', $viewBag);
-			
-			
+		
+		}
+
+		public static function choices($actionName, $questionID) {
+			auth::checkRedirect('admin');
+			$viewBag = array();
+			$questionModel = mvc::load('questionModel');
+			$viewBag['question'] = $questionModel->get($questionID);
+			$viewBag['choices'] = $questionModel->getChoicesByQuestionID($questionID);
+			views::view('surveyAdmin/questions/choices.cshtml', $viewBag);
+		}
+
+		public static function addChoice($actionName, $questionID) {
+			$viewBag = array();
+			auth::checkRedirect('admin');
+			$questionModel = mvc::load('questionModel');
+			if(http::$method == 'post') {
+				$input = array(
+					'content' => http::post('content'),
+					'type' => http::post('type'),
+					'questionid' => $questionID
+					 );
+				$questionChoiceID = http::post('questionchoiceid');
+				if($questionChoiceID != null && contracts::isUuid($questionChoiceID)->check()) {
+					$viewBag['message'] = $questionModel->updateChoice($questionChoiceID, $input).' Record Updated';
+				}
+				else {
+					$input['questionchoiceid'] = string::generateUuid();
+					$viewBag['message'] = $questionModel->insertChoice($input).' Record Inserted';
+				}
+			}
+			$viewBag['question'] = $questionModel->get($questionID);
+			views::view('surveyAdmin/questions/addChoice.cshtml', $viewBag);
+		}
+
+		public static function editChoice($actionName, $questionID, $questionChoiceID) {
+			$viewBag = array();
+			auth::checkRedirect('admin');
+			$questionModel = mvc::load('questionModel');
+			$viewBag = array(
+				'question' => $questionModel->get($questionID),
+				'choice' => $questionModel->getChoice($questionChoiceID)
+				);
+			views::view('surveyAdmin/questions/addChoice.cshtml', $viewBag);
+		
+		}
+
+		public static function deleteChoice($actionName, $questionID, $questionChoiceID) {
+			$viewBag = array();
+			auth::checkRedirect('admin');
+			$questionModel = mvc::load('questionModel');
+			if(contracts::isUuid($questionChoiceID)->check()) {
+				$viewBag['message'] = $questionModel->deleteChoice($questionChoiceID).' Record Deleted';
+			}
+			$viewBag['question'] = $questionModel->get($questionID);
+			$viewBag['choices'] = $questionModel->getChoicesByQuestionID($questionID);
+			views::view('surveyAdmin/questions/choices.cshtml', $viewBag);
 		}
 
 

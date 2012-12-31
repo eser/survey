@@ -3,7 +3,6 @@
 	<span>@_($message)</span>
 } 
 
-
 <section id="pageMiddle">
 <div class="wrapper">
 	<div class="inner">
@@ -15,11 +14,11 @@
 					<div class="menuDivContainer">
 						<div class="menuDiv">
 							<div class="menuDivHeader">
-								<a class="boxed" href="@$root/blackmore/questions/questionList">@_('Questions')</a>
+								<a class="boxed" href="@$root/blackmore/questions/choices/@$question['questionid']">@_('Choices')</a>
 							</div>
 							<ul>
-								<li><a class="boxed iconquestionadd" href="@$root/blackmore/questions/add">@_('Add question')</a></li>
-								</li>
+								<li><a class="boxed iconcategoryadd" href="@$root/blackmore/questions/addChoice/@$question['questionid']">@_('Add choice')</a></li>
+								<li><a class="boxed iconcategoryadd" href="@$root/blackmore/questions/questionList">@_('Question list')</a></li>
 							</ul>
 						</div>
 					</div>
@@ -34,29 +33,24 @@
 				<div class="topLine">
 				</div>
 				<div class="middleLine">
-					<h2 class="iconxquestions">@_('Questions')</h2>
+					<h2 class="iconxcategories">@$question['content']</h2>
 					<!--table sorter begin-->
 					<table id="myTable" class="tablesorter"> 
 						<thead> 
 							<tr> 
-							    <th>@_('Question')</th> 
+							    <th>@_('Content')</th> 
 							    <th>@_('Type')</th> 
-							    <th>@_('Type Filter')</th> 
-							    <th>@_('Shared')</th> 
 							    <th></th>
 							</tr> 
 						</thead> 
 						<tbody> 
-							@foreach($questions as $question){
+							@foreach($choices as $choice){
 								<tr>
-									<td>@$question['content']</td>
-									<td>@statics::$questiontypes[$question['type']]</td>
-									<td>@statics::$questiontypefilters[$question['typefilter']]</td>
-									<td>@$question['isshared']</td>
+									<td>@$choice['content']</td>
+									<td>@statics::$questionoptiontypes[$choice['type']]</td>
 									<td>
-										<a href="@$root/blackmore/questions/choices/@$question['questionid']">@_('Choices')</a>
-										<a href="@$root/blackmore/questions/edit/@$question['questionid']">@_('Edit')</a> 
-										<a href="@$root/blackmore/questions/delete/@$question['questionid']">@_('Delete')</a>
+										<a href="@$root/blackmore/questions/editChoice/@$question['questionid']/@$choice['questionchoiceid']">@_('Edit')</a> 
+										<a href="@$root/blackmore/questions/deleteChoice/@$question['questionid']/@$choice['questionchoiceid']">@_('Delete')</a>
 									</td>
 								</tr>
 

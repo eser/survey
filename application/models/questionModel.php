@@ -232,6 +232,40 @@
 				->delete()
 				->execute();
 		}
+
+		public  function updateChoice($questionChoiceID, $input) {
+			return $this->db->createQuery()
+				->setTable('questionchoices')
+				->setFields($input)
+				->addParameter('questionchoiceid', $questionChoiceID)
+				->setWhere(['questionchoiceid=:questionchoiceid'])
+				->setLimit(1)
+				->update()
+				->execute();
+		
+		}
+
+		public  function getChoice($questionChoiceID) {
+			return $this->db->createQuery()
+				->setTable('questionchoices')
+				->addField('*')
+				->setWhere(['questionchoiceid=:questionchoiceid'])
+				->addParameter('questionchoiceid', $questionChoiceID)
+				->setLimit(1)
+				->get()
+				->row();
+		
+		}
+
+		public function deleteChoice($questionChoiceID) {
+			return $this->db->createQuery()
+				->setTable('questionchoices')
+				->addParameter('questionchoiceid', $questionChoiceID)
+				->setWhere('questionchoiceid=:questionchoiceid')
+				->setLimit(1)
+				->delete()
+				->execute();
+		}
 	}
 
 ?>
