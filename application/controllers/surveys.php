@@ -187,6 +187,7 @@
 		/**
 		 * questions form
 		 *
+		 * @param $uSurveyId string the uuid represents survey id
 		 * ** INCOMPLETE
 		 */
 		public function get_questions($uSurveyId) {
@@ -203,7 +204,7 @@
 				contracts::isNotFalse($tSurvey)->exception('invalid survey id');
 				contracts::isEqual($tSurvey['ownerid'], statics::$user['userid'])->exception('unauthorized access');
 				$this->setRef('survey', $tSurvey);
-
+				
 				// gather all questions from data model
 				$this->load('questionModel');
 				$tQuerySuggestions = [];
