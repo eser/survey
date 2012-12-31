@@ -36,7 +36,10 @@
 								labelfieldname: 'label',
 								hiddenfield: $('#queryhidden'),
 								hiddenfieldname: 'hiddenvalue',
-								alllist: true
+								alllist: true,
+								onselect: function() {
+									$('#addQuestion1 input[type=submit]').effect('highlight'); // , 1000
+								}
 							}
 						);
 

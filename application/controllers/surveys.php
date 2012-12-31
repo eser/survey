@@ -313,6 +313,17 @@
 			$tSurveyQuestion = http::postArray(['questionid']);
 			$tSurveyQuestion['surveyid'] = $uSurveyId;
 			$tSurveyQuestion['revision'] = $uRevision;
+
+			// validate the request
+			$this->load('questionModel');
+			contracts::isUuid($tSurveyQuestion['questionid'])->exception('invalid question id format');
+			$tQuestion = $this->questionModel->get($tSurveyQuestion['questionid']);
+			contracts::isNotFalse($tQuestion)->exception('invalid question id');
+			if($tQuestion['isshared'] != statics::SHARE_SHARED) {
+				contracts::isEqual($tQuestion['ownerid'], statics::$user['userid'])->exception('unauthorized access');
+			}
+
+			//TODO check for question repetation
 			
 			$this->load('surveyquestionModel');
 			$this->surveyquestionModel->insert($tSurveyQuestion);
