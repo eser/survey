@@ -83,19 +83,35 @@
 											<th>Start Date</th>
 											<th>End Date</th>
 											<th>Responses</th>
+											<th>Limit</th>
 											<th></th>
 										</tr>
 									</thead>
 									<tbody>
 									@foreach($surveypublishs[$survey['surveyid']] as $surveypublish) {
+										@{
+											$tProps = array();
+											if(strlen($surveypublish['password']) > 0) {
+												$tProps[] = 'password';
+											}
+											if($surveypublish['type'] != statics::SURVEY_PUBLIC) {
+												$tProps[] = 'private';
+											}
+											if($surveypublish['enabled'] == statics::SURVEY_DISABLED) {
+												$tProps[] = 'disabled';
+											}
+										}
 										<tr>
 											<td>
 												<a href="@mvc::url('surveys/editpublish/' . $surveypublish['surveypublishid'])">Revision @$surveypublish['revision']</a>
-												<em>(private, password)</em>
+												@if(count($tProps) > 0) {
+													<em>(@implode($tProps, ', '))</em>
+												}
 											</td>
 											<td>@$surveypublish['startdate']</td>
 											<td>@$surveypublish['enddate']</td>
 											<td>0</td>
+											<td>@$surveypublish['limit']</td>
 											<td>
 												<a href="@mvc::url('surveys/editpublish/' . $surveypublish['surveypublishid'])">Edit</a> ·
 												<a href="@mvc::url('surveys/share/' . $surveypublish['surveypublishid'])">Share</a> ·
