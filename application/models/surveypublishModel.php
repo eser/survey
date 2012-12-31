@@ -46,6 +46,21 @@
 				->row();
 		}
 
+
+		/**
+		 * @ignore
+		 */
+		public function getPublishCountBySurvey($uSurveyId, $uRevision) {
+			return $this->db->createQuery()
+				->setTable('surveypublishs')
+				->addField('COUNT(*)')
+				->setWhere(['surveyid=:surveyid', _and, 'revision=:revision'])
+				->addParameter('surveyid', $uSurveyId)
+				->addParameter('revision', $uRevision)
+				->get()
+				->scalar();
+		}
+
 		/**
 		 * @ignore
 		 */

@@ -35,7 +35,7 @@
 								source: @json_encode($querySuggestions),
 								labelfieldname: 'label',
 								hiddenfield: $('#queryhidden'),
-								hiddenfieldname: 'value',
+								hiddenfieldname: 'hiddenvalue',
 								alllist: true
 							}
 						);
@@ -82,7 +82,7 @@
 											<td class="width200px"><label id="title_content1" for="content1">Question *</label></td>
 											<td>
 												<input id="query" type="text" size="50" id="content1" value="" data-defaulttext="Type to search from question pool" />
-												<input id="queryhidden" type="hidden" name="query" value="" />
+												<input id="queryhidden" type="hidden" name="questionid" value="" />
 											</td>
 										</tr>
 									</table>

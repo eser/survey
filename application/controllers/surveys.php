@@ -191,7 +191,7 @@
 		 * ** INCOMPLETE
 		 */
 		public function get_questions($uSurveyId) {
-			/// load and validate session data
+			// load and validate session data
 			statics::requireAuthentication(1);
 
 			try {
@@ -244,38 +244,95 @@
 		 * @param $uQuestionType int the question type
 		 * ** INCOMPLETE
 		 */
-		public function post_questions($uSurveyId, $uQuestionType) {
-			switch($uQuestionType) {
-			case statics::QUESTION_EVALUATION:
-				$this->post_questions_evaluation($uSurveyId);
-				break;
+		public function post_questions($uSurveyId, $uQuestionType = null) {
+			// load and validate session data
+			statics::requireAuthentication(1);
 
-			case statics::QUESTION_MULTIPLE:
-				$this->post_questions_multiple($uSurveyId);
-				break;
+			try {
+				// validate the request: survey id
+				contracts::isUuid($uSurveyId)->exception('invalid survey id format');
 
-			case statics::QUESTION_FILL:
-				$this->post_questions_fill($uSurveyId);
-				break;
+				// gather all survey data from model
+				$this->load('surveyModel');
+				$tSurvey = $this->surveyModel->get($uSurveyId);
+				contracts::isNotFalse($tSurvey)->exception('invalid survey id');
+				contracts::isEqual($tSurvey['ownerid'], statics::$user['userid'])->exception('unauthorized access');
+				$this->setRef('survey', $tSurvey);
 
-			default:
-				$this->post_questions_questionpool($uSurveyId);
-				break;
+				// revision handling
+				$this->load('surveypublishModel');
+				$tCount = $this->surveypublishModel->getPublishCountBySurvey($tSurvey['surveyid'], $tSurvey['lastrevision']);
+				$tLastRevision = intval($tSurvey['lastrevision']);
+				if($tLastRevision <= 0 || intval($tCount) > 0) {
+					$tNextRevision = $tLastRevision + 1;
+				}
+				else {
+					$tNextRevision = $tLastRevision;
+				}
+
+				if($tNextRevision > $tLastRevision) {
+					$tNewRevision = [
+						'surveyid' => $tSurvey['surveyid'],
+						'revision' => $tNextRevision,
+						'createdate' => time::toDb(time()),
+						'ownerid' => statics::$user['userid'],
+						'details' => ''
+					];
+
+					$this->load('surveyrevisionModel');
+					$this->surveyrevisionModel->insert($tNewRevision);
+					//TODO: transfer previous revision's items to current one.
+				}
+
+				switch($uQuestionType) {
+				case statics::QUESTION_EVALUATION:
+					$this->post_questions_evaluation($uSurveyId, $tNextRevision);
+					break;
+
+				case statics::QUESTION_MULTIPLE:
+					$this->post_questions_multiple($uSurveyId, $tNextRevision);
+					break;
+
+				case statics::QUESTION_FILL:
+					$this->post_questions_fill($uSurveyId, $tNextRevision);
+					break;
+
+				default:
+					$this->post_questions_questionpool($uSurveyId, $tNextRevision);
+					break;
+				}
+			}
+			catch(Exception $ex) {
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
+
+				// redirect user to parent page in order to display error message
+				mvc::redirect('surveys/index');
+				return;
 			}
 
+			// render the page
+			// $this->view();
+		}
+
+		private function post_questions_questionpool($uSurveyId, $uRevision) {
+			$tInput = http::postArray(['questionid']);
+			$tInput['surveyid'] = $uSurveyId;
+			$tInput['revision'] = $uRevision;
 			
-		}
+			$this->load('surveyquestionModel');
+			$this->surveyquestionModel->insert($tInput);
 
-		private function post_questions_questionpool($uSurveyId) {
+			exit('done');
 		}
 		
-		private function post_questions_evaluation($uSurveyId) {
+		private function post_questions_evaluation($uSurveyId, $uRevision) {
 		}
 		
-		private function post_questions_multiple($uSurveyId) {
+		private function post_questions_multiple($uSurveyId, $uRevision) {
 		}
 
-		private function post_questions_fill($uSurveyId) {
+		private function post_questions_fill($uSurveyId, $uRevision) {
 		}
 
 		/**
