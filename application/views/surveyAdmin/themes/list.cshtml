@@ -1,0 +1,94 @@
+@views::viewFile('{core}views/blackmore/header.php')
+@if(isset($message)) {
+	<span>@_($message)</span>
+} 
+
+
+<section id="pageMiddle">
+<div class="wrapper">
+	<div class="inner">
+		<table id="pageMiddleTable">
+		<tbody>
+		<tr>
+			<td id="pageMiddleSidebar" style="">
+				<div class="middleLine">
+					<div class="menuDivContainer">
+						<div class="menuDiv">
+							<div class="menuDivHeader">
+								<a class="boxed" href="@$root/blackmore/themes/themeList">@_('Themes')</a>
+							</div>
+							<ul>
+								<li><a class="boxed iconthemeadd" href="@$root/blackmore/themes/add">@_('Add theme')</a></li>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="clear">
+				</div>
+			</td>
+			<td id="pageMiddleSidebarToggle">
+				 «
+			</td>
+			<td id="pageMiddleContent">
+				<div class="topLine">
+				</div>
+				<div class="middleLine">
+					<h2 class="iconxthemes">@_('Themes')</h2>
+					<!--table sorter begin-->
+					<table id="myTable" class="tablesorter"> 
+						<thead> 
+							<tr> 
+							    <th>@_('Name')</th> 
+							    <th>@_('Color')</th> 
+							    <th></th>
+							</tr> 
+						</thead> 
+						<tbody> 
+							@foreach($themes as $theme){
+								<tr>
+									<td>@$theme['name']</td>
+									<td>@$theme['fontcolor']</td>
+									<td>
+										
+										<a href="@$root/blackmore/themes/edit/@$theme['themeid']">@_('Edit')</a> 
+										<a href="@$root/blackmore/themes/delete/@$theme['themeid']">@_('Delete')</a>
+									</td>
+								</tr>
+
+							}
+						</tbody> 
+					</table>
+					<!--table sorter end-->
+					
+					<div id="tablepager" style="top: 697px; position: absolute;">
+						<form>
+							<img src="/survey/scabbia/tablesorter/images/first.png" class="first">
+							<img src="/survey/scabbia/tablesorter/images/prev.png" class="prev">
+							<input type="text" class="pagedisplay" readonly="readonly">
+							<img src="/survey/scabbia/tablesorter/images/next.png" class="next">
+							<img src="/survey/scabbia/tablesorter/images/last.png" class="last">
+							<select class="pagesize">
+								<option value="10">10</option>
+								<option selected="selected" value="25">25</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+						</form>
+					</div>
+				</div>
+				<div class="bottomLine">
+				</div>
+				<div class="clear">
+				</div>
+			</td>
+			<td id="pageMiddleExtra">
+			</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+</div>
+</section> 
+
+@views::viewFile('{core}views/blackmore/footer.php')

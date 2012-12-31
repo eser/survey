@@ -20,10 +20,12 @@
 	<includeList>
 		<include>admin_questions.php</include>
 		<include>admin_languages.php</include>
+		<include>admin_themes.php</include>
 	</includeList>
 	<classList>
 		<class>admin_questions</class>
 		<class>admin_languages</class>
+		<class>admin_themes</class>
 	</classList>
 	<eventList>
 		<event>
@@ -33,6 +35,10 @@
 		<event>
 			<name>blackmore_registerModules</name>
 			<callback>admin_languages::blackmore_registerModules</callback>
+		</event>
+		<event>
+			<name>blackmore_registerModules</name>
+			<callback>admin_themes::blackmore_registerModules</callback>
 		</event>
 	</eventList>
 </scabbia>

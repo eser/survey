@@ -64,6 +64,36 @@
 				->get()
 				->all();
 		}
+		
+		public function insert($input) {
+			return $this->db->createQuery()
+				->setTable('themes')
+				->setFields($input)
+				->insert()
+				->execute();
+		}
+
+		public function update($themeID, $input) {
+			return $this->db->createQuery()
+				->setTable('themes')
+				->setFields($input)
+				->addParameter('themeid', $themeID)
+				->setWhere(['themeid=:themeid'])
+				->setLimit(1)
+				->update()
+				->execute();
+		}
+
+		public function delete($themeID) {
+			return $this->db->createQuery()
+				->setTable('themes')
+				->addParameter('themeid', $themeID)
+				->setWhere('themeid=:themeid')
+				->setLimit(1)
+				->delete()
+				->execute();
+		}
+
 	}
 
 ?>

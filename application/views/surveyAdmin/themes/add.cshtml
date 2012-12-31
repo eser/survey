@@ -1,0 +1,62 @@
+@views::viewFile('{core}views/blackmore/header.php')
+@if(isset($message)) {
+	<span>@_($message)</span>
+} 
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#frmAdd").validate();
+  });
+</script>
+
+<section id="pageMiddle">
+<div class="wrapper">
+	<div class="inner">
+		<table id="pageMiddleTable">
+		<tbody>
+		<tr>
+			<td id="pageMiddleSidebar" style="">
+				<div class="middleLine">
+					<div class="menuDivContainer">
+						<div class="menuDiv">
+							<div class="menuDivHeader">
+								<a class="boxed" href="@$root/blackmore/themes/themeList">@_('Themes')</a>
+							</div>
+							<ul>
+								<li><a class="boxed iconthemeadd" href="@$root/blackmore/themes/themeList">@_('Theme list')</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="clear">
+				</div>
+			</td>
+			<td id="pageMiddleSidebarToggle">
+				 «
+			</td>
+			<td id="pageMiddleContent">
+				<div class="topLine">
+				</div>
+				<div class="middleLine">
+					<h2 class="iconxthemes">@_('Theme')</h2>
+					<form id="frmAdd" method="post" action="@$root/blackmore/themes/add">
+							<input type="hidden" name="themeid" value="@if(isset($theme['themeid'])){@$theme['themeid']}">
+							@_('Name') : <input type="text" name="name" class="required" minlength="3" value="@if(isset($theme['name'])){@$theme['name']}"></input><br>
+							@_('Color') : <input type="text" name="fontcolor" class="required" value="@if(isset($theme['fontcolor'])){@$theme['fontcolor']}"></input><br>
+							<input type="submit" name="submit" value="@_('Save')"></input>
+					</form>
+				</div>
+				<div class="bottomLine">
+				</div>
+				<div class="clear">
+				</div>
+			</td>
+			<td id="pageMiddleExtra">
+			</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+</div>
+</section> 
+
+@views::viewFile('{core}views/blackmore/footer.php')
