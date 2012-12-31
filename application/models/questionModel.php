@@ -222,6 +222,16 @@
 				->get()
 				->all();
 		}
+
+		public function delete($uQuestionId) {
+			return $this->db->createQuery()
+				->setTable('questions')
+				->addParameter('questionid', $uQuestionId)
+				->setWhere('questionid=:questionid')
+				->setLimit(1)
+				->delete()
+				->execute();
+		}
 	}
 
 ?>
