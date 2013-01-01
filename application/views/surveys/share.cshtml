@@ -15,17 +15,17 @@
 
 					function postToFeed() {
 						var obj = {
-						  method: 'feed',
-						  redirect_uri: '@$url',
-						  link: 'https://developers.facebook.com/docs/reference/dialogs/',
-						  picture: '@$logourl',
-						  name: 'Facebook Dialogs',
-						  caption: 'Reference Documentation',
-						  description: 'Using Dialogs to interact with users.'
+							method: 'feed',
+							redirect_uri: '@$url',
+							link: '@$url',
+							picture: '@$logourl',
+							name: 'survey-e-bot: @$surveypublish['title']',
+							caption: '@$surveypublish['title']',
+							description: '@$surveypublish['description']'
 						};
 
 						function callback(response) {
-						  document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+							// document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
 						}
 
 						FB.ui(obj, callback);
