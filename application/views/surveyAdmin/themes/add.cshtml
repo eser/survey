@@ -41,7 +41,7 @@
 					<form id="frmAdd" method="post" action="@$root/blackmore/themes/add">
 							<input type="hidden" name="themeid" value="@if(isset($theme['themeid'])){@$theme['themeid']}" />
 							@_('Name') : <input type="text" name="name" class="required" minlength="3" value="@if(isset($theme['name'])){@$theme['name']}" /><br />
-							@_('CSS') : <textarea name="cssrules" class="required">@if(isset($theme['cssrules])){@$theme['cssrules']}</textarea><br />
+							@_('CSS') : <textarea name="cssrules" class="required">@if(isset($theme['cssrules'])){@$theme['cssrules']}</textarea><br />
 							<input type="submit" name="submit" value="@_('Save')" />
 					</form>
 				</div>
