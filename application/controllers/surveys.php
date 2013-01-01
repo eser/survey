@@ -188,9 +188,10 @@
 		 * questions form
 		 *
 		 * @param $uSurveyId string the uuid represents survey id
+		 * @param $uTag string a tag which is used for survey related operations like 'remove'
 		 * ** INCOMPLETE
 		 */
-		public function get_questions($uSurveyId) {
+		public function get_questions($uSurveyId, $uTag = '', $uSecondTag = '') {
 			// load and validate session data
 			statics::requireAuthentication(1);
 
@@ -204,6 +205,25 @@
 				contracts::isNotFalse($tSurvey)->exception('invalid survey id');
 				contracts::isEqual($tSurvey['ownerid'], statics::$user['userid'])->exception('unauthorized access');
 				$this->setRef('survey', $tSurvey);
+
+				if($uTag == 'remove') {
+					// validate the request: survey id
+					contracts::isUuid($uSecondTag)->exception('invalid questionid id format');
+
+					// revision handling
+					$tNextRevision = $this->post_questions_revisionwork($tSurvey['surveyid'], $tSurvey['lastrevision']);
+
+					// remove a question
+					$this->load('surveyquestionModel');
+					$this->surveyquestionModel->delete($tSurvey['surveyid'], $tNextRevision, $uSecondTag);
+
+					// set an notification message to be passed thru session.
+					session::setFlash('notification', ['success', 'Question is successfully removed']);
+
+					mvc::redirect('surveys/questions/' . $tSurvey['surveyid']);
+
+					return;
+				}
 				
 				// gather all questions from data model
 				$this->load('questionModel');
