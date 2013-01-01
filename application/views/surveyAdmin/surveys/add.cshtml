@@ -1,0 +1,87 @@
+@views::viewFile('{core}views/blackmore/header.php')
+@if(isset($message)) {
+	<span>@_($message)</span>
+} 
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#frmAdd").validate();
+  });
+</script>
+
+<section id="pageMiddle">
+<div class="wrapper">
+	<div class="inner">
+		<table id="pageMiddleTable">
+		<tbody>
+		<tr>
+			<td id="pageMiddleSidebar" style="">
+				<div class="middleLine">
+					<div class="menuDivContainer">
+						<div class="menuDiv">
+							<div class="menuDivHeader">
+								<a class="boxed" href="@$root/blackmore/surveys/surveyList">@_('Surveys')</a>
+							</div>
+							<ul>
+								<li><a class="boxed iconsurveyadd" href="@$root/blackmore/surveys/surveyList">@_('Survey list')</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="clear">
+				</div>
+			</td>
+			<td id="pageMiddleSidebarToggle">
+				 «
+			</td>
+			<td id="pageMiddleContent">
+				<div class="topLine">
+				</div>
+				<div class="middleLine">
+					<h2 class="iconxsurveys">@_('Survey')</h2>
+					<form id="frmAdd" method="post" action="@$root/blackmore/surveys/add">
+							<input type="hidden" name="surveyid" value="@if(isset($survey['surveyid'])){@$survey['surveyid']}">
+							@_('Title') : <input type="text" name="title" class="required" minlength="3" value="@if(isset($survey['title'])){@$survey['title']}"></input><br>
+							@_('Description') : <input type="text" name="description"  minlength="3" value="@if(isset($survey['description'])){@$survey['description']}"></input><br>
+							@_('Owner') :
+							<select name="ownerid">
+								@foreach($users as $user) {
+									<option value="@$user['userid']" @if(isset($survey['ownerid']) && $survey['ownerid']==$user['userid']){ selected="selected"} >@$user['firstname'] @$user['lastname']</option>
+								}
+							</select><br/>		
+							@_('Category') :
+							<select name="categoryid">
+								@foreach($categories as $category) {
+									<option value="@$category['categoryid']" @if(isset($survey['categoryid']) && $survey['categoryid']==$category['categoryid']){ selected="selected"}>@$category['name']</option>
+								}
+							</select><br/>
+							@_('Theme') :
+							<select name="themeid">
+								@foreach($themes as $theme) {
+									<option value="@$theme['themeid']" if(isset($survey['themeid']) && $survey['categoryid']==$theme['themeid']){ selected="selected"}>@$theme['name']</option>
+								}
+							</select><br/>
+							@_('Language') :
+							<select name="languageid">
+								@foreach($languages as $language) {
+									<option value="@$language['languageid']" if(isset($survey['languageid']) && $survey['languageid']==$language['languageid']){ selected="selected"}>@$language['name']</option>
+								}
+							</select><br/>
+
+							<input type="submit" name="submit" value="@_('Save')"></input>
+					</form>
+				</div>
+				<div class="bottomLine">
+				</div>
+				<div class="clear">
+				</div>
+			</td>
+			<td id="pageMiddleExtra">
+			</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+</div>
+</section> 
+
+@views::viewFile('{core}views/blackmore/footer.php')

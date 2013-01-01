@@ -169,6 +169,29 @@
 
 			return $tResult;
 		}
+
+		/*For admin*/
+		public function getAllDetailed() {
+			return $this->db->createQuery()
+				->setTable('surveys s')
+				->joinTable('categories c', 'c.categoryid=s.categoryid', 'INNER')
+				->joinTable('languages l', 'l.languageid=s.languageid', 'INNER')
+				->joinTable('themes t', 't.themeid=s.themeid', 'INNER')
+				->joinTable('users u', 'u.userid=s.ownerid', 'INNER')
+				->addField('s.*, u.firstname, u.lastname, c.name as categoryname, l.name AS languagename, t.name as themename')
+				->get()
+				->all();
+		}
+
+		public function delete($surveyID) {
+			return $this->db->createQuery()
+				->setTable('surveys')
+				->addParameter('surveyid', $surveyID)
+				->setWhere('surveyid=:surveyid')
+				->setLimit(1)
+				->delete()
+				->execute();
+		}
 	}
 
 ?>
