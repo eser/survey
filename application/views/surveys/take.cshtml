@@ -40,16 +40,16 @@
                           <tbody>
                             <tr>
                                 <td>
-                                    @if($question['type'] == statics::QUESTION_EVALUATION ) {
+                                    @if($question['type'] == statics::QUESTION_EVALUATION) {
                                         @html::radioOptions(@$question['questionid'], statics::$evaluationoptions)
                                     }
-                                    @if($question['type'] == statics::QUESTION_FILL ) {
+                                    @if($question['type'] == statics::QUESTION_FILL) {
                                         @html::textBox($question['questionid'])
                                     }
-                                    @if($question['type'] == statics::QUESTION_MULTIPLE ) {
+                                    @if($question['type'] == statics::QUESTION_MULTIPLE) {
                                         @foreach($choices[$question['questionid']] as $choice){
-                                            <input type="radio" name="@$question['questionid']" value="@$choice['questionchoiceid']">  @$choice['content']
-                                            @if($choice['type'] != 0) { <input type="text" name="@$question['questionid']value"> }<br>
+                                            <input type="radio" name="@$question['questionid']" value="@$choice['questionchoiceid']"> @$choice['content']
+                                            @if($choice['type'] != 0) { <input type="text" name="@$question['questionid']value"> }<br />
                                         }
                                     }
                                 </td>

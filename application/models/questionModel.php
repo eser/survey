@@ -75,6 +75,30 @@
 		/**
 		 * @ignore
 		 */
+		public function &getChoicesByQuestionIDs($uIds) {
+			$tResult = array();
+
+			$tQuery = $this->db->createQuery()
+				->setTable('questionchoices')
+				->addField('*')
+				->setWhere(['questionid', _in, $uIds])
+				->get();
+
+			foreach($tQuery as $tRow) {
+				if(!isset($tResult[$tRow['questionid']])) {
+					$tResult[$tRow['questionid']] = array();
+				}
+				$tResult[$tRow['questionid']][] = $tRow;
+			}
+
+			$tQuery->close();
+
+			return $tResult;
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function getRecent($uLimit) {
 			return $this->db->createQuery()
 				->setTable('questions')

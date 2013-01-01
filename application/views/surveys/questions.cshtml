@@ -45,6 +45,13 @@
 
 						$l.dom.setEvent($l.dom.selectSingle('#addnewchoice'), 'click', addNewChoice);
 						renumber();
+
+						$l.dom.setEvent($l.dom.selectSingle('#addQuestion1'), 'submit', function() {
+							if($l.dom.selectSingle('#queryhidden').value.length <= 0) {
+								alert('Please choice a question from question pool first.');
+								return false;
+							}
+						});
 					});
 				</script>
 
@@ -74,7 +81,7 @@
 						<ul class="tabs">
 							<li><a rel="tab_1">Question Pool</a></li>
 							<li><a rel="tab_2">Evaluation</a></li>
-							<li><a rel="tab_3">Multiple Choices</a></li>
+							<li><a rel="tab_3">Multiple Choice</a></li>
 							<li><a rel="tab_4">Fill In The Blanks</a></li>
 						</ul>
 						<div class="panes">
@@ -172,10 +179,37 @@
 
 					<h3 class="marginTop10px">Questions</h3>
 					<div>
+						<ol>
 						@{ $count = 0; }
 						@foreach($questions as $question) {
-							@{ echo ++$count; }. @$question['content']<br />
+							<li class="stripe @{ if(($count++ % 2) == 0) { echo 'stripeEven'; } else { echo 'stripeOdd'; } }">
+								@$question['content']
+								<span class="questiontype">&nbsp;̶&nbsp;
+									@statics::$questiontypes[$question['type']]
+									@if($question['type'] == statics::QUESTION_FILL) {
+										@statics::$questiontypefilters[$question['typefilter']]
+									}
+								</span>
+								@if($question['type'] == statics::QUESTION_MULTIPLE && isset($choices[$question['questionid']])) {
+									<ol>
+									@foreach($choices[$question['questionid']] as $choice) {
+										<li>
+											@$choice['content']@if($choice['type'] > statics::QUESTIONOPTION_NOINPUT) {
+												<span class="questiontype">&nbsp;̶&nbsp;
+													Input: @statics::$questionoptiontypes[$choice['type']]
+												</span>
+											}
+										</li>
+									}
+									</ol>
+								}
+								<div class="alignRight">
+									<a class="xbutton" href="@mvc::url('questions/edit/' . $question['questionid'])">Goto Question</a>
+									<a class="xbutton" href="@mvc::url('surveys/questions/' . $survey['surveyid'] . '/remove/' . $question['questionid'])">Remove</a>
+								</div>
+							</li>
 						}
+						</ol>
 					</div>
 
 				</div>

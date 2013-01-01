@@ -213,16 +213,12 @@
 				}
 				$this->setRef('querySuggestions', $tQuerySuggestions);
 
-				$questions = $this->questionModel->getBySurveyID($tSurvey['surveyid'], $tSurvey['lastrevision']);
-				$this->setRef('questions', $questions);
+				$tQuestions = $this->questionModel->getBySurveyID($tSurvey['surveyid'], $tSurvey['lastrevision']);
+				$tQuestionIds = arrays::column($tQuestions, 'questionid');
+				$this->setRef('questions', $tQuestions);
 
-				/*
-				$choices = [];
-				foreach($questions as $question) {
-					$choices[$question['questionid']] = $this->questionModel->getChoicesByQuestionID($question['questionid']);
-				}
-				$this->setRef('choices', $choices);
-				*/
+				$tChoices = $this->questionModel->getChoicesByQuestionIDs($tQuestionIds);
+				$this->setRef('choices', $tChoices);
 			}
 			catch(Exception $ex) {
 				// set an error message to be passed thru session if an exception occurred.

@@ -456,6 +456,9 @@ h6 {
 .floatleft { float: left; }
 .floatright { float: right; }
 .margintop10px { margin-top: 10px; }
+.borderBottomDashed1px { border-bottom: 1px dashed #E0E0E0; }
+.stripe { padding: 10px 10px 20px 10px; }
+.stripeEven { background-color: #F5F5F5; }
 #blog #main-col .alignleft, #blog #main-col .alignright, #blog #main-col .aligncenter {
 	border: none;
 	background: #ffffff;
@@ -839,6 +842,7 @@ img.avatar {
 .comment-meta a { color: #444444 !important; font-size: 11px; }
 .comment-body, .reply { padding-left: 63px; }
 .reply { margin-top: -8px; }
+.questiontype { font-style: italic; font-size: 8pt; color: #606060; }
 
 /* End Secondary Content
 --------------------------------------------------------------------------------------------------------*/
