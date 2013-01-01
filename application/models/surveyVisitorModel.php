@@ -32,6 +32,18 @@
 		/**
 		 * @ignore
 		 */
+		public function countBySurveyPublish($uSurveyPublishId) {
+			return $this->db->createQuery()
+				->setTable('surveyvisitors')
+				->addField('*')
+				->setWhere(['surveypublishid=:surveypublishid'])
+				->addParameter('surveypublishid', $uSurveyPublishId)
+				->calculate('COUNT');
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function getBySurveyPublish($uSurveyVisitorId, $uSurveyPublishId, $uUserId = null) {
 			if(!is_null($uUserId)) {
 				return $this->db->createQuery()

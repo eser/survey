@@ -64,6 +64,7 @@
 								<th>Language</th>
 								<th>Created At</th>
 								<th>Created By</th>
+								<th>Responses</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,6 +74,9 @@
                                 <td>@statics::$languagesWithCounts[$surveypublish['languageid']]['name']</td>
 								<td>@statics::datePrint($surveypublish['createdate'], false)</td>
 								<td>@$user['displayname']</td>
+								<td>@$counter@if($surveypublish['userlimit'] != '0') {
+									/ @$surveypublish['userlimit']
+								}</td>
                             </tr>   			
                         </tbody>
                     </table>

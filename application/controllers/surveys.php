@@ -645,9 +645,14 @@
 				$this->setRef('user', $tUser);
 
 				$this->load('surveyvisitorModel');
+				$tSurveyPublishCounter = $this->surveyvisitorModel->countBySurveyPublish($tSurveyPublish['surveypublishid']);
+				$this->setRef('counter', $tSurveyPublishCounter);
 				$tExistingSurveyVisitor = $this->surveyvisitorModel->getBySurveyPublish(session::$id, $tSurveyPublish['surveypublishid'], $tUserId);
 				if($tExistingSurveyVisitor !== false) {
 					// throw new Exception('dolmus o anket');
+					$this->set('title', 'Survey');
+					$this->set('message', 'You have already filled this survey.');
+
 					$this->view('surveys/take_message.cshtml');
 				}
 
