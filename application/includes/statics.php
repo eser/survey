@@ -166,6 +166,9 @@
 		 * in order to be use in page templates
 		 */
 		public static function templateBindings() {
+			// load the facebook api
+			fb::loadApi();
+
 			$tCategoryModel = mvc::load('categoryModel');
 			self::$categoriesWithCounts = $tCategoryModel->getAllWithCounts();
 

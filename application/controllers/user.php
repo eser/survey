@@ -71,9 +71,6 @@
 			// load and validate session data
 			statics::requireAuthentication(0);
 
-			// load the facebook api
-			fb::loadApi();
-
 			// if it's not a callback from facebook
 			if(!isset($_GET['state'])) {
 				// get the facebook login url to redirect user
