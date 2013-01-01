@@ -237,7 +237,12 @@
 				$tQuestionIds = arrays::column($tQuestions, 'questionid');
 				$this->setRef('questions', $tQuestions);
 
-				$tChoices = $this->questionModel->getChoicesByQuestionIDs($tQuestionIds);
+				if(count($tQuestionIds)) {
+					$tChoices = $this->questionModel->getChoicesByQuestionIDs($tQuestionIds);
+				}
+				else {
+					$tChoices = [];
+				}
 				$this->setRef('choices', $tChoices);
 			}
 			catch(Exception $ex) {
@@ -643,7 +648,12 @@
 				$tQuestionIds = arrays::column($tQuestions, 'questionid');
 				$this->setRef('questions', $tQuestions);
 
-				$tChoices = $this->questionModel->getChoicesByQuestionIDs($tQuestionIds);
+				if(count($tQuestionIds)) {
+					$tChoices = $this->questionModel->getChoicesByQuestionIDs($tQuestionIds);
+				}
+				else {
+					$tChoices = [];
+				}
 				$this->setRef('choices', $tChoices);
 
 				$this->load('themeModel');

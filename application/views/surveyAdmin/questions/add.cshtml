@@ -63,7 +63,7 @@
 							@_('Owner') :
 							<select name="ownerid">
 								@foreach($users as $user) {
-									<option value="@$user['userid']">@$user['firstname'] @$user['lastname']</option>
+									<option value="@$user['userid']">@$user['displayname']</option>
 								}
 							</select><br/>
 							

@@ -1,9 +1,9 @@
 <?php
 
 	/**
-	 * Blackmore Extension: Kibrissiparis Admin Panel, questions Section
+	 * Blackmore Extension: survey-e-bot Admin Panel, questions Section
 	 *
-	 * @package Kibrissiparis
+	 * @package survey-e-bot
 	 * @subpackage admin_users
 	 * @version 1.0.2
 	 *

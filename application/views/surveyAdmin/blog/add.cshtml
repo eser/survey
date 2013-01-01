@@ -1,0 +1,68 @@
+@views::viewFile('{core}views/blackmore/header.php')
+@if(isset($message)) {
+	<span>@_($message)</span>
+} 
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#frmAdd").validate();
+  });
+</script>
+
+<section id="pageMiddle">
+<div class="wrapper">
+	<div class="inner">
+		<table id="pageMiddleTable">
+		<tbody>
+		<tr>
+			<td id="pageMiddleSidebar" style="">
+				<div class="middleLine">
+					<div class="menuDivContainer">
+						<div class="menuDiv">
+							<div class="menuDivHeader">
+								<a class="boxed" href="@$root/blackmore/blog/postList">@_('Blog')</a>
+							</div>
+							<ul>
+								<li><a class="boxed iconthemeadd" href="@$root/blackmore/blog/postList">@_('Post List')</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="clear">
+				</div>
+			</td>
+			<td id="pageMiddleSidebarToggle">
+				 «
+			</td>
+			<td id="pageMiddleContent">
+				<div class="topLine">
+				</div>
+				<div class="middleLine">
+					<h2 class="iconxthemes">@_('Post')</h2>
+					<form id="frmAdd" method="post" action="@$root/blackmore/blog/add">
+							<input type="hidden" name="postid" value="@if(isset($post['postid'])){@$post['postid']}" />
+							@_('Title') : <input type="text" name="title" class="required" minlength="3" value="@if(isset($post['title'])){@$post['title']}" /><br />
+							@_('Content') : <textarea name="content" class="required">@if(isset($post['content'])){@$post['content']}</textarea><br />
+							@_('Owner') :
+							<select name="ownerid">
+								@foreach($users as $user) {
+									<option value="@$user['userid']"@{ if(isset($post['ownerid']) && $user['userid'] == $post['ownerid']) { echo ' selected="selected"'; } }>@$user['displayname']</option>
+								}
+							</select>
+							<input type="submit" name="submit" value="@_('Save')" />
+					</form>
+				</div>
+				<div class="bottomLine">
+				</div>
+				<div class="clear">
+				</div>
+			</td>
+			<td id="pageMiddleExtra">
+			</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+</div>
+</section> 
+
+@views::viewFile('{core}views/blackmore/footer.php')

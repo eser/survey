@@ -23,6 +23,7 @@
 		<include>admin_themes.php</include>
 		<include>admin_categories.php</include>
 		<include>admin_surveys.php</include>
+		<include>admin_blog.php</include>
 	</includeList>
 	<classList>
 		<class>admin_questions</class>
@@ -30,6 +31,7 @@
 		<class>admin_themes</class>
 		<class>admin_categories</class>
 		<class>admin_surveys</class>
+		<class>admin_blog</class>
 	</classList>
 	<eventList>
 		<event>
@@ -51,6 +53,10 @@
 		<event>
 			<name>blackmore_registerModules</name>
 			<callback>admin_surveys::blackmore_registerModules</callback>
+		</event>
+		<event>
+			<name>blackmore_registerModules</name>
+			<callback>admin_blog::blackmore_registerModules</callback>
 		</event>
 	</eventList>
 </scabbia>
