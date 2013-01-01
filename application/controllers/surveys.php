@@ -445,8 +445,6 @@
 
 		/**
 		 * postback method for new survey publish page
-		 *
-		 * ** INCOMPLETE
 		 */
 		public function post_publish() {
 			// load and validate session data
@@ -458,7 +456,10 @@
 				$tInput['surveypublishid'] = string::generateUuid();
 				$tInput['ownerid'] = statics::$user['userid'];
 				$tInput['startdate'] = time::convert(http::post('startdate'), 'd.m.Y', 'Y-m-d H:i:s');
-				$tInput['enddate'] = time::convert(http::post('enddate'), 'd.m.Y', 'Y-m-d H:i:s');
+
+				$tEndDate = http::post('enddate');
+				$tInput['enddate'] = (strlen($tEndDate) > 0) ? time::convert($tEndDate, 'd.m.Y', 'Y-m-d H:i:s') : null;
+
 				$tInput['userlimit'] = intval(http::post('userlimit', '0'));
 				if($tInput['userlimit'] < 0) {
 					$tInput['userlimit'] = 0;
@@ -475,18 +476,14 @@
 				$tInput['revision'] = $tSurvey['lastrevision'];
 
 				$this->load('surveypublishModel');
-				$insertSurvey = $this->surveypublishModel->insert($tInput);
-				if($insertSurvey > 0){
-					echo "<script>alert('Survey Added Successfuly');</script>";
-				}
-				else {
-					echo "<script>alert('Unexpected Error.');</script>";
-				}
+				$this->surveypublishModel->insert($tInput);
 
-				$this->load('surveyModel');
-				$surveys = $this->surveyModel->getAllByOwner(statics::$user['userid']);
-
-				$this->setRef('surveys', $surveys);
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['success', 'Survey published successfully']);
+				
+				// redirect user to parent page in order to display message
+				mvc::redirect('surveys/index');
+				return;
 			}
 			catch(Exception $ex) {
 				// set an error message to be passed thru session if an exception occurred.

@@ -94,8 +94,8 @@
 											if(strlen($surveypublish['password']) > 0) {
 												$tProps[] = 'password';
 											}
-											if($surveypublish['type'] != statics::SURVEY_PUBLIC) {
-												$tProps[] = 'private';
+											if($surveypublish['type'] == statics::SURVEY_PUBLIC) {
+												$tProps[] = 'public';
 											}
 											if($surveypublish['enabled'] == statics::SURVEY_DISABLED) {
 												$tProps[] = 'disabled';
@@ -110,8 +110,8 @@
 											</td>
 											<td>@statics::datePrint($surveypublish['startdate'], false)</td>
 											<td>@statics::datePrint($surveypublish['enddate'], false)</td>
-											<td>0</td>
-											<td>@$surveypublish['userlimit']</td>
+											<td>-</td>
+											<td>@{ if($surveypublish['userlimit'] != '0') { echo $surveypublish['userlimit']; } else { echo '-'; } }</td>
 											<td>
 												<a href="@mvc::url('surveys/editpublish/' . $surveypublish['surveypublishid'])">Edit</a> ·
 												<a href="@mvc::url('surveys/share/' . $surveypublish['surveypublishid'])">Share</a> ·

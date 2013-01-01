@@ -127,8 +127,8 @@
 							if(strlen($survey['password']) > 0) {
 								$tProps[] = 'password';
 							}
-							if($survey['type'] != statics::SURVEY_PUBLIC) {
-								$tProps[] = 'private';
+							if($survey['type'] == statics::SURVEY_PUBLIC) {
+								$tProps[] = 'public';
 							}
 						}
 						<li><a href="@$url">@$survey['title']</a>
