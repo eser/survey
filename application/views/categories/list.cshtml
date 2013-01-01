@@ -1,4 +1,33 @@
 @views::view('shared/header.cshtml')
+
+				@{
+					$url = 'http://' . $_SERVER['HTTP_HOST'] . @mvc::url('surveys/take/');
+					$logourl = 'http://' . $_SERVER['HTTP_HOST'] . @$root . '/res/img/logo.png';
+				}
+
+				<script src="http://connect.facebook.net/en_US/all.js"></script>
+
+				<script type="text/javascript">
+					FB.init({appId: '448617345200807', status: true, cookie: true});
+
+					function postToFeed(surveypublishid, title, description) {
+						var obj = {
+							method: 'feed',
+							redirect_uri: '@$url' + surveypublishid,
+							link: '@$url' + surveypublishid,
+							picture: '@$logourl',
+							name: 'survey-e-bot: ' + title,
+							caption: title,
+							description: description
+						};
+
+						function callback(response) {
+							// document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+						}
+
+						FB.ui(obj, callback);
+					}
+				</script>
                 
                 <!-- Breadcrumbs, Page Title -->
                 <div id="page-head">
@@ -62,9 +91,11 @@
 								<td>@statics::datePrint($survey['createdate'], false)</td>
                                 <td>@$survey['ownerid']</td>
 								<td>@statics::$languagesWithCounts[$survey['languageid']]['name']</td>
-								<td>@$survey['enddate']</td>
+								<td>@statics::datePrint($survey['enddate'], false)</td>
                                 <td>
 									<a href="@$url">Take</a>
+									·
+									<a href="javascript:postToFeed('@$survey['surveypublishid']', '@string::squote($survey['title'])', '@string::squote($survey['description'])')">Share</a>
 								</td>
                             </tr>
 						}
