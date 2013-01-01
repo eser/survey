@@ -100,8 +100,17 @@
 											if($surveypublish['enabled'] == statics::SURVEY_DISABLED) {
 												$tProps[] = 'disabled';
 											}
+											$tStartDate = time::fromDb($surveypublish['startdate']);
+											$tEndDate = (!is_null($surveypublish['enddate'])) ? time::fromDb($surveypublish['enddate']) : null;
+											$tToday = time::today();
+											if($tStartDate > $tToday) {
+												$tProps[] = 'future';
+											}
+											if(!is_null($tEndDate) && $tEndDate < $tToday) {
+												$tProps[] = 'expired';
+											}
 										}
-										<tr>
+										<tr class="@{ if(in_array('expired', $tProps) || in_array('disabled', $tProps)) { echo 'questionDisabled'; } else { echo 'questionEnabled'; } }">
 											<td>
 												<a href="@mvc::url('surveys/editpublish/' . $surveypublish['surveypublishid'])">Revision @$surveypublish['revision']</a>
 												@if(count($tProps) > 0) {
