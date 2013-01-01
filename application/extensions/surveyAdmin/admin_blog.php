@@ -55,7 +55,7 @@
 		public static function postList() {
 			auth::checkRedirect('admin');
 			$postModel = mvc::load('postModel');
-			views::set('posts', $postModel->getAll());
+			views::set('posts', $postModel->getAllDetailed());
 			views::view('surveyAdmin/blog/list.cshtml');
 		}
 
@@ -92,7 +92,7 @@
 			if(contracts::isUuid($postID)->check()) {
 				$viewBag['message'] = $postModel->delete($postID).' Record Deleted';
 			}
-			$viewBag['posts'] = $postModel->getAll();
+			$viewBag['posts'] = $postModel->getAllDetailed();
 			views::view('surveyAdmin/blog/list.cshtml', $viewBag);
 		}
 

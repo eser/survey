@@ -3,7 +3,6 @@
 	<span>@_($message)</span>
 } 
 
-
 <section id="pageMiddle">
 <div class="wrapper">
 	<div class="inner">
@@ -56,9 +55,8 @@
 									<td>@$survey['languagename']</td>
 									<td>@$survey['description']</td>
 									<td>@$survey['themename']</td>
-									<td>@$survey['firstname'] @$survey['lastname']</td>
+									<td>@$survey['displayname']</td>
 									<td>
-										
 										<a href="@$root/blackmore/surveys/edit/@$survey['surveyid']">@_('Edit')</a> 
 										<a href="@$root/blackmore/surveys/delete/@$survey['surveyid']">@_('Delete')</a>
 									</td>

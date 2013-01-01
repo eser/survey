@@ -178,7 +178,7 @@
 				->joinTable('languages l', 'l.languageid=s.languageid', 'INNER')
 				->joinTable('themes t', 't.themeid=s.themeid', 'INNER')
 				->joinTable('users u', 'u.userid=s.ownerid', 'INNER')
-				->addField('s.*, u.firstname, u.lastname, c.name as categoryname, l.name AS languagename, t.name as themename')
+				->addField('s.*, u.displayname, c.name as categoryname, l.name AS languagename, t.name as themename')
 				->get()
 				->all();
 		}

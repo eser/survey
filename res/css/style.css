@@ -459,7 +459,10 @@ h6 {
 .margintop10px { margin-top: 10px; }
 .borderBottomDashed1px { border-bottom: 1px dashed #E0E0E0; }
 .stripe { padding: 10px 10px 20px 10px; }
+.stripeOdd { }
 .stripeEven { background-color: #F5F5F5; }
+.questionDisabled { text-decoration: line-through; }
+.questionEnabled { }
 #blog #main-col .alignleft, #blog #main-col .alignright, #blog #main-col .aligncenter {
 	border: none;
 	background: #ffffff;

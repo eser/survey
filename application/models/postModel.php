@@ -63,6 +63,17 @@
 			return $this->db->createQuery()
 				->setTable('posts')
 				->addField('*')
+				->setOrderBy('createdate DESC')
+				->get()
+				->all();
+		}
+
+		/*For admin*/
+		public function getAllDetailed() {
+			return $this->db->createQuery()
+				->setTable('posts p')
+				->joinTable('users u', 'u.userid=p.ownerid', 'INNER')
+				->addField('p.*, u.displayname')
 				->get()
 				->all();
 		}
@@ -74,6 +85,7 @@
 			return $this->db->createQuery()
 				->setTable('posts')
 				->addField('*')
+				->setOrderBy('createdate DESC')
 				->setOffset($uOffset)
 				->setLimit($uLimit)
 				->get()

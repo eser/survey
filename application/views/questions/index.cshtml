@@ -34,6 +34,7 @@
                                 <th>Question</th>
                                 <th>Type</th>
                                 <th>Accessibility</th>
+								<th>Status</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -49,6 +50,9 @@
 								</td>
                                 <td>
 									@statics::$sharedboolean[$question['isshared']]
+								</td>
+                                <td>
+									@statics::$surveystatus[$question['enabled']]
 								</td>
                                 <td>
 									<a href="@mvc::url('questions/edit/' . $question['questionid'])">Edit</a> ·

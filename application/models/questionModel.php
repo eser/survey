@@ -24,7 +24,6 @@
 				->setFields($input)
 				->addParameter('questionid', $questionid)
 				->setWhere(['questionid=:questionid'])
-				// ->addField('updatedate', time::toDb(time()))
 				->setLimit(1)
 				->update()
 				->execute();
@@ -103,7 +102,8 @@
 			return $this->db->createQuery()
 				->setTable('questions')
 				->addField('*')
-				->setOrderBy('startdate', 'DESC')
+				->setWhere(['enabled=\'1\''])
+				->setOrderBy('startdate DESC')
 				->setLimit($uLimit)
 				->get()
 				->all();
@@ -127,7 +127,7 @@
 			return $this->db->createQuery()
 				->setTable('questions')
 				->addField('*')
-				->setWhere(['ownerid=:ownerid', _or, 'isshared=\'1\''])
+				->setWhere([['ownerid=:ownerid', _or, 'isshared=\'1\''], _and, 'enabled=\'1\''])
 				->addParameter('ownerid', $uOwnerId)
 				->get()
 				->all();
@@ -140,7 +140,7 @@
 			return $this->db->createQuery()
 				->setTable('questions')
 				->addField('*')
-				->setWhere([['ownerid=:ownerid', _or, 'isshared=\'1\''], _and, 'questionid NOT IN (SELECT questionid FROM surveyquestions WHERE surveyid=:surveyid AND revision=:revision)'])
+				->setWhere([['ownerid=:ownerid', _or, 'isshared=\'1\''], _and, 'questionid NOT IN (SELECT questionid FROM surveyquestions WHERE surveyid=:surveyid AND revision=:revision)', _and, 'enabled=\'1\''])
 				->addParameter('ownerid', $uOwnerId)
 				->addParameter('surveyid', $uSurveyId)
 				->addParameter('revision', $uRevision)
@@ -155,6 +155,7 @@
 			return $this->db->createQuery()
 				->setTable('questions')
 				->addField('*')
+				->setOrderBy('enabled DESC')
 				->setOffset($uOffset)
 				->setLimit($uLimit)
 				->get()
@@ -169,6 +170,7 @@
 				->setTable('questions')
 				->addField('*')
 				->setWhere(['ownerid=:ownerid'])
+				->setOrderBy('enabled DESC')
 				->addParameter('ownerid', $uOwnerId)
 				->get()
 				->all();
@@ -184,6 +186,7 @@
 				->setOffset($uOffset)
 				->setLimit($uLimit)
 				->setWhere(['ownerid=:ownerid'])
+				->setOrderBy('enabled DESC')
 				->addParameter('ownerid', $uOwnerId)
 				->get()
 				->all();

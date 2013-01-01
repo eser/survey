@@ -119,7 +119,11 @@
 										</tr>
 										<tr>
 											<td><label id="isshared_label2" for="isshared2">Accessibility *</label></td>
-											<td><select name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
+											<td><select id="shared2" name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
+										</tr>
+										<tr>
+											<td><label id="enabled_label2" for="enabled2">Status *</label></td>
+											<td><select id="enabled2" name="enabled">@html::selectOptions(statics::$surveystatus, statics::SURVEY_ENABLED)</select></td>
 										</tr>
 									</table>
 									<div class="xline"></div>
@@ -145,6 +149,10 @@
 										<tr>
 											<td><label id="isshared_label3" for="isshared3">Accessibility *</label></td>
 											<td><select name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
+										</tr>
+										<tr>
+											<td><label id="enabled_label3" for="enabled3">Status *</label></td>
+											<td><select id="enabled3" name="enabled">@html::selectOptions(statics::$surveystatus, statics::SURVEY_ENABLED)</select></td>
 										</tr>
 									</table>
 									<div class="xline"></div>
@@ -172,6 +180,10 @@
 											<td><label id="isshared_label4" for="isshared4">Accessibility *</label></td>
 											<td><select name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
 										</tr>
+										<tr>
+											<td><label id="enabled_label4" for="enabled4">Status *</label></td>
+											<td><select id="enabled4" name="enabled">@html::selectOptions(statics::$surveystatus, statics::SURVEY_ENABLED)</select></td>
+										</tr>
 									</table>
 									<div class="xline"></div>
 
@@ -192,7 +204,7 @@
 						<ol>
 						@{ $count = 0; }
 						@foreach($questions as $question) {
-							<li class="stripe @{ if(($count++ % 2) == 0) { echo 'stripeEven'; } else { echo 'stripeOdd'; } }">
+							<li class="stripe @{ if(($count++ % 2) == 0) { echo 'stripeEven'; } else { echo 'stripeOdd'; } } @{ if($question['enabled'] == statics::SURVEY_DISABLED) { echo 'questionDisabled'; } else { echo 'questionEnabled'; } }">
 								@$question['content']
 								<span class="questiontype">&nbsp;̶&nbsp;
 									@statics::$questiontypes[$question['type']]

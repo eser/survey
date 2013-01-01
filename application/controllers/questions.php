@@ -67,7 +67,7 @@
 
 			try {
 				// construct values for the record
-				$tInput = http::postArray(['content', 'type', 'typefilter', 'isshared']);
+				$tInput = http::postArray(['content', 'type', 'typefilter', 'isshared', 'enabled']);
 				$tInput['questionid'] = string::generateUuid();
 				$tInput['ownerid'] = statics::$user['userid'];
 
@@ -76,6 +76,7 @@
 				contracts::inKeys($tInput['type'], statics::$questiontypes)->exception('question type is invalid');
 				contracts::inKeys($tInput['typefilter'], statics::$questiontypefilters)->exception('question type filter is invalid');
 				contracts::inKeys($tInput['isshared'], statics::$sharedboolean)->exception('accessibility is invalid');
+				contracts::inKeys($tInput['enabled'], statics::$surveystatus)->exception('enabled is invalid');
 
 				if($tInput['type'] == statics::QUESTION_MULTIPLE) {
 					$tOptions = http::post('options');
@@ -176,13 +177,14 @@
 				contracts::isEqual($tQuestion['ownerid'], statics::$user['userid'])->exception('unauthorized access');
 
 				// construct values for the record
-				$tInput = http::postArray(['content', 'type', 'typefilter', 'isshared']);
+				$tInput = http::postArray(['content', 'type', 'typefilter', 'isshared', 'enabled']);
 
 				// validate values
 				contracts::lengthMinimum($tInput['content'], 3)->exception('question length must be 3 at least');
 				contracts::inKeys($tInput['type'], statics::$questiontypes)->exception('question type is invalid');
 				contracts::inKeys($tInput['typefilter'], statics::$questiontypefilters)->exception('question type filter is invalid');
 				contracts::inKeys($tInput['isshared'], statics::$sharedboolean)->exception('accessibility is invalid');
+				contracts::inKeys($tInput['enabled'], statics::$surveystatus)->exception('enabled is invalid');
 
 				if($tInput['type'] == statics::QUESTION_MULTIPLE) {
 					$tOptions = http::post('options');

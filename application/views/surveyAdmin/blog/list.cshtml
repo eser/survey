@@ -39,8 +39,9 @@
 					<table id="myTable" class="tablesorter"> 
 						<thead> 
 							<tr> 
-							    <th>@_('Title')</th> 
-							    <th>@_('Content')</th> 
+							    <th>@_('Title')</th>
+							    <th>@_('Content')</th>
+								<th>@_('Owner')</th>
 							    <th></th>
 							</tr> 
 						</thead> 
@@ -49,6 +50,7 @@
 								<tr>
 									<td>@$post['title']</td>
 									<td>@$post['content']</td>
+									<td>@$post['displayname']</td>
 									<td>
 										<a href="@$root/blackmore/blog/edit/@$post['postid']">@_('Edit')</a> 
 										<a href="@$root/blackmore/blog/delete/@$post['postid']">@_('Delete')</a>

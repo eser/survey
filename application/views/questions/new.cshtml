@@ -78,6 +78,10 @@
 								<td><label id="isshared_label" for="isshared">Accessibility *</label></td>
 								<td><select name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
 							</tr>
+							<tr>
+								<td><label id="enabled_label" for="enabled">Status *</label></td>
+								<td><select name="enabled">@html::selectOptions(statics::$surveystatus, statics::SURVEY_ENABLED)</select></td>
+							</tr>
 						</table>
 
 						<div class="marginTop20px tabs_table">
