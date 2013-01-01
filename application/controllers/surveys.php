@@ -453,30 +453,29 @@
 			statics::requireAuthentication(1);
 
 			try {
-				// validate the request: survey id
-				contracts::isUuid($uSurveyId)->exception('invalid survey id format');
+				// validate the request
+				$tInput = http::postArray(['surveyid', 'ownerid', 'password', 'type', 'enabled']);
+				$tInput['surveypublishid'] = string::generateUuid();
+				$tInput['ownerid'] = statics::$user['userid'];
+				$tInput['startdate'] = time::convert(http::post('startdate'), 'd.m.Y', 'Y-m-d H:i:s');
+				$tInput['enddate'] = time::convert(http::post('enddate'), 'd.m.Y', 'Y-m-d H:i:s');
+				$tInput['userlimit'] = intval(http::post('userlimit', '0'));
+				if($tInput['userlimit'] < 0) {
+					$tInput['userlimit'] = 0;
+				}
+
+				contracts::isUuid($tInput['surveyid'])->exception('invalid survey id format');
 
 				// gather all survey data from model
 				$this->load('surveyModel');
-				$tSurvey = $this->surveyModel->get($uSurveyId);
+				$tSurvey = $this->surveyModel->get($tInput['surveyid']);
 				contracts::isNotFalse($tSurvey)->exception('invalid survey id');
 				contracts::isEqual($tSurvey['ownerid'], statics::$user['userid'])->exception('unauthorized access');
+				
+				$tInput['revision'] = $tSurvey['lastrevision'];
 
 				$this->load('surveypublishModel');
-				$input = array(
-					'surveypublishid' => string::generateUuid(),
-					'surveyid' => http::post('surveyid'),
-					'revision' => '1',
-					'ownerid' => statics::$user['userid'],
-					'startdate' => http::post('startdate'),
-					'enddate' => http::post('enddate'),
-					'password' => http::post('password'),
-					'type' => http::post('type'),
-					'enabled' => http::post('enabled'),
-					'limit' => http::post('limit')
-				);
-
-				$insertSurvey = $this->surveypublishModel->insert($input);
+				$insertSurvey = $this->surveypublishModel->insert($tInput);
 				if($insertSurvey > 0){
 					echo "<script>alert('Survey Added Successfuly');</script>";
 				}
@@ -534,7 +533,7 @@
 				'password' => http::post('password'),
 				'type' => http::post('type'),
 				'enabled' => http::post('enabled'),
-				'limit' => http::post('limit')
+				'userlimit' => http::post('userlimit')
 			);
 
 			// gather all survey data from model

@@ -147,12 +147,12 @@
 		 * @param $uHumanize bool use meaningful language such as '2 hours ago', 'yesterday'
 		 */
 		public static function datePrint($uDate, $uShowHours = true, $uHumanize = true) {
-			if($uHumanize) {
-				return time::humanize(time::convert($uDate, 'Y-m-d H:i:s'), time(), true);
+			if(is_null($uDate) || strlen($uDate) <= 0) {
+				return '-';
 			}
 
-			if(is_null($uDate)) {
-				return '-';
+			if($uHumanize) {
+				return time::humanize(time::convert($uDate, 'Y-m-d H:i:s'), time(), true, $uShowHours);
 			}
 
 			return time::convert($uDate, 'Y-m-d H:i:s', (($uShowHours) ? 'd.m.Y H:i' : 'd.m.Y'));

@@ -83,7 +83,7 @@
 											<th>Start Date</th>
 											<th>End Date</th>
 											<th>Responses</th>
-											<th>Limit</th>
+											<th>User Limit</th>
 											<th></th>
 										</tr>
 									</thead>
@@ -108,10 +108,10 @@
 													<em>(@implode($tProps, ', '))</em>
 												}
 											</td>
-											<td>@$surveypublish['startdate']</td>
-											<td>@$surveypublish['enddate']</td>
+											<td>@statics::datePrint($surveypublish['startdate'], false)</td>
+											<td>@statics::datePrint($surveypublish['enddate'], false)</td>
 											<td>0</td>
-											<td>@$surveypublish['limit']</td>
+											<td>@$surveypublish['userlimit']</td>
 											<td>
 												<a href="@mvc::url('surveys/editpublish/' . $surveypublish['surveypublishid'])">Edit</a> ·
 												<a href="@mvc::url('surveys/share/' . $surveypublish['surveypublishid'])">Share</a> ·

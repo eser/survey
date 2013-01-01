@@ -29,24 +29,24 @@
 							<tr>
 								<td class="width200px"><label id="title_survey" for="survey">Survey *</label></td>
 								<td><select id="survey" name="surveyid">
-									@html::selectOptions($surveys, $surveyid, 'title')
+									@html::selectOptions($surveys, isset($surveyid) ? $surveyid : null, 'title')
 									</select></td>
 							</tr>
 							<tr>
-								<td class="width200px"><label id="title_startdate" for="startdate">Start Date *</label></td>
-								<td><input id="startdate" type="text" name="startdate" value="" /></td>
+								<td class="width200px"><label id="title_startdate" for="startdate" class="required">Start Date *</label></td>
+								<td><input id="startdate" type="text" name="startdate" value="@date('d.m.Y')" /></td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_enddate" for="enddate">End Date</label></td>
 								<td><input id="enddate" type="text" name="enddate" value="" /></td>
 							</tr>
 							<tr>
-								<td class="width200px"><label id="title_password" for="password">Password</label></td>
+								<td class="width200px"><label id="title_password" for="password">Password (optional)</label></td>
 								<td><input id="password" type="password" name="password" value="" /></td>
 							</tr>
 							<tr>
-								<td class="width200px"><label id="title_limit" for="limit">Limit</label></td>
-								<td><input id="limit" type="text" name="limit" value="" /></td>
+								<td class="width200px"><label id="title_userlimit" for="userlimit">User Limit (optional)</label></td>
+								<td><input id="userlimit" type="text" name="userlimit" value="" class="digits" /></td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_type" for="type">Type</label></td>
@@ -57,7 +57,7 @@
 							<tr>
 								<td class="width200px"><label id="title_status" for="status">Status</label></td>
 								<td><select name="enabled" id="status">
-								@html::selectOptions(statics::$surveystatus)
+								@html::selectOptions(statics::$surveystatus, statics::SURVEY_ENABLED)
 								</select></td>
 							</tr>
 							<tr>
