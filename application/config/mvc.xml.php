@@ -3,7 +3,7 @@
 <scabbia>
 	<mvc>
 		<routes>
-			<link>{@siteroot}/?{@controller}/{@action}{@parameters}{@queryString}</link>
+			<link>{@siteroot}/{@controller}/{@action}{@parameters}{@queryString}</link>
 		</routes>
 
 		<controllerList />
