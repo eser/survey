@@ -46,6 +46,27 @@
 		/**
 		 * @ignore
 		 */
+		public function &getAllByIDs($uIds) {
+			$tResult = array();
+
+			$tQuery = $this->db->createQuery()
+				->setTable('users')
+				->addField('*')
+				->setWhere(['userid', _in, $uIds])
+				->get();
+
+			foreach($tQuery as $tRow) {
+				$tResult[$tRow['userid']] = $tRow;
+			}
+
+			$tQuery->close();
+
+			return $tResult;
+		}
+
+		/**
+		 * @ignore
+		 */
 		public function getByEmailOrFacebookId($uEmail, $uFacebookId) {
 			return $this->db->createQuery()
 				->setTable('users')

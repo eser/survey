@@ -7,12 +7,6 @@
 
 				<script src="http://connect.facebook.net/en_US/all.js"></script>
 
-				@if(isset($theme)) {
-				<style type="text/css">
-					@$theme['cssrules']
-				</style>
-				}
-
 				<script type="text/javascript">
 					FB.init({appId: '@fb::$appId', status: true, cookie: true});
 
@@ -51,6 +45,14 @@
 						<li>@$surveypublish['title']</li>
                     </ul>
                 </div>
+
+				@if(session::existsFlash('notification')) {
+					@{ $notification = session::getFlash('notification'); }
+					<div class="msg@$notification[0]">
+					   <p>@$notification[1]</p>
+					</div>
+				}
+
                 <!-- Page Content Start -->
                 <div class="full-page-text">
 
@@ -77,40 +79,8 @@
                         </tbody>
                     </table>
 					<br />
-                    <form name="takeSurvey" method="POST" action="">
-                    <table class="extable" width="100%" cellspacing="0" cellpadding="0">
-					 @{ $count = 0; }
-                     @foreach($questions as $question) {
-                        <thead>
-							<tr>
-								<th class="question">@{ echo ++$count; }. @$question['content']</th>
-							</tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    @if($question['type'] == statics::QUESTION_EVALUATION) {
-                                        @html::radioOptions(@$question['questionid'], statics::$evaluationoptions)
-                                    }
-                                    @if($question['type'] == statics::QUESTION_FILL) {
-                                        @html::textBox($question['questionid'])
-                                    }
-                                    @if($question['type'] == statics::QUESTION_MULTIPLE && isset($choices[$question['questionid']])) {
-                                        @foreach($choices[$question['questionid']] as $choice) {
-                                            <label><input type="radio" name="@$question['questionid']" value="@$choice['questionchoiceid']"> @$choice['content']</label>
-                                            @if($choice['type'] > statics::QUESTIONOPTION_NOINPUT) {
-												<input class="required" type="text" name="@$question['questionid']value" value="" />
-											}<br />
-                                        }
-                                    }
-                                </td>
-                            </tr>
-                        </tbody>
-                     }
-                     </table>
-                     <br />
-                     <p><input type="submit" value="Submit" /></p>
-                     </form>
+
 				</div>
                 <!-- Page Content End -->
+
 @views::view('shared/footer.cshtml')

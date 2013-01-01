@@ -28,6 +28,34 @@
 				->get()
 				->row();
 		}
+
+		/**
+		 * @ignore
+		 */
+		public function getBySurveyPublish($uSurveyVisitorId, $uSurveyPublishId, $uUserId = null) {
+			if(!is_null($uUserId)) {
+				return $this->db->createQuery()
+					->setTable('surveyvisitors')
+					->addField('*')
+					->setWhere(['surveypublishid=:surveypublishid', _and, ['surveyvisitorid=:surveyvisitorid', _or, 'userid=:userid']])
+					->addParameter('surveyvisitorid', $uSurveyVisitorId)
+					->addParameter('surveypublishid', $uSurveyPublishId)
+					->addParameter('userid', $uUserId)
+					->setLimit(1)
+					->get()
+					->row();
+			}
+
+			return $this->db->createQuery()
+				->setTable('surveyvisitors')
+				->addField('*')
+				->setWhere(['surveypublishid=:surveypublishid', _and, 'surveyvisitorid=:surveyvisitorid'])
+				->addParameter('surveyvisitorid', $uSurveyVisitorId)
+				->addParameter('surveypublishid', $uSurveyPublishId)
+				->setLimit(1)
+				->get()
+				->row();
+		}
 	}
 
 ?>

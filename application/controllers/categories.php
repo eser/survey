@@ -59,6 +59,12 @@
 			// #3 pass survey data to view
 			$this->setRef('surveys', $tPublishedSurveys);
 
+			// #4 get survey-related users
+			$tUserIDs = arrays::column($tPublishedSurveys, 'ownerid');
+			$this->load('userModel');
+			$tUsers = $this->userModel->getAllByIDs($tUserIDs);
+			$this->setRef('users', $tUsers);
+
 			// render the page
 			$this->view();
 		}

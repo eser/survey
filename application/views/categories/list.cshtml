@@ -89,7 +89,7 @@
 								}</td>
                                 <td>@$survey['description']</td>
 								<td>@statics::datePrint($survey['createdate'], false)</td>
-                                <td>@$survey['ownerid']</td>
+                                <td>@$users[$survey['ownerid']]['displayname']</td>
 								<td>@statics::$languagesWithCounts[$survey['languageid']]['name']</td>
 								<td>@statics::datePrint($survey['enddate'], false)</td>
                                 <td>

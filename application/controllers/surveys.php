@@ -631,20 +631,28 @@
 				// validate the request: survey publish id
 				contracts::isUuid($uSurveyPublishId)->exception('invalid survey publish id format');
 
-				// survey visitor handling
-				$this->load('surveyvisitorModel');
-				$tExistingSurveyVisitor = $this->surveyvisitorModel->get(session::$id);
-				if($tExistingSurveyVisitor !== false) {
-					throw new Exception('dolmus o anket');
-				}
-
 				// gather all survey data from model
 				$this->load('surveypublishModel');
-				$tSurvey = $this->surveypublishModel->get($uSurveyPublishId);
-				$this->setRef('surveys', $tSurvey);
+				$tSurveyPublish = $this->surveypublishModel->get($uSurveyPublishId);
+				contracts::isNotFalse($tSurveyPublish)->exception('invalid survey publish id');
+				$this->setRef('surveypublish', $tSurveyPublish);
+
+				// survey visitor handling
+				$tUserId = ((!is_null(statics::$user)) ? statics::$user['userid'] : null);
+
+				$this->load('userModel');
+				$tUser = $this->userModel->get($tSurveyPublish['ownerid']);
+				$this->setRef('user', $tUser);
+
+				$this->load('surveyvisitorModel');
+				$tExistingSurveyVisitor = $this->surveyvisitorModel->getBySurveyPublish(session::$id, $tSurveyPublish['surveypublishid'], $tUserId);
+				if($tExistingSurveyVisitor !== false) {
+					// throw new Exception('dolmus o anket');
+					$this->view('surveys/take_message.cshtml');
+				}
 
 				$this->load('questionModel');
-				$tQuestions = $this->questionModel->getBySurveyID($tSurvey['surveyid'], $tSurvey['revision']);
+				$tQuestions = $this->questionModel->getBySurveyID($tSurveyPublish['surveyid'], $tSurveyPublish['revision']);
 				$tQuestionIds = arrays::column($tQuestions, 'questionid');
 				$this->setRef('questions', $tQuestions);
 
@@ -657,7 +665,7 @@
 				$this->setRef('choices', $tChoices);
 
 				$this->load('themeModel');
-				$tTheme = $this->themeModel->get($tSurvey['themeid']);
+				$tTheme = $this->themeModel->get($tSurveyPublish['themeid']);
 				$this->setRef('theme', $tTheme);
 			}
 			catch(Exception $ex) {
