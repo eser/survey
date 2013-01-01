@@ -118,7 +118,8 @@
 			}
 
 			if($uLevel > 0 && is_null(self::$user)) {
-				mvc::redirect('users/login');
+				// mvc::redirect('users/login');
+				throw new Exception('you should be logged in to view this page. please return to homepage and login or register yourself as a survey-e-bot user.');
 				return;
 			}
 		}
