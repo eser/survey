@@ -629,18 +629,22 @@
 			
 			// gather all survey data from model
 			$this->load('surveypublishModel');
-			$survey = $this->surveypublishModel->get($uSurveyPublishId);
-			$this->setRef('surveys', $survey);
+			$tSurvey = $this->surveypublishModel->get($uSurveyPublishId);
+			$this->setRef('surveys', $tSurvey);
 
 			$this->load('questionModel');
-			$questions = $this->questionModel->getBySurveyID($survey['surveyid'], $survey['revision']);
-			$this->setRef('questions', $questions);
+			$tQuestions = $this->questionModel->getBySurveyID($tSurvey['surveyid'], $tSurvey['revision']);
+			$this->setRef('questions', $tQuestions);
 
-			$choices = [];
-			foreach($questions as $question) {
-				$choices[$question['questionid']] = $this->questionModel->getChoicesByQuestionID($question['questionid']);
+			$this->load('themeModel');
+			$tTheme = $this->themeModel->get($tSurvey['themeid']);
+			$this->setRef('theme', $tTheme);
+
+			$tChoices = [];
+			foreach($tQuestions as $tQuestion) {
+				$tChoices[$tQuestion['questionid']] = $this->questionModel->getChoicesByQuestionID($tQuestion['questionid']);
 			}
-			$this->setRef('choices', $choices);
+			$this->setRef('choices', $tChoices);
 
 			// render the page
 			$this->view();

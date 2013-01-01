@@ -1,4 +1,8 @@
 @views::view('shared/header.cshtml')
+				<style type="text/css">
+				@$theme['cssrules']
+				</style>
+
                 <!-- Breadcrumbs, Page Title -->
                 <div id="page-head">
                     <h1><em>yet another survey-e-bot survey!</em>@$surveys['title']</h1>
@@ -34,7 +38,7 @@
                      @foreach($questions as $question){
                           <thead>
                           <tr>
-                              <th>@$question['content']</th>
+                              <th class="question">@$question['content']</th>
                           </tr>
                           </thead>
                           <tbody>
