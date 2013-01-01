@@ -1,0 +1,93 @@
+@views::view('shared/header.cshtml')
+
+				<div id='fb-root'></div>
+
+				@{
+					$url = 'http://' . $_SERVER['HTTP_HOST'] . @mvc::url('surveys/take/' . $surveypublish['surveypublishid']);
+					$logourl = 'http://' . $_SERVER['HTTP_HOST'] . @$root . 'res/img/logo.png';
+				}
+                
+				<script type="text/javascript" src="@$root/res/js/ZeroClipboard.js"></script>
+				<script src='http://connect.facebook.net/en_US/all.js'></script>
+
+				<script type="text/javascript">
+					FB.init({appId: '448617345200807', status: true, cookie: true});
+
+					function postToFeed() {
+						var obj = {
+						  method: 'feed',
+						  redirect_uri: '@$url',
+						  link: 'https://developers.facebook.com/docs/reference/dialogs/',
+						  picture: '@$logourl',
+						  name: 'Facebook Dialogs',
+						  caption: 'Reference Documentation',
+						  description: 'Using Dialogs to interact with users.'
+						};
+
+						function callback(response) {
+						  document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+						}
+
+						FB.ui(obj, callback);
+					}
+
+					$l.ready(function() {
+						$l.dom.setEvent(
+							$l.dom.selectSingle('#facebookshare'),
+							'click',
+							postToFeed
+						);
+					});
+				</script>
+
+                <!-- Breadcrumbs, Page Title -->
+                <div id="page-head">
+                    <h1>Share Survey</h1>
+                    <ul id="breadcrumbs">
+                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
+						<li>Publishs</li>
+                        <li>@$surveypublish['title']</li>
+                    </ul>
+                </div>
+                
+                <!-- Start Page Content -->
+                <div class="full-page-text">
+
+                    <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
+                    
+                    <h3>Share Survey</h3>
+					<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td class="width200px"><label id="title_survey" for="survey">Survey</label></td>
+							<td>@$surveypublish['title']</td>
+						</tr>
+						<tr>
+							<td><label id="title_revision" for="revision">Revision</label></td>
+							<td>@$surveypublish['revision']</td>
+						</tr>
+						<tr>
+							<td><label id="title_url" for="url">URL</label></td>
+							<td class="valignTop"><textarea id="url" class="urlbox">@$url</textarea></td>
+						</tr>
+						<tr>
+							<td><label id="title_url" for="url">URL Clipboard</label></td>
+							<td class="valignTop">
+								<input type="button" id="copyclipboard" data-clipboard-text="@$url" value="Copy URL to Clipboard" /> <span class="questiontype">(requires flash-enabled browser)</span>
+								<script type="text/javascript">
+									ZeroClipboard.setMoviePath('@$root/res/ZeroClipboard.swf');
+									var clip = new ZeroClipboard.Client("#copyclipboard");
+								</script>
+							</td>
+						</tr>
+						<tr>
+							<td><label id="title_url" for="url">Facebook Share</label></td>
+							<td class="valignTop">
+								<input type="button" id="facebookshare" value="Share on Facebook" />
+							</td>
+						</tr>
+					</table>
+                </div>
+                <!-- Page Content End -->
+    
+@views::view('shared/footer.cshtml')

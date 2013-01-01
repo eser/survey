@@ -517,7 +517,7 @@
 				contracts::isEqual($tSurveyPublish['ownerid'], statics::$user['userid'])->exception('unauthorized access');
 
 				// assign the user data to view
-				$this->set('surveypublishs', $tSurveyPublish);
+				$this->set('surveypublish', $tSurveyPublish);
 			}
 			catch(Exception $ex) {
 				// set an error message to be passed thru session if an exception occurred.
@@ -576,6 +576,41 @@
 			// redirect user to parent page in order to display related messages
 			mvc::redirect('surveys/index');
 			return;
+		}
+
+		/**
+		 * share survey publish page
+		 *
+		 * @param $uSurveyId string the uuid represents survey publish id
+		 */
+		public function get_share($uSurveyPublishId) {
+			// load and validate session data
+			statics::requireAuthentication(1);
+
+			try {
+				// validate the request
+				contracts::isUuid($uSurveyPublishId)->exception('invalid survey publish id format');
+
+				// gather all survey data from model
+				$this->load('surveypublishModel');
+				$tSurveyPublish = $this->surveypublishModel->get($uSurveyPublishId);
+				contracts::isNotFalse($tSurveyPublish)->exception('invalid survey publish id');
+				contracts::isEqual($tSurveyPublish['ownerid'], statics::$user['userid'])->exception('unauthorized access');
+
+				// assign the user data to view
+				$this->set('surveypublish', $tSurveyPublish);
+			}
+			catch(Exception $ex) {
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
+
+				// redirect user to parent page in order to display error message
+				mvc::redirect('surveys/index');
+				return;
+			}
+
+			// render the page
+			$this->view();
 		}
 
 		/**

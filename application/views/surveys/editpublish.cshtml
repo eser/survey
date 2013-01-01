@@ -14,7 +14,7 @@
                         <li><a href="@mvc::url('home/index')">Home</a></li>
                         <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
 						<li>Publishs</li>
-                        <li>@$surveypublishs['title']</li>
+                        <li>@$surveypublish['title']</li>
                     </ul>
                 </div>
                 
@@ -24,38 +24,38 @@
                     <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
                     
                     <h3>Edit Publish Survey</h3>
-					<form id="publishSurvey" action="@mvc::url('surveys/editpublish/' . $surveypublishs['surveypublishid'])" method="post">
+					<form id="publishSurvey" action="@mvc::url('surveys/editpublish/' . $surveypublish['surveypublishid'])" method="post">
 						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 							<tr>
-								<td class="width200px"><label id="title_survey" for="survey">Survey *</label></td>
-								<td>@$surveypublishs['title']</td>
+								<td class="width200px"><label id="title_survey" for="survey">Survey</label></td>
+								<td>@$surveypublish['title']</td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_startdate" for="startdate" class="required">Start Date *</label></td>
-								<td><input id="startdate" type="text" name="startdate" value="@time::convert($surveypublishs['startdate'], 'Y-m-d H:i:s', 'd.m.Y')" /></td>
+								<td><input id="startdate" type="text" name="startdate" value="@time::convert($surveypublish['startdate'], 'Y-m-d H:i:s', 'd.m.Y')" /></td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_enddate" for="enddate">End Date</label></td>
-								<td><input id="enddate" type="text" name="enddate" value="@{ if(!is_null($surveypublishs['enddate'])) { echo time::convert($surveypublishs['enddate'], 'Y-m-d H:i:s', 'd.m.Y'); } }" /></td>
+								<td><input id="enddate" type="text" name="enddate" value="@{ if(!is_null($surveypublish['enddate'])) { echo time::convert($surveypublish['enddate'], 'Y-m-d H:i:s', 'd.m.Y'); } }" /></td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_password" for="password">Password (optional)</label></td>
-								<td><input id="password" type="password" name="password" value="@$surveypublishs['password']" /></td>
+								<td><input id="password" type="password" name="password" value="@$surveypublish['password']" /></td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_userlimit" for="userlimit">User Limit (optional)</label></td>
-								<td><input id="userlimit" type="text" name="userlimit" value="@{ if($surveypublishs['userlimit'] != '0') { echo $surveypublishs['userlimit']; } }" class="digits" /></td>
+								<td><input id="userlimit" type="text" name="userlimit" value="@{ if($surveypublish['userlimit'] != '0') { echo $surveypublish['userlimit']; } }" class="digits" /></td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_type" for="type">Type</label></td>
 								<td><select name="type" id="type">
-								@html::selectOptions(statics::$surveytypes, $surveypublishs['type'])
+								@html::selectOptions(statics::$surveytypes, $surveypublish['type'])
 								</select></td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_status" for="status">Status</label></td>
 								<td><select name="enabled" id="status">
-								@html::selectOptions(statics::$surveystatus, $surveypublishs['enabled'])
+								@html::selectOptions(statics::$surveystatus, $surveypublish['enabled'])
 								</select></td>
 							</tr>
 							<tr>
