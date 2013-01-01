@@ -112,7 +112,7 @@
 			return $this->db->createQuery()
 				->setTable('surveypublishs sp')
 				->joinTable('surveys s', 'sp.surveyid=s.surveyid', 'INNER')
-				->addField('sp.*, s.title')
+				->addField('sp.*, s.title, (SELECT COUNT(*) FROM surveyvisitors sv WHERE sv.surveypublishid=sp.surveypublishid) AS responses')
 				->setWhere(['sp.ownerid=:ownerid'])
 				->addParameter('ownerid', $uOwnerId)
 				->get()
@@ -124,11 +124,12 @@
 		 */
 		public function getAllPagedByOwner($uOwnerId, $uOffset, $uLimit) {
 			return $this->db->createQuery()
-				->setTable('surveypublishs')
-				->addField('*')
+				->setTable('surveypublishs sp')
+				->joinTable('surveys s', 'sp.surveyid=s.surveyid', 'INNER')
+				->addField('sp.*, s.title, (SELECT COUNT(*) FROM surveyvisitors sv WHERE sv.surveypublishid=sp.surveypublishid) AS responses')
 				->setOffset($uOffset)
 				->setLimit($uLimit)
-				->setWhere(['ownerid=:ownerid'])
+				->setWhere(['sp.ownerid=:ownerid'])
 				->addParameter('ownerid', $uOwnerId)
 				->get()
 				->all();
@@ -139,9 +140,10 @@
 		 */
 		public function getAllBySurvey($uSurveyIds) {
 			return $this->db->createQuery()
-				->setTable('surveypublishs')
-				->addField('*')
-				->setWhere(['surveyid', _in, $uSurveyIds])
+				->setTable('surveypublishs sp')
+				->joinTable('surveys s', 'sp.surveyid=s.surveyid', 'INNER')
+				->addField('sp.*, s.title, (SELECT COUNT(*) FROM surveyvisitors sv WHERE sv.surveypublishid=sp.surveypublishid) AS responses')
+				->setWhere(['sp.surveyid', _in, $uSurveyIds])
 				->get()
 				->all();
 		}

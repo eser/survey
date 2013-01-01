@@ -638,8 +638,6 @@
 				$this->setRef('surveypublish', $tSurveyPublish);
 
 				// survey visitor handling
-				$tUserId = ((!is_null(statics::$user)) ? statics::$user['userid'] : null);
-
 				$this->load('userModel');
 				$tUser = $this->userModel->get($tSurveyPublish['ownerid']);
 				$this->setRef('user', $tUser);
@@ -647,9 +645,37 @@
 				$this->load('surveyvisitorModel');
 				$tSurveyPublishCounter = $this->surveyvisitorModel->countBySurveyPublish($tSurveyPublish['surveypublishid']);
 				$this->setRef('counter', $tSurveyPublishCounter);
+
+				if($tSurveyPublish['enabled'] == statics::SURVEY_DISABLED) {
+					$this->set('title', 'Survey Status');
+					$this->set('message', 'Survey is currently disabled.');
+
+					$this->view('surveys/take_message.cshtml');
+					return;
+				}
+
+				if($tSurveyPublish['userlimit'] != '0') {
+					if(!contracts::isLower($tSurveyPublishCounter, intval($tSurveyPublish['userlimit']))->check()) {
+						$this->set('title', 'Survey User Limit');
+						$this->set('message', 'User limit is reached for this survey.');
+
+						$this->view('surveys/take_message.cshtml');
+						return;
+					}
+				}
+
+				$tUserId = ((!is_null(statics::$user)) ? statics::$user['userid'] : null);
+				if(is_null($tUserId) && $tSurveyPublish['type'] == statics::SURVEY_AUTHONLY) {
+					$this->set('title', 'Survey');
+					$this->set('message', 'This survey only accepts authorized users in the system.');
+
+					$this->view('surveys/take_message.cshtml');
+					return;
+				}
+				
+				$this->load('surveyvisitorModel');
 				$tExistingSurveyVisitor = $this->surveyvisitorModel->getBySurveyPublish(session::$id, $tSurveyPublish['surveypublishid'], $tUserId);
 				if($tExistingSurveyVisitor !== false) {
-					// throw new Exception('dolmus o anket');
 					$this->set('title', 'Survey');
 					$this->set('message', 'You have already filled this survey.');
 
@@ -690,14 +716,11 @@
 		public function post_take($uSurveyPublishId) {
 			statics::requireAuthentication(0);
 			
-			// check auth-only
-			
-			$this->load('surveypublishModel');
-			$this->load('surveyvisitorModel');
-			$this->load('questionModel');
-
 			// gather all survey data from model
+			$this->load('surveypublishModel');
 			$tSurveyPublish = $this->surveypublishModel->get($uSurveyPublishId);
+
+			$this->load('surveyvisitorModel');
 			$tExistingSurveyVisitor = $this->surveyvisitorModel->get(session::$id);
 			if($tExistingSurveyVisitor !== false) {
 				throw new Exception('dolmus o anket');
@@ -715,6 +738,7 @@
 			);
 			$this->surveyvisitorModel->insert($tSurveyVisitor);
 
+			$this->load('questionModel');
 			$questions = $this->questionModel->getBySurveyID($tSurveyPublish['surveyid'], $tSurveyPublish['revision']);
 
 			$answers = array();

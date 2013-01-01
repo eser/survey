@@ -48,6 +48,16 @@
 							@{ $tLastCategory = $survey['categoryid']; }
 						}
 
+						@{
+							// calculate the summation of responses
+							if(isset($surveypublishs[$survey['surveyid']])) {
+								$totalresponses = array_sum(arrays::column($surveypublishs[$survey['surveyid']], 'responses'));
+							}
+							else {
+								$totalresponses = '0';
+							}
+						}
+
 						<div class="accordion">
 							<div class="accordionTitle">@$survey['title']</div>
 							<div class="accordionContent">
@@ -68,7 +78,7 @@
 									<th>Theme:</th>
 									<td>@statics::$themesWithCounts[$survey['themeid']]['name']</td>
 									<th>Total Responses:</th>
-									<td>0</td>
+									<td>@$totalresponses</td>
 								</tr>
 								<tr>
 									<th>Description:</th>
@@ -119,7 +129,7 @@
 											</td>
 											<td>@statics::datePrint($surveypublish['startdate'], false)</td>
 											<td>@statics::datePrint($surveypublish['enddate'], false)</td>
-											<td>-</td>
+											<td>@$surveypublish['responses']</td>
 											<td>@{ if($surveypublish['userlimit'] != '0') { echo $surveypublish['userlimit']; } else { echo '-'; } }</td>
 											<td>
 												<a href="@mvc::url('surveys/editpublish/' . $surveypublish['surveypublishid'])">Edit</a> ·
