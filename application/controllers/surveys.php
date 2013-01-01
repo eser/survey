@@ -498,57 +498,84 @@
 		}
 
 		/**
-		 * @ignore
+		 * edit survey publish page
 		 *
-		 * ** INCOMPLETE
+		 * @param $uSurveyId string the uuid represents survey publish id
 		 */
-		public function get_editpublish($uSurveyPublishsId) {
+		public function get_editpublish($uSurveyPublishId) {
+			// load and validate session data
 			statics::requireAuthentication(1);
-			$this->load('surveypublishModel');
-			// gather all survey data from model
-			$tSurvey = $this->surveypublishModel->get($uSurveyPublishsId);
 
-			// assign the user data to view
-			$this->set('surveypublishs', $tSurvey);
+			try {
+				// validate the request
+				contracts::isUuid($uSurveyPublishId)->exception('invalid survey publish id format');
+
+				// gather all survey data from model
+				$this->load('surveypublishModel');
+				$tSurveyPublish = $this->surveypublishModel->get($uSurveyPublishId);
+				contracts::isNotFalse($tSurveyPublish)->exception('invalid survey publish id');
+				contracts::isEqual($tSurveyPublish['ownerid'], statics::$user['userid'])->exception('unauthorized access');
+
+				// assign the user data to view
+				$this->set('surveypublishs', $tSurveyPublish);
+			}
+			catch(Exception $ex) {
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
+
+				// redirect user to parent page in order to display error message
+				mvc::redirect('surveys/index');
+				return;
+			}
+
 			// render the page
 			$this->view();
 		}
 
 		/**
-		 * @ignore
+		 * postback method for edit survey publish page
 		 *
-		 * ** INCOMPLETE
+		 * @param $uSurveyId string the uuid represents survey publish id
 		 */
 		public function post_editpublish($uSurveyPublishId) {
+			// load and validate session data
 			statics::requireAuthentication(1);
-			$this->load('surveypublishModel');
-			$update = array(
-				'revision' => '1',
-				'ownerid' => statics::$user['userid'],
-				'startdate' => http::post('startdate'),
-				'enddate' => http::post('enddate'),
-				'password' => http::post('password'),
-				'type' => http::post('type'),
-				'enabled' => http::post('enabled'),
-				'userlimit' => http::post('userlimit')
-			);
 
-			// gather all survey data from model
-			$tEditPublish = $this->surveypublishModel->update($uSurveyPublishId, $update);
-			if($tEditPublish > 0){
-				echo "<script> alert('Record updated successfuly.');</script>";
+			try {
+				// validate the request
+				contracts::isUuid($uSurveyPublishId)->exception('invalid survey publish id format');
+
+				// gather all survey data from model
+				$this->load('surveypublishModel');
+				$tSurveyPublish = $this->surveypublishModel->get($uSurveyPublishId);
+				contracts::isNotFalse($tSurveyPublish)->exception('invalid survey publish id');
+				contracts::isEqual($tSurveyPublish['ownerid'], statics::$user['userid'])->exception('unauthorized access');
+
+				// validate the request
+				$tInput = http::postArray(['password', 'type', 'enabled']);
+				$tInput['startdate'] = time::convert(http::post('startdate'), 'd.m.Y', 'Y-m-d H:i:s');
+
+				$tEndDate = http::post('enddate');
+				$tInput['enddate'] = (strlen($tEndDate) > 0) ? time::convert($tEndDate, 'd.m.Y', 'Y-m-d H:i:s') : null;
+
+				$tInput['userlimit'] = intval(http::post('userlimit', '0'));
+				if($tInput['userlimit'] < 0) {
+					$tInput['userlimit'] = 0;
+				}
+
+				$this->surveypublishModel->update($uSurveyPublishId, $tInput);
+
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['success', 'Survey publish edited successfully']);
 			}
-			else{
-				echo "<script> alert('Unexpected Error. Try Again Later.');</script>";
-			}
+			catch(Exception $ex) {
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
+			}	
 
-			$tSurvey = $this->surveypublishModel->get($uSurveyPublishId);
-
-			// assign the user data to view
-			$this->set('surveypublishs', $tSurvey);
-
-			// render the page
-			$this->view();
+			// redirect user to parent page in order to display related messages
+			mvc::redirect('surveys/index');
+			return;
 		}
 
 		/**

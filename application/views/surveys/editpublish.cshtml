@@ -23,7 +23,7 @@
 
                     <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
                     
-                    <h3>Publish Survey</h3>
+                    <h3>Edit Publish Survey</h3>
 					<form id="publishSurvey" action="@mvc::url('surveys/editpublish/' . $surveypublishs['surveypublishid'])" method="post">
 						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 							<tr>
@@ -32,11 +32,11 @@
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_startdate" for="startdate" class="required">Start Date *</label></td>
-								<td><input id="startdate" type="text" name="startdate" value="@$surveypublishs['startdate']" /></td>
+								<td><input id="startdate" type="text" name="startdate" value="@time::convert($surveypublishs['startdate'], 'Y-m-d H:i:s', 'd.m.Y')" /></td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_enddate" for="enddate">End Date</label></td>
-								<td><input id="enddate" type="text" name="enddate" value="@$surveypublishs['enddate']" /></td>
+								<td><input id="enddate" type="text" name="enddate" value="@{ if(!is_null($surveypublishs['enddate'])) { echo time::convert($surveypublishs['enddate'], 'Y-m-d H:i:s', 'd.m.Y'); } }" /></td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_password" for="password">Password (optional)</label></td>
@@ -44,7 +44,7 @@
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_userlimit" for="userlimit">User Limit (optional)</label></td>
-								<td><input id="userlimit" type="text" name="userlimit" value="@$surveypublishs['userlimit']" class="digits" /></td>
+								<td><input id="userlimit" type="text" name="userlimit" value="@{ if($surveypublishs['userlimit'] != '0') { echo $surveypublishs['userlimit']; } }" class="digits" /></td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_type" for="type">Type</label></td>
