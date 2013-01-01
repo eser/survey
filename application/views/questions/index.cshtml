@@ -40,7 +40,7 @@
                         </thead>
                         <tbody>
 						@foreach($questions as &$question) {
-                            <tr>
+                            <tr class="@{ if($question['enabled'] == statics::SURVEY_DISABLED) { echo 'questionDisabled'; } else { echo 'questionEnabled'; } }">
 								<td><a href="@mvc::url('questions/edit/' . $question['questionid'])">@$question['content']</a></td>
                                 <td>
 									@statics::$questiontypes[$question['type']]

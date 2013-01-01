@@ -17,12 +17,15 @@
 		 * @ignore
 		 */
 		public static function blackmore_registerModules($uParms) {
+			// disable scabbia routines
+			$uParms['modules']['index']['actions'] = array();
+			$uParms['modules']['index']['submenus'] = false;
+
 			$uParms['modules']['questions'] = array(
 				'title' => 'Questions',
 				'callback' => 'admin_questions::index',
 				'submenus' => true,
 				'actions' => array(
-					
 					array(
 						'callback' => 'admin_questions::questionList',
 						'menutitle' => 'List',

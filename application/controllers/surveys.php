@@ -357,7 +357,7 @@
 
 		private function post_questions_other($uType, $uSurveyId, $uRevision) {
 			// construct values for the record
-			$tInput = http::postArray(['content', 'typefilter', 'isshared']);
+			$tInput = http::postArray(['content', 'typefilter', 'isshared', 'enabled']);
 			$tInput['questionid'] = string::generateUuid();
 			$tInput['type'] = $uType;
 			$tInput['ownerid'] = statics::$user['userid'];
