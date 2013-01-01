@@ -697,7 +697,7 @@
 			$this->load('questionModel');
 
 			// gather all survey data from model
-			$survey = $this->surveypublishModel->get($uSurveyPublishId);
+			$tSurveyPublish = $this->surveypublishModel->get($uSurveyPublishId);
 			$tExistingSurveyVisitor = $this->surveyvisitorModel->get(session::$id);
 			if($tExistingSurveyVisitor !== false) {
 				throw new Exception('dolmus o anket');
@@ -707,7 +707,7 @@
 
 			$tSurveyVisitor = array(
 				'surveyvisitorid' => session::$id,
-				'surveypublishid' => $survey['surveypublishid'],
+				'surveypublishid' => $tSurveyPublish['surveypublishid'],
 				'userid' => $tUserId,
 				'ip' => $_SERVER['REMOTE_ADDR'],
 				'useragent' => $_SERVER['HTTP_USER_AGENT'],
@@ -715,7 +715,7 @@
 			);
 			$this->surveyvisitorModel->insert($tSurveyVisitor);
 
-			$questions = $this->questionModel->getBySurveyID($survey['surveyid']);
+			$questions = $this->questionModel->getBySurveyID($tSurveyPublish['surveyid'], $tSurveyPublish['revision']);
 
 			$answers = array();
 			foreach($questions as $question) {
