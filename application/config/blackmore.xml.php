@@ -2,11 +2,11 @@
 <!-- <?php exit(); ?> -->
 <scabbia>
 	<blackmore>
-		<title>Survey-e-bot Administrator</title>
-		<!-- <logo>/res/images/logocube.png</logo> -->
+		<title>survey-e-bot Administrator</title>
+		<logo>/res/img/logo2.png</logo>
 		<bodyStyle>stretch</bodyStyle>
 
-		<loginTitle>Survey-e-bot Administrator</loginTitle>
+		<loginTitle>survey-e-bot Administrator</loginTitle>
 		<database>dbconn</database>
 	</blackmore>
 
