@@ -1,8 +1,37 @@
-@views::view('shared/header.cshtml')
+@html::doctype('html5')
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
+<head>
+	<title>survey-e-bot</title>
+	<meta charset="utf-8" />
 
-	<div class="content">
-		<h1>@$title</h1>
-		<div>@$message</div>
+	<link rel="shortcut icon" href="@$root/favicon.ico" type="image/x-icon" />
+
+	<link type="text/css" href="@http::url('scabbia.css?core,jqueryui,jqueryuifx,shadowbox,tipsy')" rel="stylesheet" media="all" />
+	<link rel="stylesheet" type="text/css" href="/survey/res/css/style.css" />
+
+	<script type="text/javascript" src="@http::url('scabbia.js?core,jquery,jqueryui,jqueryuifx,shadowbox,tipsy')"></script>
+	<script type="text/javascript" src="/survey/res/js/superfish.js"></script>
+	<script type="text/javascript" src="/survey/res/js/jquery.nivo.slider.js"></script>
+    <script type="text/javascript" src="/survey/res/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/survey/res/js/main.js"></script>
+</head>
+<body>
+	<div id="fb-root"></div>
+	<script type="text/javascript">
+			$l.contentBegin('main', '@framework::$siteroot');
+	</script>
+
+	<div class="ppopup">
+		<div class="content">
+			<h1>survey-e-bot</h1>
+			<div><strong>@$title</strong>: @$message</div>
+			<div class="alignRight"><a href="@$root/">&lt;&lt; Back To The Homepage</a></div>
+		</div>
 	</div>
 
-@views::view('shared/footer.cshtml')
+	<script type="text/javascript">
+        $l.contentEnd();
+    </script>
+
+</body>
+</html>
