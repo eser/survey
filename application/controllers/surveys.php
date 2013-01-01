@@ -188,8 +188,8 @@
 		 * questions form
 		 *
 		 * @param $uSurveyId string the uuid represents survey id
-		 * @param $uTag string a tag which is used for survey related operations like 'remove'
-		 * ** INCOMPLETE
+		 * @param $uTag string an operation tag which is used for survey related operations like 'remove'
+		 * @param $uSecondTag string extra tag attribute for operations specified in $uTag
 		 */
 		public function get_questions($uSurveyId, $uTag = '', $uSecondTag = '') {
 			// load and validate session data
@@ -258,7 +258,6 @@
 		 *
 		 * @param $uSurveyId string the uuid represents survey id
 		 * @param $uQuestionType int the question type
-		 * ** INCOMPLETE
 		 */
 		public function post_questions($uSurveyId, $uQuestionType = null) {
 			// load and validate session data
@@ -294,6 +293,9 @@
 			mvc::redirect('surveys/questions/' . $uSurveyId);
 		}
 
+		/**
+		 * a subroutine for post_questions
+		 */
 		private function &post_questions_revisionwork($uSurveyId, $uLastRevision) {
 			$this->load('surveypublishModel');
 			$tCount = $this->surveypublishModel->getPublishCountBySurvey($uSurveyId, $uLastRevision);
@@ -325,6 +327,9 @@
 			return $tNextRevision;
 		}
 
+		/**
+		 * a subroutine for post_questions
+		 */
 		private function post_questions_questionpool($uSurveyId, $uRevision) {
 			$tSurveyQuestion = http::postArray(['questionid']);
 			$tSurveyQuestion['surveyid'] = $uSurveyId;
@@ -405,13 +410,19 @@
 		/**
 		 * new survey publish page
 		 *
-		 * ** INCOMPLETE
+		 * @param $uSurveyId string the uuid represents survey id
 		 */
 		public function get_publish($uSurveyId = null) {
 			// load and validate session data
 			statics::requireAuthentication(1);
 
 			try {
+				// validate the request: survey id
+				if(!is_null($uSurveyId)) {
+					contracts::isUuid($uSurveyId)->exception('invalid survey id format');
+					// not necessary to verify ownership of specified survey since it's only affects choice in dropdown list
+				}
+
 				$this->setRef('surveyid', $uSurveyId);
 
 				// gather all survey data from model
@@ -441,32 +452,52 @@
 			// load and validate session data
 			statics::requireAuthentication(1);
 
-			$this->load('surveypublishModel');
-			$input = array(
-				'surveypublishid' => string::generateUuid(),
-				'surveyid' => http::post('surveyid'),
-				'revision' => '1',
-				'ownerid' => statics::$user['userid'],
-				'startdate' => http::post('startdate'),
-				'enddate' => http::post('enddate'),
-				'password' => http::post('password'),
-				'type' => http::post('type'),
-				'enabled' => http::post('enabled'),
-				'limit' => http::post('limit')
-			);
+			try {
+				// validate the request: survey id
+				contracts::isUuid($uSurveyId)->exception('invalid survey id format');
 
-			$insertSurvey = $this->surveypublishModel->insert($input);
-			if($insertSurvey > 0){
-				echo "<script>alert('Survey Added Successfuly');</script>";
+				// gather all survey data from model
+				$this->load('surveyModel');
+				$tSurvey = $this->surveyModel->get($uSurveyId);
+				contracts::isNotFalse($tSurvey)->exception('invalid survey id');
+				contracts::isEqual($tSurvey['ownerid'], statics::$user['userid'])->exception('unauthorized access');
+
+				$this->load('surveypublishModel');
+				$input = array(
+					'surveypublishid' => string::generateUuid(),
+					'surveyid' => http::post('surveyid'),
+					'revision' => '1',
+					'ownerid' => statics::$user['userid'],
+					'startdate' => http::post('startdate'),
+					'enddate' => http::post('enddate'),
+					'password' => http::post('password'),
+					'type' => http::post('type'),
+					'enabled' => http::post('enabled'),
+					'limit' => http::post('limit')
+				);
+
+				$insertSurvey = $this->surveypublishModel->insert($input);
+				if($insertSurvey > 0){
+					echo "<script>alert('Survey Added Successfuly');</script>";
+				}
+				else {
+					echo "<script>alert('Unexpected Error.');</script>";
+				}
+
+				$this->load('surveyModel');
+				$surveys = $this->surveyModel->getAllByOwner(statics::$user['userid']);
+
+				$this->setRef('surveys', $surveys);
 			}
-			else {
-				echo "<script>alert('Unexpected Error.');</script>";
+			catch(Exception $ex) {
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
+
+				// redirect user to parent page in order to display error message
+				mvc::redirect('surveys/index');
+				return;
 			}
-
-			$this->load('surveyModel');
-			$surveys = $this->surveyModel->getAllByOwner(statics::$user['userid']);
-
-			$this->setRef('surveys', $surveys);
+				
 			$this->view();
 		}
 

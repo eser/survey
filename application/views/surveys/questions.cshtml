@@ -52,6 +52,16 @@
 								return false;
 							}
 						});
+
+						var removeButtons = $l.dom.select('.removebutton');
+						var removeFunc = function() {
+							if(!confirm('Are you sure to remove this question from current survey?')) {
+								return false;
+							}
+						};
+						for(var i = 0; i < removeButtons.length; i++) {
+							$l.dom.setEvent(removeButtons[i], 'click', removeFunc);
+						}
 					});
 				</script>
 
@@ -205,7 +215,7 @@
 								}
 								<div class="alignRight">
 									<a class="xbutton" href="@mvc::url('questions/edit/' . $question['questionid'])">Goto Question</a>
-									<a class="xbutton" href="@mvc::url('surveys/questions/' . $survey['surveyid'] . '/remove/' . $question['questionid'])">Remove</a>
+									<a class="xbutton removebutton" href="@mvc::url('surveys/questions/' . $survey['surveyid'] . '/remove/' . $question['questionid'])">Remove</a>
 								</div>
 							</li>
 						}
