@@ -614,46 +614,55 @@
 		}
 
 		/**
-		 * @ignore
+		 * take survey page
 		 *
-		 * ** INCOMPLETE
+		 * @param $uSurveyPublishId string the uuid represents survey publish id
 		 */
 		public function get_take($uSurveyPublishId) {
+			// load and validate session data
 			statics::requireAuthentication(0);
 
-			$this->load('surveyvisitorModel');
-			$tExistingSurveyVisitor = $this->surveyvisitorModel->get(session::$id);
-			if($tExistingSurveyVisitor !== false) {
-				throw new Exception('dolmus o anket');
+			try {
+				// validate the request: survey publish id
+				contracts::isUuid($uSurveyPublishId)->exception('invalid survey publish id format');
+
+				// survey visitor handling
+				$this->load('surveyvisitorModel');
+				$tExistingSurveyVisitor = $this->surveyvisitorModel->get(session::$id);
+				if($tExistingSurveyVisitor !== false) {
+					throw new Exception('dolmus o anket');
+				}
+
+				// gather all survey data from model
+				$this->load('surveypublishModel');
+				$tSurvey = $this->surveypublishModel->get($uSurveyPublishId);
+				$this->setRef('surveys', $tSurvey);
+
+				$this->load('questionModel');
+				$tQuestions = $this->questionModel->getBySurveyID($tSurvey['surveyid'], $tSurvey['revision']);
+				$tQuestionIds = arrays::column($tQuestions, 'questionid');
+				$this->setRef('questions', $tQuestions);
+
+				$tChoices = $this->questionModel->getChoicesByQuestionIDs($tQuestionIds);
+				$this->setRef('choices', $tChoices);
+
+				$this->load('themeModel');
+				$tTheme = $this->themeModel->get($tSurvey['themeid']);
+				$this->setRef('theme', $tTheme);
 			}
-			
-			// gather all survey data from model
-			$this->load('surveypublishModel');
-			$tSurvey = $this->surveypublishModel->get($uSurveyPublishId);
-			$this->setRef('surveys', $tSurvey);
-
-			$this->load('questionModel');
-			$tQuestions = $this->questionModel->getBySurveyID($tSurvey['surveyid'], $tSurvey['revision']);
-			$this->setRef('questions', $tQuestions);
-
-			$this->load('themeModel');
-			$tTheme = $this->themeModel->get($tSurvey['themeid']);
-			$this->setRef('theme', $tTheme);
-
-			$tChoices = [];
-			foreach($tQuestions as $tQuestion) {
-				$tChoices[$tQuestion['questionid']] = $this->questionModel->getChoicesByQuestionID($tQuestion['questionid']);
+			catch(Exception $ex) {
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
 			}
-			$this->setRef('choices', $tChoices);
 
 			// render the page
 			$this->view();
 		}
 
 		/**
-		 * @ignore
+		 * postback method for take survey page
 		 *
-		 * ** INCOMPLETE
+		 * @param $uSurveyPublishId string the uuid represents survey publish id
 		 */
 		public function post_take($uSurveyPublishId) {
 			statics::requireAuthentication(0);

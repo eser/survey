@@ -15,7 +15,7 @@
                 <!-- Page Content Start -->
                 <div class="full-page-text">
 
-                    <p>At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable.</p>
+                    <p>@$surveys['description']</p>
 
                     <table class="extable" width="100%" cellspacing="0" cellpadding="0">
                         <thead>
@@ -23,6 +23,7 @@
                                 <th>Title</th>
                                 <th>Category</th>
 								<th>Language</th>
+								<th>Created At</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -30,18 +31,20 @@
 								<td>@$surveys['title']</td>
                                 <td>@statics::$categoriesWithCounts[$surveys['categoryid']]['name']</td>
                                 <td>@statics::$languagesWithCounts[$surveys['languageid']]['name']</td>
+								<td>@statics::datePrint($surveys['createdate'], false)</td>
                             </tr>   			
                         </tbody>
                     </table> <br />
                      <form name="takeSurvey" method="POST" action="">
                      <table class="extable" width="100%" cellspacing="0" cellpadding="0">
-                     @foreach($questions as $question){
-                          <thead>
-                          <tr>
-                              <th class="question">@$question['content']</th>
-                          </tr>
-                          </thead>
-                          <tbody>
+					 @{ $count = 0; }
+                     @foreach($questions as $question) {
+                        <thead>
+							<tr>
+								<th class="question">@{ echo ++$count; }. @$question['content']</th>
+							</tr>
+                        </thead>
+                        <tbody>
                             <tr>
                                 <td>
                                     @if($question['type'] == statics::QUESTION_EVALUATION) {
@@ -50,19 +53,21 @@
                                     @if($question['type'] == statics::QUESTION_FILL) {
                                         @html::textBox($question['questionid'])
                                     }
-                                    @if($question['type'] == statics::QUESTION_MULTIPLE) {
-                                        @foreach($choices[$question['questionid']] as $choice){
-                                            <input type="radio" name="@$question['questionid']" value="@$choice['questionchoiceid']"> @$choice['content']
-                                            @if($choice['type'] != 0) { <input type="text" name="@$question['questionid']value"> }<br />
+                                    @if($question['type'] == statics::QUESTION_MULTIPLE && isset($choices[$question['questionid']])) {
+                                        @foreach($choices[$question['questionid']] as $choice) {
+                                            <label><input type="radio" name="@$question['questionid']" value="@$choice['questionchoiceid']"> @$choice['content']</label>
+                                            @if($choice['type'] > statics::QUESTIONOPTION_NOINPUT) {
+												<input type="text" name="@$question['questionid']value" value="" />
+											}<br />
                                         }
                                     }
                                 </td>
                             </tr>
-                          </tbody>
+                        </tbody>
                      }
                      </table>
                      <br />
-                     <p> <input type="submit" value="Submit"> </p>
+                     <p><input type="submit" value="Submit" /></p>
                      </form>
 				</div>
                 <!-- Page Content End -->
