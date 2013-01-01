@@ -120,7 +120,7 @@ blockquote {
 }
 
 .h-light1 { color: #ffffff; background: #FFB300; padding: 0 4px; }
-.h-light1 a { color: #ffffff; !important; font-weight: bold; }
+.h-light1 a { color: #ffffff !important; font-weight: bold; }
 .h-light2 { border-bottom-width: 1px; border-bottom-style: dotted; }
 
 /* columns */
@@ -361,7 +361,6 @@ h6 {
 	top: 25px !important;
 	width: 21px !important;
 	height: 90px !important;
-	display: none !important;
 	opacity: 1 !important;
 }
 
@@ -1015,8 +1014,6 @@ p.error { font-size: 14px; }
 	margin: 15px;
 	font-weight: bold;
 	overflow: hidden;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
 	border-radius: 3px;
 	display: block;
 	clear: both;

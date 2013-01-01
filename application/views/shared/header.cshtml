@@ -6,13 +6,12 @@
 
 	<link rel="shortcut icon" href="@$root/favicon.ico" type="image/x-icon" />
 
-	<link type="text/css" href="@http::url('scabbia.css?core,jqueryui,jqueryuifx,shadowbox,tipsy')" rel="stylesheet" media="all" />
+	<link type="text/css" href="@http::url('scabbia.css?core,jqueryui,jqueryuifx,validation,shadowbox,tipsy')" rel="stylesheet" media="all" />
 	<link rel="stylesheet" type="text/css" href="/survey/res/css/style.css" />
 
-	<script type="text/javascript" src="@http::url('scabbia.js?core,jquery,jqueryui,jqueryuifx,shadowbox,tipsy')"></script>
+	<script type="text/javascript" src="@http::url('scabbia.js?core,jquery,jqueryui,jqueryuifx,validation,shadowbox,tipsy')"></script>
 	<script type="text/javascript" src="/survey/res/js/superfish.js"></script>
 	<script type="text/javascript" src="/survey/res/js/jquery.nivo.slider.js"></script>
-    <script type="text/javascript" src="/survey/res/js/jquery.validate.min.js"></script>
     <script type="text/javascript" src="/survey/res/js/main.js"></script>
 </head>
 <body id="@{
@@ -38,4 +37,4 @@
         <div id="wrap">
             <div id="main-col">
             
-                <a href="#" id="share" rel="prettySociable" title="Drag to Share"><img src="/survey/res/img/share.png" alt="" /></a>
+                <a href="#" id="share" class="hidden" title="Click to Share"><img src="/survey/res/img/share.png" alt="" /></a>

@@ -1,7 +1,44 @@
 @views::view('shared/header.cshtml')
+
+				@{
+					$url = 'http://' . $_SERVER['HTTP_HOST'] . @mvc::url('surveys/take/' . $surveys['surveypublishid']);
+					$logourl = 'http://' . $_SERVER['HTTP_HOST'] . @$root . '/res/img/logo.png';
+				}
+
+				<script src="http://connect.facebook.net/en_US/all.js"></script>
+
 				<style type="text/css">
 				@$theme['cssrules']
 				</style>
+
+				<script type="text/javascript">
+					FB.init({appId: '448617345200807', status: true, cookie: true});
+
+					function postToFeed() {
+						var obj = {
+							method: 'feed',
+							redirect_uri: '@$url',
+							link: '@$url',
+							picture: '@$logourl',
+							name: 'survey-e-bot: @$surveys['title']',
+							caption: '@$surveys['title']',
+							description: '@$surveys['description']'
+						};
+
+						function callback(response) {
+							// document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+						}
+
+						FB.ui(obj, callback);
+						return false;
+					}
+
+					$l.ready(function() {
+						var shareButton = $l.dom.selectSingle('#share');
+						$l.css.removeClass(shareButton, 'hidden');
+						$l.dom.setEvent(shareButton, 'click', postToFeed);
+					});
+				</script>
 
                 <!-- Breadcrumbs, Page Title -->
                 <div id="page-head">
@@ -57,7 +94,7 @@
                                         @foreach($choices[$question['questionid']] as $choice) {
                                             <label><input type="radio" name="@$question['questionid']" value="@$choice['questionchoiceid']"> @$choice['content']</label>
                                             @if($choice['type'] > statics::QUESTIONOPTION_NOINPUT) {
-												<input type="text" name="@$question['questionid']value" value="" />
+												<input class="required" type="text" name="@$question['questionid']value" value="" />
 											}<br />
                                         }
                                     }

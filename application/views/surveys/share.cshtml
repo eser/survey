@@ -6,7 +6,7 @@
 				}
                 
 				<script type="text/javascript" src="@$root/res/js/ZeroClipboard.js"></script>
-				<script src='http://connect.facebook.net/en_US/all.js'></script>
+				<script src="http://connect.facebook.net/en_US/all.js"></script>
 
 				<script type="text/javascript">
 					FB.init({appId: '448617345200807', status: true, cookie: true});
@@ -27,6 +27,7 @@
 						}
 
 						FB.ui(obj, callback);
+						return false;
 					}
 
 					$l.ready(function() {
