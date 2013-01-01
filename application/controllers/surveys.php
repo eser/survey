@@ -646,6 +646,7 @@
 				$tSurveyPublishCounter = $this->surveyvisitorModel->countBySurveyPublish($tSurveyPublish['surveypublishid']);
 				$this->setRef('counter', $tSurveyPublishCounter);
 
+				// is it disabled?
 				if($tSurveyPublish['enabled'] == statics::SURVEY_DISABLED) {
 					$this->set('title', 'Survey Status');
 					$this->set('message', 'Survey is currently disabled.');
@@ -654,6 +655,19 @@
 					return;
 				}
 
+				// is it expired or future?
+				$tStartDate = time::fromDb($tSurveyPublish['startdate']);
+				$tEndDate = (!is_null($tSurveyPublish['enddate'])) ? time::fromDb($tSurveyPublish['enddate']) : null;
+				$tToday = time::today();
+				if($tStartDate > $tToday || (!is_null($tEndDate) && $tEndDate < $tToday)) {
+					$this->set('title', 'Survey Status');
+					$this->set('message', 'The survey is either expired or not opened yet.');
+
+					$this->view('surveys/take_message.cshtml');
+					return;
+				}
+
+				// has reached the user limit?
 				if($tSurveyPublish['userlimit'] != '0') {
 					if(!contracts::isLower($tSurveyPublishCounter, intval($tSurveyPublish['userlimit']))->check()) {
 						$this->set('title', 'Survey User Limit');
@@ -664,6 +678,7 @@
 					}
 				}
 
+				// is it auth-only?
 				$tUserId = ((!is_null(statics::$user)) ? statics::$user['userid'] : null);
 				if(is_null($tUserId) && $tSurveyPublish['type'] == statics::SURVEY_AUTHONLY) {
 					$this->set('title', 'Survey');
@@ -672,12 +687,13 @@
 					$this->view('surveys/take_message.cshtml');
 					return;
 				}
-				
+
+				// already filled up?
 				$this->load('surveyvisitorModel');
 				$tExistingSurveyVisitor = $this->surveyvisitorModel->getBySurveyPublish(session::$id, $tSurveyPublish['surveypublishid'], $tUserId);
 				if($tExistingSurveyVisitor !== false) {
 					$this->set('title', 'Survey');
-					$this->set('message', 'You have already filled this survey.');
+					$this->set('message', 'You have already filled up this survey.');
 
 					$this->view('surveys/take_message.cshtml');
 				}

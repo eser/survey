@@ -66,7 +66,7 @@
                     <p>You can add new survey to system by using this page easly.</p>
                     
                     <h3>Edit Question</h3>
-                    <form id="editQuestion" method="post" action="@mvc::url('questions/edit/' . $question['questionid'])">
+                    <form id="editQuestion" class="validation" method="post" action="@mvc::url('questions/edit/' . $question['questionid'])">
 						<input id="questionType" type="hidden" name="type" value="@$question['type']" />
 
 						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">

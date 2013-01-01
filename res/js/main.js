@@ -76,7 +76,7 @@ $(function() {
 	});
 
 	/* validate contact form */
-	$('#contact, #commentform').validate();
+	$('.validation').validate();
 	
 	
 	

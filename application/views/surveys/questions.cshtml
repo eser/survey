@@ -96,7 +96,7 @@
 						</ul>
 						<div class="panes">
 							<div id="tab_1" class="tab-content">
-								<form id="addQuestion1" method="post" action="@mvc::url('surveys/questions/' . $survey['surveyid'])">
+								<form class="validation" id="addQuestion1" method="post" action="@mvc::url('surveys/questions/' . $survey['surveyid'])">
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content1" for="content1">Question *</label></td>
@@ -111,7 +111,7 @@
 								</form>
 							</div>
 							<div id="tab_2" class="tab-content">
-								<form id="addQuestion2" method="post" action="@mvc::url('surveys/questions/' . $survey['surveyid'] . '/' . statics::QUESTION_EVALUATION)">
+								<form class="validation" id="addQuestion2" method="post" action="@mvc::url('surveys/questions/' . $survey['surveyid'] . '/' . statics::QUESTION_EVALUATION)">
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content2" for="content2">Question *</label></td>
@@ -140,7 +140,7 @@
 								</form>
 							</div>
 							<div id="tab_3" class="tab-content">
-								<form id="addQuestion3" method="post" action="@mvc::url('surveys/questions/' . $survey['surveyid'] . '/' . statics::QUESTION_MULTIPLE)">
+								<form class="validation" id="addQuestion3" method="post" action="@mvc::url('surveys/questions/' . $survey['surveyid'] . '/' . statics::QUESTION_MULTIPLE)">
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content3" for="content3">Question *</label></td>
@@ -170,7 +170,7 @@
 								</form>
 							</div>
 							<div id="tab_4" class="tab-content">
-								<form id="addQuestion4" method="post" action="@mvc::url('surveys/questions/' . $survey['surveyid'] . '/' . statics::QUESTION_FILL)">
+								<form class="validation" id="addQuestion4" method="post" action="@mvc::url('surveys/questions/' . $survey['surveyid'] . '/' . statics::QUESTION_FILL)">
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content4" for="content4">Question *</label></td>

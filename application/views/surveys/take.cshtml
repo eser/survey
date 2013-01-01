@@ -81,7 +81,7 @@
                         </tbody>
                     </table>
 					<br />
-                    <form name="takeSurvey" method="POST" action="">
+                    <form class="validation" name="takeSurvey" method="POST" action="">
                     <table class="extable" width="100%" cellspacing="0" cellpadding="0">
 					 @{ $count = 0; }
                      @foreach($questions as $question) {
@@ -103,7 +103,7 @@
                                         @foreach($choices[$question['questionid']] as $choice) {
                                             <label><input type="radio" name="@$question['questionid']" value="@$choice['questionchoiceid']"> @$choice['content']</label>
                                             @if($choice['type'] > statics::QUESTIONOPTION_NOINPUT) {
-												<input class="required" type="text" name="@$question['questionid']value" value="" />
+												<input type="text" name="@$question['questionid']value" value="" />
 											}<br />
                                         }
                                     }
