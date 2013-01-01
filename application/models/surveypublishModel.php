@@ -76,7 +76,7 @@
 				->addField('s.*, sp.*')
 				->setOrderBy('sp.startdate', 'DESC')
 				->setLimit($uLimit)
-				->addParameter('now', time::toDb(time()))
+				->addParameter('now', time::toDb(time::today()))
 				->get()
 				->all();
 		}
@@ -160,7 +160,7 @@
 				->joinTable('surveypublishs sp', $tCondition, 'INNER')
 				->addField('s.*, sp.*')
 				->setWhere('s.categoryid=:categoryid')
-				->addParameter('now', time::toDb(time()))
+				->addParameter('now', time::toDb(time::today()))
 				->addParameter('categoryid', $uCategoryid)
 				->get()
 				->all();
@@ -182,7 +182,7 @@
 				->setWhere('s.categoryid=:categoryid')
 				->setOffset($uOffset)
 				->setLimit($uLimit)
-				->addParameter('now', time::toDb(time()))
+				->addParameter('now', time::toDb(time::today()))
 				->addParameter('categoryid', $uCategoryId)
 				->get()
 				->all();

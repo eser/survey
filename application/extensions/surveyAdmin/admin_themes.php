@@ -67,7 +67,7 @@
 			if(http::$method == 'post') {
 				$input = array(
 					'name' => http::post('name'),
-					'fontcolor' => http::post('fontcolor')
+					'cssrules' => http::post('cssrules')
 					 );
 				$themeID = http::post('themeid');
 				if($themeID != null && contracts::isUuid($themeID)->check()) {

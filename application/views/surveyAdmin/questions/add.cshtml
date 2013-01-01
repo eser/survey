@@ -42,7 +42,7 @@
 					<h2 class="iconxquestions">@_('Question')</h2>
 					<form id="frmAdd" method="post" action="@$root/blackmore/questions/add">
 							<input type="hidden" name="questionid" value="@if(isset($question['questionid'])){@$question['questionid']}">
-							@_('Content') : <input type="text" name="content" class="required" minlength="3" value="@if(isset($question['content'])){@$question['content']}"></input><br>
+							@_('Content') : <input type="text" name="content" class="required" minlength="3" value="@if(isset($question['content'])){@$question['content']}" /><br />
 							@_('Type') :
 							<select name="type">
 								@foreach(statics::$questiontypes as $key=> $type){
@@ -68,7 +68,7 @@
 							</select><br/>
 							
 							
-							<input type="submit" name="submit" value="@_('Save')"></input>
+							<input type="submit" name="submit" value="@_('Save')" />
 					</form>
 				</div>
 				<div class="bottomLine">

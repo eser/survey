@@ -40,8 +40,8 @@
 					<h2 class="iconxsurveys">@_('Survey')</h2>
 					<form id="frmAdd" method="post" action="@$root/blackmore/surveys/add">
 							<input type="hidden" name="surveyid" value="@if(isset($survey['surveyid'])){@$survey['surveyid']}">
-							@_('Title') : <input type="text" name="title" class="required" minlength="3" value="@if(isset($survey['title'])){@$survey['title']}"></input><br>
-							@_('Description') : <input type="text" name="description"  minlength="3" value="@if(isset($survey['description'])){@$survey['description']}"></input><br>
+							@_('Title') : <input type="text" name="title" class="required" minlength="3" value="@if(isset($survey['title'])){@$survey['title']}" /><br />
+							@_('Description') : <input type="text" name="description"  minlength="3" value="@if(isset($survey['description'])){@$survey['description']}" /><br />
 							@_('Owner') :
 							<select name="ownerid">
 								@foreach($users as $user) {
@@ -67,7 +67,7 @@
 								}
 							</select><br/>
 
-							<input type="submit" name="submit" value="@_('Save')"></input>
+							<input type="submit" name="submit" value="@_('Save')" />
 					</form>
 				</div>
 				<div class="bottomLine">

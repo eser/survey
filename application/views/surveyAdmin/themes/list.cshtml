@@ -40,7 +40,7 @@
 						<thead> 
 							<tr> 
 							    <th>@_('Name')</th> 
-							    <th>@_('Color')</th> 
+							    <th>@_('CSS')</th> 
 							    <th></th>
 							</tr> 
 						</thead> 
@@ -48,7 +48,7 @@
 							@foreach($themes as $theme){
 								<tr>
 									<td>@$theme['name']</td>
-									<td>@$theme['fontcolor']</td>
+									<td>@$theme['cssrules']</td>
 									<td>
 										
 										<a href="@$root/blackmore/themes/edit/@$theme['themeid']">@_('Edit')</a> 

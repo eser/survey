@@ -1,7 +1,7 @@
 @views::view('shared/header.cshtml')
                 <!-- Breadcrumbs, Page Title -->
                 <div id="page-head">
-                    <h1><em>add, edit and organize surveys</em>Surveys</h1>
+                    <h1><em>yet another survey-e-bot survey!</em>@$surveys['title']</h1>
                     <ul id="breadcrumbs">
                         <li><a href="@mvc::url('home/index')">Home</a></li>
                         <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
@@ -28,7 +28,7 @@
                                 <td>@statics::$languagesWithCounts[$surveys['languageid']]['name']</td>
                             </tr>   			
                         </tbody>
-                    </table> <br>
+                    </table> <br />
                      <form name="takeSurvey" method="POST" action="">
                      <table class="extable" width="100%" cellspacing="0" cellpadding="0">
                      @foreach($questions as $question){
@@ -57,7 +57,7 @@
                           </tbody>
                      }
                      </table>
-                     <br>
+                     <br />
                      <p> <input type="submit" value="Submit"> </p>
                      </form>
 				</div>

@@ -40,8 +40,8 @@
 					<h2 class="iconxcategories">@_('Category')</h2>
 					<form id="frmAdd" method="post" action="@$root/blackmore/categories/add">
 							<input type="hidden" name="categoryid" value="@if(isset($category['categoryid'])){@$category['categoryid']}">
-							@_('Name') : <input type="text" name="name" class="required" minlength="3" value="@if(isset($category['name'])){@$category['name']}"></input><br>
-							<input type="submit" name="submit" value="@_('Save')"></input>
+							@_('Name') : <input type="text" name="name" class="required" minlength="3" value="@if(isset($category['name'])){@$category['name']}" /><br />
+							<input type="submit" name="submit" value="@_('Save')" />
 					</form>
 				</div>
 				<div class="bottomLine">

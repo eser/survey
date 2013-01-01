@@ -42,9 +42,9 @@
 					<h2 class="iconxlanguages">@_('Language')</h2>
 					<form id="frmAdd" method="post" action="@$root/blackmore/languages/add">
 							<input type="hidden" name="updateid" value="@if(isset($language['languageid'])){@$language['languageid']}">
-							@_('ID') : <input type="text" name="languageid" value="@if(isset($language['languageid'])){@$language['languageid']}" @if(isset($language['languageid'])){readonly="readonly"} /><br>
-							@_('Name') : <input type="text" name="name" class="required" minlength="3" value="@if(isset($language['name'])){@$language['name']}"></input><br>
-							<input type="submit" name="submit" value="@_('Save')"></input>
+							@_('ID') : <input type="text" name="languageid" value="@if(isset($language['languageid'])){@$language['languageid']}" @if(isset($language['languageid'])){readonly="readonly"} /><br />
+							@_('Name') : <input type="text" name="name" class="required" minlength="3" value="@if(isset($language['name'])){@$language['name']}" /><br />
+							<input type="submit" name="submit" value="@_('Save')" />
 					</form>
 				</div>
 				<div class="bottomLine">

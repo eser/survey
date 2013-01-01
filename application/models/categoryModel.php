@@ -48,7 +48,7 @@
 				->addField('c.*')
 				->addField('COUNT(sp.*) AS count')
 				->setGroupBy('c.categoryid')
-				->addParameter('now', time::toDb(time()))
+				->addParameter('now', time::toDb(time::today()))
 				->get();
 
 			foreach($tQuery as $tRow) {

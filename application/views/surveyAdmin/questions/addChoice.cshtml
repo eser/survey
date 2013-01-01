@@ -42,14 +42,14 @@
 					<h2 class="iconxquestions">@$question['content'] @_('Choice')</h2>
 					<form id="frmAdd" method="post" action="@$root/blackmore/questions/addChoice/@$question['questionid']">
 							<input type="hidden" name="questionchoiceid" value="@if(isset($choice['questionchoiceid'])){@$choice['questionchoiceid']}">
-							@_('Content') : <input type="text" name="content" class="required" minlength="3" value="@if(isset($choice['content'])){@$choice['content']}"></input><br>
+							@_('Content') : <input type="text" name="content" class="required" minlength="3" value="@if(isset($choice['content'])){@$choice['content']}" /><br />
 							@_('Type') :
 							<select name="type">
 								@foreach(statics::$questionoptiontypes as $key=> $type){
 									<option value="@$key" @if(isset($choice['type']) && $choice['type']==$key){selected="seleceted"} >@$type</option>
 								}
 							</select><br/>	
-							<input type="submit" name="submit" value="@_('Save')"></input>
+							<input type="submit" name="submit" value="@_('Save')" />
 					</form>
 				</div>
 				<div class="bottomLine">
@@ -75,14 +75,14 @@
 
 <form method="post" action="@$root/blackmore/questions/add">
 		<input type="hidden" name="questionid" value="@if(isset($question['questionid'])){@$question['questionid']}">
-		@_('question name') : <input type="text" name="name" value="@if(isset($question['name'])){@$question['name']}"></input><br>
-		@_('Slug') : <input type="text" name="slug" value="@if(isset($question['slug'])){@$question['slug']}"></input><br>
+		@_('question name') : <input type="text" name="name" value="@if(isset($question['name'])){@$question['name']}" /><br />
+		@_('Slug') : <input type="text" name="slug" value="@if(isset($question['slug'])){@$question['slug']}" /><br />
 		@_('Parent') : 
 		<select name="parentid"> 
 			@foreach($questions as $cat){
 				<option value="@$cat['questionid']" @if(isset($question['parentid']) && ($question['parentid'] == $cat['questionid'])){selected="selected"} >@$cat['name']</option>
 			}
 		</select>
-		<input type="submit" name="submit" value="@_('Save')"></input>
+		<input type="submit" name="submit" value="@_('Save')" />
 </form>
 @views::viewFile('{core}views/blackmore/footer.php')
