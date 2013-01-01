@@ -702,11 +702,13 @@
 			if($tExistingSurveyVisitor !== false) {
 				throw new Exception('dolmus o anket');
 			}
+			
+			$tUserId = ((!is_null(statics::$user)) ? statics::$user['userid'] : null);
 
 			$tSurveyVisitor = array(
 				'surveyvisitorid' => session::$id,
 				'surveypublishid' => $survey['surveypublishid'],
-				'userid' => (!is_null(statics::$user) ? statics::$user['userid'] : null),
+				'userid' => $tUserId,
 				'ip' => $_SERVER['REMOTE_ADDR'],
 				'useragent' => $_SERVER['HTTP_USER_AGENT'],
 				'recorddate' => time::toDb(time())
