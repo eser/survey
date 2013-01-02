@@ -696,6 +696,23 @@
 					$this->set('message', 'You have already filled up this survey.');
 
 					$this->view('surveys/take_message.cshtml');
+					return;
+				}
+
+				// password protection?
+				if(strlen($tSurveyPublish['password']) > 0) {
+					$tPasswords = session::get('passwords', []);
+					if(!isset($tPasswords[$tSurveyPublish['surveypublishid']])) {
+						$this->set('wrongPassword', false);
+						$this->view('surveys/take_password.cshtml');
+						return;
+					}
+
+					if($tPasswords[$tSurveyPublish['surveypublishid']] != $tSurveyPublish['password']) {
+						$this->set('wrongPassword', true);
+						$this->view('surveys/take_password.cshtml');
+						return;
+					}
 				}
 
 				$this->load('questionModel');
@@ -725,69 +742,140 @@
 		}
 
 		/**
+		 * wrapper method for take survey page
+		 * it simply redirects entered password to the real take page
+		 *
+		 * @param $uSurveyPublishId string the uuid represents survey publish id
+		 */
+		public function post_takePwd($uSurveyPublishId) {
+			// load and validate session data
+			statics::requireAuthentication(0);
+
+			try {
+				// validate the request: survey publish id
+				contracts::isUuid($uSurveyPublishId)->exception('invalid survey publish id format');
+
+				// gather all survey data from model
+				$this->load('surveypublishModel');
+				$tSurveyPublish = $this->surveypublishModel->get($uSurveyPublishId);
+				contracts::isNotFalse($tSurveyPublish)->exception('invalid survey publish id');
+
+				$tPasswords = session::get('passwords', []);
+				$tPasswords[$tSurveyPublish['surveypublishid']] = http::post('password');
+				session::set('passwords', $tPasswords);
+
+				mvc::redirect('surveys/take/' . $tSurveyPublish['surveypublishid']);
+				return;
+			}
+			catch(Exception $ex) {
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
+			}
+
+			// render the page
+			$this->view();
+		}
+
+		/**
 		 * postback method for take survey page
 		 *
 		 * @param $uSurveyPublishId string the uuid represents survey publish id
 		 */
 		public function post_take($uSurveyPublishId) {
+			// load and validate session data
 			statics::requireAuthentication(0);
-			
-			// gather all survey data from model
-			$this->load('surveypublishModel');
-			$tSurveyPublish = $this->surveypublishModel->get($uSurveyPublishId);
 
-			$this->load('surveyvisitorModel');
-			$tExistingSurveyVisitor = $this->surveyvisitorModel->get(session::$id);
-			if($tExistingSurveyVisitor !== false) {
-				throw new Exception('dolmus o anket');
-			}
-			
-			$tUserId = ((!is_null(statics::$user)) ? statics::$user['userid'] : null);
-
-			$tSurveyVisitor = array(
-				'surveyvisitorid' => session::$id,
-				'surveypublishid' => $tSurveyPublish['surveypublishid'],
-				'userid' => $tUserId,
-				'ip' => $_SERVER['REMOTE_ADDR'],
-				'useragent' => $_SERVER['HTTP_USER_AGENT'],
-				'recorddate' => time::toDb(time())
-			);
-			$this->surveyvisitorModel->insert($tSurveyVisitor);
-
-			$this->load('questionModel');
-			$questions = $this->questionModel->getBySurveyID($tSurveyPublish['surveyid'], $tSurveyPublish['revision']);
-
-			$answers = array();
-			foreach($questions as $question) {
-				$answers[$question['questionid']] = http::post($question['questionid']);
-				$answersvalues[$question['questionid']] = http::post($question['questionid'] . 'value');
-
-				if($question['type'] == statics::QUESTION_MULTIPLE) {
-					$input = array(
-						'surveypublishid' => $uSurveyPublishId,
-						'questionid' => $question['questionid'],
-						'surveyvisitorid' => $tSurveyVisitor['surveyvisitorid'],
-						'questionchoiceid' => $answers[$question['questionid']],
-						'value'=> $answersvalues[$question['questionid']]
-					);
-				} else {
-					$input = array(
-						'surveyid' => $uSurveyPublishId,
-						'questionid' => $question['questionid'],
-						'surveyvisitorid' => $tSurveyVisitor['surveyvisitorid'],
-						'questionchoiceid' => null,
-						'value'=> $answers[$question['questionid']]
-					);
+			try {
+				// validate the request: survey publish id
+				contracts::isUuid($uSurveyPublishId)->exception('invalid survey publish id format');
+				
+				// gather all survey data from model
+				$this->load('surveypublishModel');
+				$tSurveyPublish = $this->surveypublishModel->get($uSurveyPublishId);
+				contracts::isNotFalse($tSurveyPublish)->exception('invalid survey publish id');
+				$this->setRef('surveypublish', $tSurveyPublish);
+				
+				// is it disabled?
+				if($tSurveyPublish['enabled'] == statics::SURVEY_DISABLED) {
+					throw new Exception('Survey is currently disabled.');
+				}
+				
+				// is it expired or future?
+				$tStartDate = time::fromDb($tSurveyPublish['startdate']);
+				$tEndDate = (!is_null($tSurveyPublish['enddate'])) ? time::fromDb($tSurveyPublish['enddate']) : null;
+				$tToday = time::today();
+				if($tStartDate > $tToday || (!is_null($tEndDate) && $tEndDate < $tToday)) {
+					throw new Exception('The survey is either expired or not opened yet.');
+				}
+				
+				// has reached the user limit?
+				if($tSurveyPublish['userlimit'] != '0') {
+					if(!contracts::isLower($tSurveyPublishCounter, intval($tSurveyPublish['userlimit']))->check()) {
+						throw new Exception('User limit is reached for this survey.');
+					}
+				}
+				
+				// is it auth-only?
+				$tUserId = ((!is_null(statics::$user)) ? statics::$user['userid'] : null);
+				if(is_null($tUserId) && $tSurveyPublish['type'] == statics::SURVEY_AUTHONLY) {
+					throw new Exception('This survey only accepts authorized users in the system.');
+				}
+				
+				// already filled up?
+				$this->load('surveyvisitorModel');
+				$tExistingSurveyVisitor = $this->surveyvisitorModel->getBySurveyPublish(session::$id, $tSurveyPublish['surveypublishid'], $tUserId);
+				if($tExistingSurveyVisitor !== false) {
+					throw new Exception('You have already filled up this survey.');
 				}
 
-				$this->questionModel->insertAnswer($input);
+				// password protection?
+				if(strlen($tSurveyPublish['password']) > 0) {
+					$tPasswords = session::get('passwords', []);
+					if(!isset($tPasswords[$tSurveyPublish['surveypublishid']])) {
+						throw new Exception('Password required.');
+					}
+
+					if($tPasswords[$tSurveyPublish['surveypublishid']] != $tSurveyPublish['password']) {
+						throw new Exception('Invalid password.');
+					}
+				}
+				$tSurveyVisitor = array(
+					'surveyvisitorid' => session::$id,
+					'surveypublishid' => $tSurveyPublish['surveypublishid'],
+					'userid' => $tUserId,
+					'ip' => $_SERVER['REMOTE_ADDR'],
+					'useragent' => $_SERVER['HTTP_USER_AGENT'],
+					'recorddate' => time::toDb(time())
+				);
+				$this->surveyvisitorModel->insert($tSurveyVisitor);
+
+				$this->load('questionModel');
+				$questions = $this->questionModel->getBySurveyID($tSurveyPublish['surveyid'], $tSurveyPublish['revision']);
+
+				$answers = array();
+				foreach($questions as $question) {
+					$answers[$question['questionid']] = http::post($question['questionid']);
+					$answersvalues[$question['questionid']] = http::post($question['questionid'] . 'value', null);
+
+					$tInput = array(
+						'surveypublishid' => $tSurveyPublish['surveypublishid'],
+						'questionid' => $question['questionid'],
+						'surveyvisitorid' => $tSurveyVisitor['surveyvisitorid'],
+						'questionchoiceid' => ($question['type'] == statics::QUESTION_MULTIPLE) ? $answers[$question['questionid']] : null,
+						'value' => $answersvalues[$question['questionid']]
+					);
+
+					$this->questionModel->insertAnswer($tInput);
+				}
+
+				session::setFlash('notification', ['success', 'You filled up \'' . $tSurveyPublish['title'] . '\' survey sucessfully.']);
+			}
+			catch(Exception $ex) {
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
 			}
 
-			//Anketi Doldurdunuz uyarısı flash filan koyulmalı.
-			mvc::redirect('home/index');
-
-			// render the page
-			$this->view();
+			mvc::redirect('surveys/take/' . $uSurveyPublishId);
 		}
 
 		/**
