@@ -642,6 +642,7 @@
 				$tUser = $this->userModel->get($tSurveyPublish['ownerid']);
 				$this->setRef('user', $tUser);
 
+				// counter
 				$this->load('surveyvisitorModel');
 				$tSurveyPublishCounter = $this->surveyvisitorModel->countBySurveyPublish($tSurveyPublish['surveypublishid']);
 				$this->setRef('counter', $tSurveyPublishCounter);
@@ -879,29 +880,56 @@
 		}
 
 		/**
-		 * @ignore
+		 * survey report page
 		 *
-		 * ** INCOMPLETE
+		 * @param $uSurveyPublishId string the uuid represents survey publish id
 		 */
 		public function get_report($uSurveyPublishId) {
+			// load and validate session data
 			statics::requireAuthentication(1);
-			$this->load('surveypublishModel');
 
-			// gather all survey data from model
-			$survey = $this->surveypublishModel->get($uSurveyPublishId);
+			try {
+				// validate the request
+				contracts::isUuid($uSurveyPublishId)->exception('invalid survey publish id format');
 
-			$this->load('questionModel');
-			$questions = $this->questionModel->getBySurveyID($survey['surveyid'], $survey['revision']);
-			$questionids = arrays::column($questions, 'questionid');
+				// gather all survey data from model
+				$this->load('surveypublishModel');
+				$tSurveyPublish = $this->surveypublishModel->get($uSurveyPublishId);
+				contracts::isNotFalse($tSurveyPublish)->exception('invalid survey publish id');
+				$this->setRef('surveypublish', $tSurveyPublish);
 
-			$answers = $this->questionModel->getByPublishID($uSurveyPublishId, $questionids);
-			string::vardump($answers);
+				// survey visitor handling
+				$this->load('userModel');
+				$tUser = $this->userModel->get($tSurveyPublish['ownerid']);
+				$this->setRef('user', $tUser);
 
-			// assign the user data to view
-			$this->setRef('reports', $categorize);
-			$this->setRef('surveys', $survey);
-			$this->setRef('questions', $questionsTest);
-			$this->setRef('choices', $choices);
+				// counter
+				$this->load('surveyvisitorModel');
+				$tSurveyPublishCounter = $this->surveyvisitorModel->countBySurveyPublish($tSurveyPublish['surveypublishid']);
+				$this->setRef('counter', $tSurveyPublishCounter);
+
+				// questions
+				$this->load('questionModel');
+				$tQuestions = $this->questionModel->getBySurveyID($tSurveyPublish['surveyid'], $tSurveyPublish['revision']);
+				$tQuestionIds = arrays::column($tQuestions, 'questionid');
+				$this->setRef('questions', $tQuestions);
+
+				if(count($tQuestionIds)) {
+					$tChoices = $this->questionModel->getChoicesByQuestionIDs($tQuestionIds);
+				}
+				else {
+					$tChoices = [];
+				}
+				$this->setRef('choices', $tChoices);
+			}
+			catch(Exception $ex) {
+				// set an error message to be passed thru session if an exception occurred.
+				session::setFlash('notification', ['error', 'Error: ' . $ex->getMessage()]);
+
+				// redirect user to parent page in order to display error message
+				mvc::redirect('surveys/index');
+				return;
+			}
 
 			// render the page
 			$this->view();
