@@ -916,11 +916,18 @@
 
 				if(count($tQuestionIds)) {
 					$tChoices = $this->questionModel->getChoicesByQuestionIDs($tQuestionIds);
+					$tAnswers = arrays::categorize($this->questionModel->getAnswersByPublishID($tSurveyPublish['surveypublishid'], $tQuestionIds), ['questionid', 'questionchoiceid', 'value']);
 				}
 				else {
 					$tChoices = [];
+					$tAnswers = [];
 				}
+
 				$this->setRef('choices', $tChoices);
+				$this->setRef('answers', $tAnswers);
+				
+				string::vardump($tAnswers);
+				exit;
 			}
 			catch(Exception $ex) {
 				// set an error message to be passed thru session if an exception occurred.

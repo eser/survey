@@ -254,7 +254,7 @@
 		/**
 		 * @ignore
 		 */
-		public function getByPublishID($uSurveyPublishId, $uQuestionIds) {
+		public function getAnswersByPublishID($uSurveyPublishId, $uQuestionIds) {
 			return $this->db->createQuery()
 				->setTable('answers a')
 				->addField('a.questionid, a.questionchoiceid, a.value, COUNT(a.*)')
@@ -265,6 +265,9 @@
 				->all();
 		}
 
+		/**
+		 * @ignore
+		 */
 		public function delete($uQuestionId) {
 			return $this->db->createQuery()
 				->setTable('questions')
@@ -275,7 +278,10 @@
 				->execute();
 		}
 
-		public  function updateChoice($questionChoiceID, $input) {
+		/**
+		 * @ignore
+		 */
+		public function updateChoice($questionChoiceID, $input) {
 			return $this->db->createQuery()
 				->setTable('questionchoices')
 				->setFields($input)
@@ -287,7 +293,10 @@
 		
 		}
 
-		public  function getChoice($questionChoiceID) {
+		/**
+		 * @ignore
+		 */
+		public function getChoice($questionChoiceID) {
 			return $this->db->createQuery()
 				->setTable('questionchoices')
 				->addField('*')
@@ -299,6 +308,9 @@
 		
 		}
 
+		/**
+		 * @ignore
+		 */
 		public function deleteChoice($questionChoiceID) {
 			return $this->db->createQuery()
 				->setTable('questionchoices')
