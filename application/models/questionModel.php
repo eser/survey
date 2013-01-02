@@ -254,12 +254,12 @@
 		/**
 		 * @ignore
 		 */
-		public function getAnswersByPublishID($uSurveyPublishId, $uQuestionIds) {
+		public function getAnswersByPublishID($uSurveyPublishId) {
 			return $this->db->createQuery()
 				->setTable('answers a')
-				->addField('a.questionid, a.questionchoiceid, a.value, COUNT(a.*)')
-				->setWhere([['a.questionid', _in, $uQuestionIds], _and, 'a.surveypublishid=:surveypublishid'])
-				->setGroupBy('a.questionid, a.questionchoiceid, a.value')
+				->addField('a.surveypublishid, a.questionid, a.questionchoiceid, a.value, COUNT(a.*)')
+				->setWhere(['a.surveypublishid=:surveypublishid'])
+				->setGroupBy('a.surveypublishid, a.questionid, a.questionchoiceid, a.value')
 				->addParameter('surveypublishid', $uSurveyPublishId)
 				->get()
 				->all();

@@ -21,8 +21,6 @@
                 <!-- Page Content Start -->
                 <div class="full-page-text">
 
-                    <p>At as in understood an remarkably solicitude. Mean them very seen she she. Use totally written the observe pressed justice. Instantly cordially far intention recommend estimable yet her his. Ladies stairs enough esteem add fat all enable.</p>
-
                     <table class="extable" width="100%" cellspacing="0" cellpadding="0">
                         <thead>
                             <tr>
@@ -49,38 +47,57 @@
                     </table>
 					<br />
 
-                     <table class="extable" width="100%" cellspacing="0" cellpadding="0">
-                     @foreach($questions as $question){
+					@{ $count = 0; }
+					@foreach($newarray as &$question) {
+                    <table class="extable" width="100%" cellspacing="0" cellpadding="0">
 						<thead>
 							<tr>
-							   <th>@$question['content']</th>
-							   <th>Responses</th>
+								<th class="width200px">@$question['content'] @if($question['enabled'] == statics::SURVEY_DISABLED) {
+									(disabled)
+								}</th>
+								<th>Responses (@$question['total'])</th>
 						   </tr>
 						</thead>
-						@foreach($choices as $key2 => $choice2) {
-							@{ $questionanswer = $answers[$question['questionid']]; }
-							@foreach($choice2 as $key => $choice) {
-								<tbody>
-									<tr>
-										<td>@$choice['content']</td>
-										<td>
-										@if(isset($questionanswer[$choice['questionchoiceid']])) {
-											@string::vardump($questionanswer[$choice['questionchoiceid']])
-										}
-										@{
-											/*
-											foreach($reports[$key2] as $report) {
-												echo $report['questionchoiceid'] . '+ ';
-											}
-											*/
-										}
-										</td>
-									</tr>
-								</tbody>
-							}
+						<tbody>
+						@if($question['type'] == statics::QUESTION_MULTIPLE) {
+							<tr>
+								<td colspan="2">
+									<div class="graph" id="graph@{ echo ++$count; }"></div>
+								</td>
+							</tr>
 						}
-                     }
-                     </table>
+						@foreach($question['items'] as &$choice) {
+							<tr>
+								<td>@$choice['content']</td>
+								<td>@$choice['count']</td>
+							</tr>
+						}
+						</tbody>
+                    </table>
+					@if($question['type'] == statics::QUESTION_MULTIPLE) {
+					<script type="text/javascript">
+						$.plot(
+							$('#graph@{ echo $count; }'),
+							[
+								@foreach($question['items'] as &$choice) {
+								{ label: "@$choice['content']", data: @$choice['count']},
+								}
+							],
+							{
+								series: {
+									pie: {
+										show: true
+									}
+								},
+								legend: {
+									show: false
+								}
+							}
+						);
+					</script>
+					}
+					<br />
+					}
 
 				</div>
                 <!-- Page Content End -->

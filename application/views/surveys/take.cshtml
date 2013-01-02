@@ -94,6 +94,11 @@
                     <table class="extable" width="100%" cellspacing="0" cellpadding="0">
 					 @{ $count = 0; }
                      @foreach($questions as $question) {
+						@{
+							if($question['enabled'] == statics::SURVEY_DISABLED) {
+								continue;
+							}
+						}
                         <thead>
 							<tr>
 								<th class="question">@{ echo ++$count; }. @$question['content']</th>
@@ -106,13 +111,17 @@
                                         @html::radioOptions(@$question['questionid'], statics::$evaluationoptions)
                                     }
                                     @if($question['type'] == statics::QUESTION_FILL) {
-                                        @html::textBox($question['questionid'])
+										<input class="@if($question['typefilter'] == statics::QUESTIONFILTER_NUMERIC) {
+											digits
+										}" type="text" name="@$question['questionid']value" value="" />
                                     }
                                     @if($question['type'] == statics::QUESTION_MULTIPLE && isset($choices[$question['questionid']])) {
                                         @foreach($choices[$question['questionid']] as $choice) {
-                                            <label><input type="radio" name="@$question['questionid']" value="@$choice['questionchoiceid']"> @$choice['content']</label>
+                                            <label><input type="radio" name="@$question['questionid']" value="@$choice['questionchoiceid']" /> @$choice['content']</label>
                                             @if($choice['type'] > statics::QUESTIONOPTION_NOINPUT) {
-												<input type="text" name="@$question['questionid']value" value="" />
+												<input class="@if($question['type'] == statics::QUESTIONOPTION_NUMERIC) {
+													digits
+												}" type="text" name="@$question['questionid']value" value="" />
 											}<br />
                                         }
                                     }

@@ -855,7 +855,7 @@
 
 				$answers = array();
 				foreach($questions as $question) {
-					$answers[$question['questionid']] = http::post($question['questionid']);
+					$answers[$question['questionid']] = http::post($question['questionid'], null);
 					$answersvalues[$question['questionid']] = http::post($question['questionid'] . 'value', null);
 
 					$tInput = array(
@@ -916,15 +916,46 @@
 
 				if(count($tQuestionIds)) {
 					$tChoices = $this->questionModel->getChoicesByQuestionIDs($tQuestionIds);
-					$tAnswers = arrays::categorize($this->questionModel->getAnswersByPublishID($tSurveyPublish['surveypublishid'], $tQuestionIds), ['questionid', 'questionchoiceid', 'value']);
+					$tAnswers = arrays::categorize($this->questionModel->getAnswersByPublishID($tSurveyPublish['surveypublishid']), ['questionid', 'questionchoiceid']);
+					$tNewArray = [];
+
+					foreach($tQuestions as &$tQuestion) {
+						if(!isset($tNewArray[$tQuestion['questionid']])) {
+							$tNewArray[$tQuestion['questionid']] = [
+								'content' => $tQuestion['content'],
+								'type' => $tQuestion['type'],
+								'enabled' => $tQuestion['enabled'],
+								'total' => 0,
+								'items' => []
+							];
+						}
+
+						if(isset($tChoices[$tQuestion['questionid']])) {
+							foreach($tChoices[$tQuestion['questionid']] as &$tChoice) {
+								if(!isset($tNewArray[$tQuestion['questionid']]['items'][$tChoice['questionchoiceid']])) {
+									$tNewArray[$tQuestion['questionid']]['items'][$tChoice['questionchoiceid']] = [
+										'content' => $tChoice['content'],
+										'count' => 0
+									];
+								}
+								if(isset($tAnswers[$tQuestion['questionid']][$tChoice['questionchoiceid']])) {
+									$tCount = intval($tAnswers[$tQuestion['questionid']][$tChoice['questionchoiceid']][0]['count']);
+									$tNewArray[$tQuestion['questionid']]['items'][$tChoice['questionchoiceid']]['count'] += $tCount;
+									$tNewArray[$tQuestion['questionid']]['total'] += $tCount;
+								}
+							}
+						}
+					}
 				}
 				else {
 					$tChoices = [];
 					$tAnswers = [];
+					$tNewArray = [];
 				}
 
 				$this->setRef('choices', $tChoices);
 				$this->setRef('answers', $tAnswers);
+				$this->setRef('newarray', $tNewArray);
 			}
 			catch(Exception $ex) {
 				// set an error message to be passed thru session if an exception occurred.
