@@ -925,9 +925,6 @@
 
 				$this->setRef('choices', $tChoices);
 				$this->setRef('answers', $tAnswers);
-				
-				string::vardump($tAnswers);
-				exit;
 			}
 			catch(Exception $ex) {
 				// set an error message to be passed thru session if an exception occurred.

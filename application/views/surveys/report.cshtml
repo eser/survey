@@ -58,11 +58,15 @@
 						   </tr>
 						</thead>
 						@foreach($choices as $key2 => $choice2) {
+							@{ $questionanswer = $answers[$question['questionid']]; }
 							@foreach($choice2 as $key => $choice) {
 								<tbody>
 									<tr>
 										<td>@$choice['content']</td>
 										<td>
+										@if(isset($questionanswer[$choice['questionchoiceid']])) {
+											@string::vardump($questionanswer[$choice['questionchoiceid']])
+										}
 										@{
 											/*
 											foreach($reports[$key2] as $report) {
