@@ -111,7 +111,7 @@
 		 * @param $uLevel int required user level
 		 */
 		public static function requireAuthentication($uLevel) {
-			self::$user = & session::get('user', null);
+			self::$user = session::get('user', null);
 
 			if($uLevel == -1 && !is_null(self::$user)) {
 				throw new Exception('you are not supposed to be in this page.');
@@ -132,7 +132,7 @@
 		 * @param $uIncludeUser bool gets the user information from database again
 		 */
 		public static function reloadUserInfo($uIncludeUser = true) {
-			self::$user = & session::get('user');
+			self::$user = session::get('user');
 
 			if($uIncludeUser) {
 				$tUserModel = mvc::load('userModel');
