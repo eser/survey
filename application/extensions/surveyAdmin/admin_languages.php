@@ -16,7 +16,7 @@
 		/**
 		 * @ignore
 		 */
-		public static function blackmore_registerModules($uParms) {
+		public static function blackmoreRegisterModules($uParms) {
 			$uParms['modules']['languages'] = array(
 				'title' => 'Languages',
 				'callback' => 'admin_languages::index',

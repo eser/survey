@@ -35,28 +35,28 @@
 	</classList>
 	<eventList>
 		<event>
-			<name>blackmore_registerModules</name>
-			<callback>admin_questions::blackmore_registerModules</callback>
+			<name>blackmoreRegisterModules</name>
+			<callback>admin_questions::blackmoreRegisterModules</callback>
 		</event>
 		<event>
-			<name>blackmore_registerModules</name>
-			<callback>admin_languages::blackmore_registerModules</callback>
+			<name>blackmoreRegisterModules</name>
+			<callback>admin_languages::blackmoreRegisterModules</callback>
 		</event>
 		<event>
-			<name>blackmore_registerModules</name>
-			<callback>admin_themes::blackmore_registerModules</callback>
+			<name>blackmoreRegisterModules</name>
+			<callback>admin_themes::blackmoreRegisterModules</callback>
 		</event>
 		<event>
-			<name>blackmore_registerModules</name>
-			<callback>admin_categories::blackmore_registerModules</callback>
+			<name>blackmoreRegisterModules</name>
+			<callback>admin_categories::blackmoreRegisterModules</callback>
 		</event>
 		<event>
-			<name>blackmore_registerModules</name>
-			<callback>admin_surveys::blackmore_registerModules</callback>
+			<name>blackmoreRegisterModules</name>
+			<callback>admin_surveys::blackmoreRegisterModules</callback>
 		</event>
 		<event>
-			<name>blackmore_registerModules</name>
-			<callback>admin_blog::blackmore_registerModules</callback>
+			<name>blackmoreRegisterModules</name>
+			<callback>admin_blog::blackmoreRegisterModules</callback>
 		</event>
 	</eventList>
 </scabbia>

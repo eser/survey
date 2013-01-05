@@ -16,7 +16,7 @@
 		/**
 		 * @ignore
 		 */
-		public static function blackmore_registerModules($uParms) {
+		public static function blackmoreRegisterModules($uParms) {
 			// disable scabbia routines
 			$uParms['modules']['index']['actions'] = array();
 			$uParms['modules']['index']['submenus'] = false;
