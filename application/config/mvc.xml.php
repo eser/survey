@@ -16,7 +16,7 @@
 			<viewEngineList>
 				<viewEngine>
 					<extension>cshtml</extension>
-					<class>viewengine_razor</class>
+					<class>viewengineRazor</class>
 				</viewEngine>
 			</viewEngineList>
 		</view>
