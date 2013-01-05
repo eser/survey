@@ -21,7 +21,7 @@
 		public function delete($uSurveyId, $uRevision, $uQuestionId) {
 			return $this->db->createQuery()
 				->setTable('surveyquestions')
-				->setWhere(['surveyid=:surveyid', _and, 'revision=:revision', _and, 'questionid=:questionid'])
+				->setWhere(['surveyid=:surveyid', _AND, 'revision=:revision', _AND, 'questionid=:questionid'])
 				->setLimit(1)
 				->addParameter('surveyid', $uSurveyId)
 				->addParameter('revision', $uRevision)

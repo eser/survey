@@ -54,7 +54,7 @@
 			return $this->db->createQuery()
 				->setTable('surveypublishs')
 				->addField('COUNT(*)')
-				->setWhere(['surveyid=:surveyid', _and, 'revision=:revision'])
+				->setWhere(['surveyid=:surveyid', _AND, 'revision=:revision'])
 				->addParameter('surveyid', $uSurveyId)
 				->addParameter('revision', $uRevision)
 				->get()
@@ -143,7 +143,7 @@
 				->setTable('surveypublishs sp')
 				->joinTable('surveys s', 'sp.surveyid=s.surveyid', 'INNER')
 				->addField('sp.*, s.title, (SELECT COUNT(*) FROM surveyvisitors sv WHERE sv.surveypublishid=sp.surveypublishid) AS responses')
-				->setWhere(['sp.surveyid', _in, $uSurveyIds])
+				->setWhere(['sp.surveyid', _IN, $uSurveyIds])
 				->get()
 				->all();
 		}

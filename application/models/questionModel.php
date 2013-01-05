@@ -51,7 +51,7 @@
 				->setTable('surveyquestions sq')
 				->joinTable('questions q', 'sq.questionid=q.questionid', 'INNER')
 				->addField('*')
-				->setWhere(['sq.surveyid=:surveyid', _and, 'sq.revision=:revision'])
+				->setWhere(['sq.surveyid=:surveyid', _AND, 'sq.revision=:revision'])
 				->addParameter('surveyid', $uId)
 				->addParameter('revision', $uRevision)
 				->get()
@@ -80,7 +80,7 @@
 			$tQuery = $this->db->createQuery()
 				->setTable('questionchoices')
 				->addField('*')
-				->setWhere(['questionid', _in, $uIds])
+				->setWhere(['questionid', _IN, $uIds])
 				->get();
 
 			foreach($tQuery as $tRow) {
@@ -127,7 +127,7 @@
 			return $this->db->createQuery()
 				->setTable('questions')
 				->addField('*')
-				->setWhere([['ownerid=:ownerid', _or, 'isshared=\'1\''], _and, 'enabled=\'1\''])
+				->setWhere([['ownerid=:ownerid', _OR, 'isshared=\'1\''], _AND, 'enabled=\'1\''])
 				->addParameter('ownerid', $uOwnerId)
 				->get()
 				->all();
@@ -140,7 +140,7 @@
 			return $this->db->createQuery()
 				->setTable('questions')
 				->addField('*')
-				->setWhere([['ownerid=:ownerid', _or, 'isshared=\'1\''], _and, 'questionid NOT IN (SELECT questionid FROM surveyquestions WHERE surveyid=:surveyid AND revision=:revision)', _and, 'enabled=\'1\''])
+				->setWhere([['ownerid=:ownerid', _OR, 'isshared=\'1\''], _AND, 'questionid NOT IN (SELECT questionid FROM surveyquestions WHERE surveyid=:surveyid AND revision=:revision)', _AND, 'enabled=\'1\''])
 				->addParameter('ownerid', $uOwnerId)
 				->addParameter('surveyid', $uSurveyId)
 				->addParameter('revision', $uRevision)

@@ -52,7 +52,7 @@
 			$tQuery = $this->db->createQuery()
 				->setTable('users')
 				->addField('*')
-				->setWhere(['userid', _in, $uIds])
+				->setWhere(['userid', _IN, $uIds])
 				->get();
 
 			foreach($tQuery as $tRow) {
@@ -71,7 +71,7 @@
 			return $this->db->createQuery()
 				->setTable('users')
 				->addField('*')
-				->setWhere(['email=:email', _or, 'facebookid=:facebookid'])
+				->setWhere(['email=:email', _OR, 'facebookid=:facebookid'])
 				->addParameter('email', $uEmail)
 				->addParameter('facebookid', $uFacebookId)
 				->setLimit(1)
