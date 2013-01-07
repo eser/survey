@@ -1,5 +1,8 @@
 <?php
 
+	use Scabbia\controller;
+	use Scabbia\contracts;
+
 	/**
 	 * blog controller
 	 * action methods for all blog/* urls

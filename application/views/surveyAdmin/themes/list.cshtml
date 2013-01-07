@@ -1,8 +1,10 @@
+@{
+	use Scabbia\views;
+}
 @views::viewFile('{core}views/blackmore/header.php')
 @if(isset($message)) {
 	<span>@_($message)</span>
 } 
-
 
 <section id="pageMiddle">
 <div class="wrapper">

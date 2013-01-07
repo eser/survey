@@ -1,5 +1,7 @@
 <?php
 
+	use Scabbia\controllers;
+
 	/**
 	 * Blackmore Extension: survey-e-bot Admin Panel, blog Section
 	 *
@@ -54,7 +56,7 @@
 
 		public static function postList() {
 			auth::checkRedirect('admin');
-			$postModel = mvc::load('postModel');
+			$postModel = controllers::load('postModel');
 			views::set('posts', $postModel->getAllDetailed());
 			views::view('surveyAdmin/blog/list.cshtml');
 		}
@@ -62,8 +64,8 @@
 		public static function add() {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$postModel = mvc::load('postModel');
-			$userModel = mvc::load('userModel');
+			$postModel = controllers::load('postModel');
+			$userModel = controllers::load('userModel');
 			$viewBag['users'] = $userModel->getAll();
 
 			if(http::$method == 'post') {
@@ -88,7 +90,7 @@
 		public static function delete($actionName, $postID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$postModel = mvc::load('postModel');
+			$postModel = controllers::load('postModel');
 			if(contracts::isUuid($postID)->check()) {
 				$viewBag['message'] = $postModel->delete($postID).' Record Deleted';
 			}
@@ -99,11 +101,11 @@
 		public static function edit($actionName, $postID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$postModel = mvc::load('postModel');
+			$postModel = controllers::load('postModel');
 			$viewBag = array(
 				'post' => $postModel->get($postID)
 			);
-			$userModel = mvc::load('userModel');
+			$userModel = controllers::load('userModel');
 			$viewBag['users'] = $userModel->getAll();
 			views::view('surveyAdmin/blog/add.cshtml', $viewBag);
 		

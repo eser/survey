@@ -1,5 +1,11 @@
 <?php
 
+	use Scabbia\controller;
+	use Scabbia\contracts;
+	use Scabbia\mvc;
+	use Scabbia\session;
+	use Scabbia\http;
+
 	/**
 	 * questions controller
 	 * action methods for all questions/* urls

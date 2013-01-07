@@ -1,5 +1,13 @@
 <?php
 
+	use Scabbia\session;
+	use Scabbia\mvc;
+	use Scabbia\time;
+	use Scabbia\fb;
+	use Scabbia\html;
+	use Scabbia\http;
+	use Scabbia\controllers;
+
 	/**
 	 * it's a static class contains static
 	 * definition for our survey system
@@ -135,7 +143,7 @@
 			self::$user = session::get('user');
 
 			if($uIncludeUser) {
-				$tUserModel = mvc::load('userModel');
+				$tUserModel = controllers::load('userModel');
 				self::$user = $tUserModel->get(self::$user['userid']);
 
 				session::set('user', self::$user);
@@ -169,16 +177,16 @@
 			// load the facebook api
 			fb::loadApi();
 
-			$tCategoryModel = mvc::load('categoryModel');
+			$tCategoryModel = controllers::load('categoryModel');
 			self::$categoriesWithCounts = $tCategoryModel->getAllWithCounts();
 
-			$tLanguageModel = mvc::load('languageModel');
+			$tLanguageModel = controllers::load('languageModel');
 			self::$languagesWithCounts = $tLanguageModel->getAllWithCounts();
 
-			$tThemeModel = mvc::load('themeModel');
+			$tThemeModel = controllers::load('themeModel');
 			self::$themesWithCounts = $tThemeModel->getAllWithCounts();
 
-			$tsurveypublishModel = mvc::load('surveypublishModel');
+			$tsurveypublishModel = controllers::load('surveypublishModel');
 			self::$recentSurveys = $tsurveypublishModel->getRecent(6);
 		}
 

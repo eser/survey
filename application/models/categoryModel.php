@@ -1,5 +1,8 @@
 <?php
 
+	use Scabbia\model;
+	use Scabbia\time;
+
 	/**
 	 * @ignore
 	 */

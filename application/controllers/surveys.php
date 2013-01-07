@@ -1,5 +1,13 @@
 <?php
 
+	use Scabbia\controller;
+	use Scabbia\contracts;
+	use Scabbia\arrays;
+	use Scabbia\session;
+	use Scabbia\mvc;
+	use Scabbia\time;
+	use Scabbia\http;
+
 	/**
 	 * surveys controller
 	 * action methods for all surveys/* urls

@@ -1,5 +1,7 @@
 <?php
 
+	use Scabbia\model;
+
 	/**
 	 * @ignore
 	 */

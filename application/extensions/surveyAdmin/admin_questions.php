@@ -1,5 +1,7 @@
 <?php
 
+	use Scabbia\controllers;
+
 	/**
 	 * Blackmore Extension: survey-e-bot Admin Panel, questions Section
 	 *
@@ -74,7 +76,7 @@
 
 		public static function questionList() {
 			auth::checkRedirect('admin');
-			$questionModel = mvc::load('questionModel');
+			$questionModel = controllers::load('questionModel');
 			views::set('questions', $questionModel->getAll());
 			views::view('surveyAdmin/questions/list.cshtml');
 		}
@@ -82,8 +84,8 @@
 		public static function add() {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$questionModel = mvc::load('questionModel');
-			$userModel = mvc::load('userModel');
+			$questionModel = controllers::load('questionModel');
+			$userModel = controllers::load('userModel');
 			if(http::$method == 'post') {
 				$input = array(
 					'content' => http::post('content'),
@@ -109,7 +111,7 @@
 		public static function delete($actionName, $questionID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$questionModel = mvc::load('questionModel');
+			$questionModel = controllers::load('questionModel');
 			if(contracts::isUuid($questionID)->check()) {
 				$viewBag['message'] = $questionModel->delete($questionID).' Record Deleted';
 			}
@@ -120,8 +122,8 @@
 		public static function edit($actionName, $questionID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$questionModel = mvc::load('questionModel');
-			$userModel = mvc::load('userModel');
+			$questionModel = controllers::load('questionModel');
+			$userModel = controllers::load('userModel');
 			$viewBag = array(
 				'question' => $questionModel->get($questionID),
 				'users' => $userModel->getAll()
@@ -133,7 +135,7 @@
 		public static function choices($actionName, $questionID) {
 			auth::checkRedirect('admin');
 			$viewBag = array();
-			$questionModel = mvc::load('questionModel');
+			$questionModel = controllers::load('questionModel');
 			$viewBag['question'] = $questionModel->get($questionID);
 			$viewBag['choices'] = $questionModel->getChoicesByQuestionID($questionID);
 			views::view('surveyAdmin/questions/choices.cshtml', $viewBag);
@@ -142,7 +144,7 @@
 		public static function addChoice($actionName, $questionID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$questionModel = mvc::load('questionModel');
+			$questionModel = controllers::load('questionModel');
 			if(http::$method == 'post') {
 				$input = array(
 					'content' => http::post('content'),
@@ -165,7 +167,7 @@
 		public static function editChoice($actionName, $questionID, $questionChoiceID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$questionModel = mvc::load('questionModel');
+			$questionModel = controllers::load('questionModel');
 			$viewBag = array(
 				'question' => $questionModel->get($questionID),
 				'choice' => $questionModel->getChoice($questionChoiceID)
@@ -177,7 +179,7 @@
 		public static function deleteChoice($actionName, $questionID, $questionChoiceID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$questionModel = mvc::load('questionModel');
+			$questionModel = controllers::load('questionModel');
 			if(contracts::isUuid($questionChoiceID)->check()) {
 				$viewBag['message'] = $questionModel->deleteChoice($questionChoiceID).' Record Deleted';
 			}

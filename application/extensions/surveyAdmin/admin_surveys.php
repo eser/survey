@@ -1,5 +1,7 @@
 <?php
 
+	use Scabbia\controllers;
+
 	/**
 	 * Blackmore Extension: survey-e-bot Admin Panel, surveys Section
 	 *
@@ -55,7 +57,7 @@
 
 		public static function surveyList() {
 			auth::checkRedirect('admin');
-			$surveyModel = mvc::load('surveyModel');
+			$surveyModel = controllers::load('surveyModel');
 			views::set('surveys', $surveyModel->getAllDetailed());
 			views::view('surveyAdmin/surveys/list.cshtml');
 		}
@@ -63,11 +65,11 @@
 		public static function add() {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$surveyModel = mvc::load('surveyModel');
-			$categoryModel = mvc::load('categoryModel');
-			$themeModel = mvc::load('themeModel');
-			$languageModel = mvc::load('languageModel');
-			$userModel = mvc::load('userModel');
+			$surveyModel = controllers::load('surveyModel');
+			$categoryModel = controllers::load('categoryModel');
+			$themeModel = controllers::load('themeModel');
+			$languageModel = controllers::load('languageModel');
+			$userModel = controllers::load('userModel');
 
 			if(http::$method == 'post') {
 				$input = array(
@@ -99,7 +101,7 @@
 		public static function delete($actionName, $surveyID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$surveyModel = mvc::load('surveyModel');
+			$surveyModel = controllers::load('surveyModel');
 			if(contracts::isUuid($surveyID)->check()) {
 				$viewBag['message'] = $surveyModel->delete($surveyID).' Record Deleted';
 			}
@@ -110,11 +112,11 @@
 		public static function edit($actionName, $surveyID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$surveyModel = mvc::load('surveyModel');
-			$categoryModel = mvc::load('categoryModel');
-			$themeModel = mvc::load('themeModel');
-			$languageModel = mvc::load('languageModel');
-			$userModel = mvc::load('userModel');
+			$surveyModel = controllers::load('surveyModel');
+			$categoryModel = controllers::load('categoryModel');
+			$themeModel = controllers::load('themeModel');
+			$languageModel = controllers::load('languageModel');
+			$userModel = controllers::load('userModel');
 			$viewBag['survey'] = $surveyModel->get($surveyID);
 			$viewBag['users'] = $userModel->getAll();
 			$viewBag['categories'] = $categoryModel->getAll();

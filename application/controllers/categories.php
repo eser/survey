@@ -1,5 +1,9 @@
 <?php
 
+	use Scabbia\controller;
+	use Scabbia\contracts;
+	use Scabbia\arrays;
+
 	/**
 	 * categories controller
 	 * action methods for all categories/* urls

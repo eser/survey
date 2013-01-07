@@ -1,5 +1,7 @@
 <?php
 
+	use Scabbia\controllers;
+
 	/**
 	 * Blackmore Extension: survey-e-bot Admin Panel, languages Section
 	 *
@@ -55,7 +57,7 @@
 
 		public static function languageList() {
 			auth::checkRedirect('admin');
-			$languageModel = mvc::load('languageModel');
+			$languageModel = controllers::load('languageModel');
 			views::set('languages', $languageModel->getAll());
 			views::view('surveyAdmin/languages/list.cshtml');
 		}
@@ -63,7 +65,7 @@
 		public static function add() {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$languageModel = mvc::load('languageModel');
+			$languageModel = controllers::load('languageModel');
 			if(http::$method == 'post') {
 				$input = array(
 					'name' => http::post('name')
@@ -83,7 +85,7 @@
 		public static function delete($actionName, $languageID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$languageModel = mvc::load('languageModel');
+			$languageModel = controllers::load('languageModel');
 			$viewBag['message'] = $languageModel->delete($languageID).' Record Deleted';
 			$viewBag['languages'] = $languageModel->getAll();
 			views::view('surveyAdmin/languages/list.cshtml', $viewBag);
@@ -92,7 +94,7 @@
 		public static function edit($actionName, $languageID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$languageModel = mvc::load('languageModel');
+			$languageModel = controllers::load('languageModel');
 			
 			$viewBag = array(
 				'language' => $languageModel->get($languageID)

@@ -1,3 +1,6 @@
+@{
+	use Scabbia\views;
+}
 @views::viewFile('{core}views/blackmore/header.php')
 @if(isset($message)) {
 	<span>@_($message)</span>

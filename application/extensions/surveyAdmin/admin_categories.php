@@ -1,5 +1,7 @@
 <?php
 
+	use Scabbia\controllers;
+
 	/**
 	 * Blackmore Extension: survey-e-bot Admin Panel, categories Section
 	 *
@@ -55,7 +57,7 @@
 
 		public static function categoryList() {
 			auth::checkRedirect('admin');
-			$categoryModel = mvc::load('categoryModel');
+			$categoryModel = controllers::load('categoryModel');
 			views::set('categories', $categoryModel->getAll());
 			views::view('surveyAdmin/categories/list.cshtml');
 		}
@@ -63,7 +65,7 @@
 		public static function add() {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$categoryModel = mvc::load('categoryModel');
+			$categoryModel = controllers::load('categoryModel');
 			if(http::$method == 'post') {
 				$input = array(
 					'name' => http::post('name')
@@ -83,7 +85,7 @@
 		public static function delete($actionName, $categoryID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$categoryModel = mvc::load('categoryModel');
+			$categoryModel = controllers::load('categoryModel');
 			if(contracts::isUuid($categoryID)->check()) {
 				$viewBag['message'] = $categoryModel->delete($categoryID).' Record Deleted';
 			}
@@ -94,7 +96,7 @@
 		public static function edit($actionName, $categoryID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$categoryModel = mvc::load('categoryModel');
+			$categoryModel = controllers::load('categoryModel');
 			$viewBag = array(
 				'category' => $categoryModel->get($categoryID)
 				);

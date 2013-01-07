@@ -1,5 +1,14 @@
 <?php
 
+	use Scabbia\controller;
+	use Scabbia\session;
+	use Scabbia\mvc;
+	use Scabbia\http;
+	use Scabbia\string;
+	use Scabbia\contracts;
+	use Scabbia\validation;
+	use Scabbia\captcha;
+
 	/**
 	 * user controller
 	 * action methods for all user/* urls

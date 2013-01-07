@@ -1,5 +1,12 @@
 <?php
 
+	use Scabbia\controller;
+	use Scabbia\arrays;
+	use Scabbia\validation;
+	use Scabbia\captcha;
+	use Scabbia\http;
+	use Scabbia\session;
+
 	/**
 	 * home controller
 	 * action methods for all home/* urls
@@ -28,7 +35,7 @@
 			$tFaqData = $this->faqModel->getAll();
 
 			// assign the data with categorizing it by the name of the faqcategory
-			$this->setRef('faq', arrays::categorize($tFaqData, 'name'));
+			$this->set('faq', arrays::categorize($tFaqData, 'name'));
 
 			// render the page
 			$this->view();

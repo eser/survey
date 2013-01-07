@@ -1,5 +1,7 @@
 <?php
 
+	use Scabbia\controllers;
+
 	/**
 	 * Blackmore Extension: survey-e-bot Admin Panel, themes Section
 	 *
@@ -55,7 +57,7 @@
 
 		public static function themeList() {
 			auth::checkRedirect('admin');
-			$themeModel = mvc::load('themeModel');
+			$themeModel = controllers::load('themeModel');
 			views::set('themes', $themeModel->getAll());
 			views::view('surveyAdmin/themes/list.cshtml');
 		}
@@ -63,7 +65,7 @@
 		public static function add() {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$themeModel = mvc::load('themeModel');
+			$themeModel = controllers::load('themeModel');
 			if(http::$method == 'post') {
 				$input = array(
 					'name' => http::post('name'),
@@ -84,7 +86,7 @@
 		public static function delete($actionName, $themeID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$themeModel = mvc::load('themeModel');
+			$themeModel = controllers::load('themeModel');
 			if(contracts::isUuid($themeID)->check()) {
 				$viewBag['message'] = $themeModel->delete($themeID).' Record Deleted';
 			}
@@ -95,7 +97,7 @@
 		public static function edit($actionName, $themeID) {
 			$viewBag = array();
 			auth::checkRedirect('admin');
-			$themeModel = mvc::load('themeModel');
+			$themeModel = controllers::load('themeModel');
 			$viewBag = array(
 				'theme' => $themeModel->get($themeID)
 				);
