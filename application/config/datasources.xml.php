@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- <?php exit(); ?> -->
 <scabbia>
-	<databaseList>
-		<database>
+	<datasourceList>
+		<datasource>
 			<id>dbconn</id>
+			<type>pdo</type>
 			<default />
 			<persistent />
 			<overrideCase>natural</overrideCase>
@@ -11,6 +12,6 @@
 			<username>survey</username>
 			<password>survey</password>
 			<initCommand />
-		</database>
-	</databaseList>
+		</datasource>
+	</datasourceList>
 </scabbia>
