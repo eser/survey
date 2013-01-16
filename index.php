@@ -10,7 +10,7 @@
 	framework::$development = 1;
 	framework::load(false);
 	
-	database::$errorHandling = database::ERROR_EXCEPTION;
+	// database::$errorHandling = database::ERROR_EXCEPTION;
 	statics::templateBindings();
 
 	framework::run();

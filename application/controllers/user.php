@@ -8,6 +8,7 @@
 	use Scabbia\contracts;
 	use Scabbia\validation;
 	use Scabbia\captcha;
+	use Scabbia\mail;
 
 	/**
 	 * user controller
