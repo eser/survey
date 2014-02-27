@@ -1,18 +1,24 @@
 <?php
 
-	require('../scabbia/framework.php');
+if (!file_exists($scabbiaLoader = __DIR__ . '/vendor/autoload.php')) {
+    throw new RuntimeException('Unable to load Composer which is required for Scabbia Framework. Run `php scabbia update`.');
+}
 
-	use Scabbia\framework;
-	use Scabbia\database;
-	use Scabbia\http;
+$loader = require($scabbiaLoader);
 
-	// framework::$endpoints[] = 'http://localhost/survey';
-	framework::$development = 1;
-	framework::load(false);
-	
-	// database::$errorHandling = database::ERROR_EXCEPTION;
-	statics::templateBindings();
+if (defined('SCABBIA_PATH') && SCABBIA_PATH !== false) {
+    $loader->set('Scabbia', SCABBIA_PATH);
+// } elseif (file_exists($scabbiaPath = __DIR__ . '/../scabbia-dev/src')) {
+//     define('SCABBIA_PATH', $scabbiaPath);
+//     $loader->set('Scabbia', $scabbiaPath);
+}
 
-	framework::run();
+use Scabbia\Framework;
 
-?>
+Framework::$development = true;
+// Framework::$disableCaches = true;
+Framework::load($loader);
+
+Framework::addApplication('App', 'application/');
+
+Framework::run();

@@ -15,9 +15,9 @@ location ~ (^\.|/\.|^web.config|/web.config) {
 autoindex off;
 
 location / {
-  if ($http_host ~* "^www\.(.+)$"){
-    rewrite ^(.*)$ http://%1$request_uri redirect;
-  }
+  # if ($http_host ~* "^www\.(.+)$"){
+  #  rewrite ^(.*)$ http://%1$request_uri redirect;
+  # }
   if (!-e $request_filename){
     rewrite ^(.*)$ /index.php break;
   }

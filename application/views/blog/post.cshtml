@@ -1,16 +1,18 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
-	use Scabbia\time;
+    use App\Includes\Statics;
+    use Scabbia\Extensions\Http\Http;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Helpers\Date;
+    use Scabbia\Request;
 }
-@views::view('shared/header.cshtml')
+@Views::viewFile('{app}views/shared/header.cshtml')
 
                 <!-- Breadcrumbs, Title, Description -->
                 <div id="page-head">
                     <h1><em>interesting news and events</em>Blog</h1>
                     <ul id="breadcrumbs">
-                        <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li><a href="@mvc::url('blog/index')">Blog</a></li>
+                        <li><a href="@Http::url('home/index')">Home</a></li>
+                        <li><a href="@Http::url('blog/index')">Blog</a></li>
 						<li>@$post['title']</li>
                     </ul>
                 </div>
@@ -19,14 +21,14 @@
                 <div id="cat-container">
 
 					@{
-						$tTimestamp = time::convert($post['createdate'], 'Y-m-d H:i:s');
+						$tTimestamp = Date::convert($post['createdate'], 'Y-m-d H:i:s');
 					}
                     <div class="post format-standard">
                     	<div class="p-meta">
                         	<div class="p-type"></div>
-	                        <div class="date"><strong>@date('d', $tTimestamp)</strong>@statics::$months[date('m', $tTimestamp)]</div>
+	                        <div class="date"><strong>@date('d', $tTimestamp)</strong>@Statics::$months[date('m', $tTimestamp)]</div>
                         </div>
-                        <h2 class="p-title"><a href="@mvc::url('blog/post/' . $post['postid'])">@$post['title']</a></h2>
+                        <h2 class="p-title"><a href="@Http::url('blog/post/' . $post['postid'])">@$post['title']</a></h2>
                         <div class="post-content">
                             <p>
                             	@$post['content']
@@ -37,4 +39,4 @@
                 </div>
                 <!-- Posts Container End -->
 
-@views::view('shared/footer.cshtml')
+@Views::viewFile('{app}views/shared/footer.cshtml')

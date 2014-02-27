@@ -1,0 +1,31 @@
+{
+    "panel": {
+        "title":        "survey-e-bot Application",
+        "logo":         "/assets/img/logo2.png",
+
+        "loginTitle":   "survey-e-bot Login",
+        "database":     "dbconn"
+    },
+
+    "auth": {
+        "loginUrl":     "panel/login",
+        "authType":     "config",
+	    "authHash":     "md5",
+
+        "userList": [
+            {
+                "username":     "admin",
+                "password":     "21232f297a57a5a743894a0e4a801fc3",
+                "roles":        "admin,editor,user"
+            }
+        ],
+	
+	"database:disabled": {
+            "datasource":       "dbconn",
+            "query":            "SELECT password, roles FROM users WHERE username=:username",
+            "passwordField":    "password"
+        }
+    },
+
+    "autoModelList": []
+}

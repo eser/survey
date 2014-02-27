@@ -1,11 +1,13 @@
 <?php
 
-	use Scabbia\model;
+    namespace App\Models;
+
+	use Scabbia\Extensions\Models\Model;
 
 	/**
 	 * @ignore
 	 */
-	class postModel extends model {
+	class PostModel extends Model {
 		/**
 		 * @ignore
 		 */
@@ -101,7 +103,7 @@
 			return $this->db->createQuery()
 				->setTable('posts')
 				->addField('*')
-				->calculate('COUNT');
+				->aggregate('COUNT');
 		}
 	}
 

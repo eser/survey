@@ -1,17 +1,19 @@
 <?php
 
-	use Scabbia\model;
-	use Scabbia\time;
+    namespace App\Models;
+
+	use Scabbia\Extensions\Models\Model;
+	use Scabbia\Extensions\Helpers\Date;
 
 	/**
 	 * @ignore
 	 */
-	class surveyModel extends model {
+	class SurveyModel extends Model {
 		/**
 		 * @ignore
 		 */
 		public function insert($input) {
-			$tTime = time::toDb(time());
+			$tTime = Date::toDb(time());
 			return $this->db->createQuery()
 				->setTable('surveys')
 				->setFields($input)
@@ -29,7 +31,7 @@
 				->setFields($input)
 				->addParameter('surveyid', $surveyid)
 				->setWhere(['surveyid=:surveyid'])
-				// ->addField('updatedate', time::toDb(time()))
+				// ->addField('updatedate', Date::toDb(time()))
 				->setLimit(1)
 				->update()
 				->execute();
@@ -148,7 +150,7 @@
 				->addField('*')
 				->setWhere(['ownerid=:ownerid'])
 				->addParameter('ownerid', $uOwnerId)
-				->calculate('COUNT');
+				->aggregate('COUNT');
 		}
 
 		/**

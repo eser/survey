@@ -1,23 +1,24 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
-	use Scabbia\session;
+    use App\Includes\Statics;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Session\Session;
+    use Scabbia\Request;
 }
-@views::view('shared/header.cshtml')
+@Views::viewFile('{app}views/shared/header.cshtml')
 
                 <!-- Breadcrumbs, Page Title -->
                 <div id="page-head">
                     <h1><em>add, edit and organize surveys</em>Surveys</h1>
                     <ul id="breadcrumbs">
-                        <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
+                        <li><a href="@Http::url('home/index')">Home</a></li>
+                        <li><a href="@Http::url('surveys/index')">Surveys</a></li>
 						<li>Reports</li>
 						<li>@$surveypublish['title']</li>
                     </ul>
                 </div>
 
-				@if(session::existsFlash('notification')) {
-					@{ $notification = session::getFlash('notification'); }
+				@if(Session::exists('notification')) {
+					@{ $notification = Session::getFlash('notification'); }
 					<div class="msg@$notification[0]">
 					   <p>@$notification[1]</p>
 					</div>
@@ -40,9 +41,9 @@
                         <tbody>
                             <tr>
 								<td>@$surveypublish['title']</td>
-                                <td><a href="@mvc::url('categories/list/' . $surveypublish['categoryid'])">@statics::$categoriesWithCounts[$surveypublish['categoryid']]['name']</a></td>
-                                <td>@statics::$languagesWithCounts[$surveypublish['languageid']]['name']</td>
-								<td>@statics::datePrint($surveypublish['createdate'], false)</td>
+                                <td><a href="@Http::url('categories/list/' . $surveypublish['categoryid'])">@Statics::$categoriesWithCounts[$surveypublish['categoryid']]['name']</a></td>
+                                <td>@Statics::$languagesWithCounts[$surveypublish['languageid']]['name']</td>
+								<td>@Statics::datePrint($surveypublish['createdate'], false)</td>
 								<td>@$user['displayname']</td>
 								<td>@$counter@if($surveypublish['userlimit'] != '0') {
 									/ @$surveypublish['userlimit']
@@ -57,14 +58,14 @@
                     <table class="extable" width="100%" cellspacing="0" cellpadding="0">
 						<thead>
 							<tr>
-								<th class="width200px">@$question['content'] @if($question['enabled'] == statics::SURVEY_DISABLED) {
+								<th class="width200px">@$question['content'] @if($question['enabled'] == Statics::SURVEY_DISABLED) {
 									(disabled)
 								}</th>
 								<th>Responses (@$question['total'])</th>
 						   </tr>
 						</thead>
 						<tbody>
-						@if($question['type'] == statics::QUESTION_MULTIPLE) {
+						@if($question['type'] == Statics::QUESTION_MULTIPLE) {
 							<tr>
 								<td colspan="2">
 									<div class="graph" id="graph@{ echo ++$count; }"></div>
@@ -79,7 +80,7 @@
 						}
 						</tbody>
                     </table>
-					@if($question['type'] == statics::QUESTION_MULTIPLE) {
+					@if($question['type'] == Statics::QUESTION_MULTIPLE) {
 					<script type="text/javascript">
 						$.plot(
 							$('#graph@{ echo $count; }'),
@@ -107,4 +108,4 @@
 				</div>
                 <!-- Page Content End -->
 
-@views::view('shared/footer.cshtml')
+@Views::viewFile('{app}views/shared/footer.cshtml')

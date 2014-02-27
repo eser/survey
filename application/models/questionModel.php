@@ -1,11 +1,13 @@
 <?php
 
-	use Scabbia\model;
+    namespace App\Models;
+
+	use Scabbia\Extensions\Models\Model;
 
 	/**
 	 * @ignore
 	 */
-	class questionModel extends model {
+	class QuestionModel extends Model {
 		/**
 		 * @ignore
 		 */
@@ -203,7 +205,7 @@
 				->addField('*')
 				->setWhere(['ownerid=:ownerid'])
 				->addParameter('ownerid', $uOwnerId)
-				->calculate('COUNT');
+				->aggregate('COUNT');
 		}
 
 		/**

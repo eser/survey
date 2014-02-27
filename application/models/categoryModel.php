@@ -1,12 +1,14 @@
 <?php
 
-	use Scabbia\model;
-	use Scabbia\time;
+    namespace App\Models;
+
+	use Scabbia\Extensions\Models\Model;
+	use Scabbia\Extensions\Helpers\Date;
 
 	/**
 	 * @ignore
 	 */
-	class categoryModel extends model {
+	class CategoryModel extends Model {
 		/**
 		 * @ignore
 		 */
@@ -51,7 +53,7 @@
 				->addField('c.*')
 				->addField('COUNT(sp.*) AS count')
 				->setGroupBy('c.categoryid')
-				->addParameter('now', time::toDb(time::today()))
+				->addParameter('now', Date::toDb(Date::today()))
 				->get();
 
 			foreach($tQuery as $tRow) {

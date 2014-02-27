@@ -1,12 +1,13 @@
 <?php
 
-	use Scabbia\session;
-	use Scabbia\mvc;
-	use Scabbia\time;
-	use Scabbia\fb;
-	use Scabbia\html;
-	use Scabbia\http;
-	use Scabbia\controllers;
+    namespace App\Includes;
+
+	use Scabbia\Extensions\Session\Session;
+	use Scabbia\Extensions\Mvc\Controllers;
+	use Scabbia\Extensions\Helpers\Date;
+	use Scabbia\Extensions\Fb\Fb;
+	use Scabbia\Extensions\Helpers\Html;
+	use Scabbia\Extensions\Http\Http;
 
 	/**
 	 * it's a static class contains static
@@ -119,17 +120,17 @@
 		 * @param $uLevel int required user level
 		 */
 		public static function requireAuthentication($uLevel) {
-			self::$user = session::get('user', null);
+			self::$user = Session::get('user', null);
 
 			if($uLevel == -1 && !is_null(self::$user)) {
-				throw new Exception('you are not supposed to be in this page.');
+				throw new \Exception('you are not supposed to be in this page.');
 			}
 
 			if($uLevel > 0 && is_null(self::$user)) {
 				// throw new Exception('.');
 
-				session::setFlash('loginNotification', ['error', 'Only logged in users can view this page. Please login or register yourself as an user']);
-				mvc::redirect('home/index');
+				Session::set('loginNotification', ['error', 'Only logged in users can view this page. Please login or register yourself as an user']);
+				Http::redirect('home/index');
 				return;
 			}
 		}
@@ -140,13 +141,13 @@
 		 * @param $uIncludeUser bool gets the user information from database again
 		 */
 		public static function reloadUserInfo($uIncludeUser = true) {
-			self::$user = session::get('user');
+			self::$user = Session::get('user');
 
 			if($uIncludeUser) {
-				$tUserModel = controllers::load('userModel');
+				$tUserModel = Controllers::load('App\\Models\\UserModel');
 				self::$user = $tUserModel->get(self::$user['userid']);
 
-				session::set('user', self::$user);
+				Session::set('user', self::$user);
 			}
 		}
 
@@ -163,49 +164,49 @@
 			}
 
 			if($uHumanize) {
-				return time::humanize(time::convert($uDate, 'Y-m-d H:i:s'), time(), true, $uShowHours);
+				return Date::humanize(Date::convert($uDate, 'Y-m-d H:i:s'), time(), true, $uShowHours);
 			}
 
-			return time::convert($uDate, 'Y-m-d H:i:s', (($uShowHours) ? 'd.m.Y H:i' : 'd.m.Y'));
+			return Date::convert($uDate, 'Y-m-d H:i:s', (($uShowHours) ? 'd.m.Y H:i' : 'd.m.Y'));
 		}
 
-		/**
-		 * gets the mostly needed variables from the database
-		 * in order to be use in page templates
-		 */
-		public static function templateBindings() {
-			// load the facebook api
-			fb::loadApi();
-
-			$tCategoryModel = controllers::load('categoryModel');
-			self::$categoriesWithCounts = $tCategoryModel->getAllWithCounts();
-
-			$tLanguageModel = controllers::load('languageModel');
-			self::$languagesWithCounts = $tLanguageModel->getAllWithCounts();
-
-			$tThemeModel = controllers::load('themeModel');
-			self::$themesWithCounts = $tThemeModel->getAllWithCounts();
-
-			$tsurveypublishModel = controllers::load('surveypublishModel');
-			self::$recentSurveys = $tsurveypublishModel->getRecent(6);
-		}
-
-		/**
+        /**
 		 * a shortcut to show survey categories in a combobox
 		 *
 		 * @param $uDefault mixed the default selected value
 		 */
 		public static function selectboxCategories($uDefault = null) {
-			return html::selectOptions(self::$categoriesWithCounts, $uDefault, 'name');
+			return Html::selectOptions(self::$categoriesWithCounts, $uDefault, 'name');
 		}
 
-		/**
+        /**
+         * gets the mostly needed variables from the database
+         * in order to be use in page templates
+         */
+        public static function templateBindings() {
+            // load the facebook api
+            Fb::loadApi();
+
+            $tCategoryModel = Controllers::load('App\\Models\\CategoryModel');
+            self::$categoriesWithCounts = $tCategoryModel->getAllWithCounts();
+
+            $tLanguageModel = Controllers::load('App\\Models\\LanguageModel');
+            self::$languagesWithCounts = $tLanguageModel->getAllWithCounts();
+
+            $tThemeModel = Controllers::load('App\\Models\\ThemeModel');
+            self::$themesWithCounts = $tThemeModel->getAllWithCounts();
+
+            $tsurveypublishModel = Controllers::load('App\\Models\\SurveypublishModel');
+            self::$recentSurveys = $tsurveypublishModel->getRecent(6);
+        }
+
+        /**
 		 * a shortcut to show system languages in a combobox
 		 *
 		 * @param $uDefault mixed the default selected value
 		 */
 		public static function selectboxLanguages($uDefault = null) {
-			return html::selectOptions(self::$languagesWithCounts, $uDefault, 'name');
+			return Html::selectOptions(self::$languagesWithCounts, $uDefault, 'name');
 		}
 
 		/**
@@ -214,7 +215,7 @@
 		 * @param $uDefault mixed the default selected value
 		 */
 		public static function selectboxThemes($uDefault = null) {
-			return html::selectOptions(self::$themesWithCounts, $uDefault, 'name');
+			return Html::selectOptions(self::$themesWithCounts, $uDefault, 'name');
 		}
 
 		/**
@@ -227,7 +228,7 @@
 		public static function &emailTemplate($uPath, $uValues, $uArray = array()) {
 			$tHtmlBody = file_get_contents(QPATH_BASE . $uPath);
 
-			$uArray['{URL}'] = http::baseUrl();
+			$uArray['{URL}'] = Http::baseUrl();
 			foreach($uValues as $tKey => &$tValue) {
 				$uArray['{' . strtoupper($tKey) . '}'] = $tValue;
 			}

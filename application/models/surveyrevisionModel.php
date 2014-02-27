@@ -1,11 +1,13 @@
 <?php
 
-	use Scabbia\model;
+    namespace App\Models;
+
+	use Scabbia\Extensions\Models\Model;
 
 	/**
 	 * @ignore
 	 */
-	class surveyrevisionModel extends model {
+	class SurveyrevisionModel extends Model {
 		/**
 		 * @ignore
 		 */

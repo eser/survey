@@ -1,12 +1,13 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
-	use Scabbia\fb;
+    use App\Includes\Statics;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Fb\Fb;
+    use Scabbia\Request;
 }
-@views::view('shared/header.cshtml')
+@Views::viewFile('{app}views/shared/header.cshtml')
 
 				@{
-					$url = 'http://' . $_SERVER['HTTP_HOST'] . @mvc::url('surveys/take/' . $surveypublish['surveypublishid']);
+					$url = 'http://' . $_SERVER['HTTP_HOST'] . @Http::url('surveys/take/' . $surveypublish['surveypublishid']);
 					$logourl = 'http://' . $_SERVER['HTTP_HOST'] . @$root . '/res/img/logo.png';
 				}
                 
@@ -14,7 +15,7 @@
 				<script src="http://connect.facebook.net/en_US/all.js"></script>
 
 				<script type="text/javascript">
-					FB.init({appId: '@fb::$appId', status: true, cookie: true});
+					FB.init({appId: '@Fb::$appId', status: true, cookie: true});
 
 					function postToFeed() {
 						var obj = {
@@ -48,8 +49,8 @@
                 <div id="page-head">
                     <h1>Share Survey</h1>
                     <ul id="breadcrumbs">
-                        <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
+                        <li><a href="@Http::url('home/index')">Home</a></li>
+                        <li><a href="@Http::url('surveys/index')">Surveys</a></li>
 						<li>Publishs</li>
                         <li>@$surveypublish['title']</li>
                     </ul>
@@ -94,4 +95,4 @@
                 </div>
                 <!-- Page Content End -->
     
-@views::view('shared/footer.cshtml')
+@Views::viewFile('{app}views/shared/footer.cshtml')

@@ -1,10 +1,12 @@
 @{
-	use Scabbia\views;
-	use Scabbia\html;
-	use Scabbia\http;
-	use Scabbia\framework;
+    use App\Includes\Statics;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Helpers\Html;
+	use Scabbia\Extensions\Http\Http;
+	use Scabbia\Framework;
+    use Scabbia\Request;
 }
-@html::doctype('html5')
+@Html::doctype('html5')
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
 <head>
 	<title>survey-e-bot</title>
@@ -12,24 +14,24 @@
 
 	<link rel="shortcut icon" href="@$root/favicon.ico" type="image/x-icon" />
 
-	<link type="text/css" href="@http::url('scabbia.css?core,jqueryui,jqueryuifx,shadowbox,tipsy')" rel="stylesheet" media="all" />
-	<link rel="stylesheet" type="text/css" href="/survey/res/css/style.css" />
+	<link type="text/css" href="@Http::url('scabbia.css?core,jqueryui,jqueryuifx,shadowbox,tipsy')" rel="stylesheet" media="all" />
+	<link rel="stylesheet" type="text/css" href="/survey/assets/css/style.css" />
 
-	<script type="text/javascript" src="@http::url('scabbia.js?core,jquery,jqueryui,jqueryuifx,shadowbox,tipsy')"></script>
-	<script type="text/javascript" src="/survey/res/js/superfish.js"></script>
-	<script type="text/javascript" src="/survey/res/js/jquery.nivo.slider.js"></script>
-    <script type="text/javascript" src="/survey/res/js/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="/survey/res/js/main.js"></script>
+	<script type="text/javascript" src="@Http::url('scabbia.js?core,jquery,jqueryui,jqueryuifx,shadowbox,tipsy')"></script>
+	<script type="text/javascript" src="/survey/assets/js/superfish.js"></script>
+	<script type="text/javascript" src="/survey/assets/js/jquery.nivo.slider.js"></script>
+    <script type="text/javascript" src="/survey/assets/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/survey/assets/js/main.js"></script>
 </head>
 <body>
 	<div id="fb-root"></div>
 	<script type="text/javascript">
-			$l.contentBegin('main', '@framework::$siteroot');
+			$l.contentBegin('main', '@$root');
 	</script>
 
 	<div class="ppopup">
 		<div class="content">
-			<img src="@$root/res/img/logo2.png" />
+			<img src="@$root/assets/img/logo2.png" />
 			<h1>@$title</h1>
 			<div>@$message</div>
 			<div class="alignRight"><a href="@$root/">&lt;&lt; Back To The Homepage</a></div>

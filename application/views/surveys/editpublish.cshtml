@@ -1,10 +1,11 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
-	use Scabbia\time;
-	use Scabbia\html;
+    use App\Includes\Statics;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Helpers\Date;
+	use Scabbia\Extensions\Helpers\Html;
+    use Scabbia\Request;
 }
-@views::view('shared/header.cshtml')
+@Views::viewFile('{app}views/shared/header.cshtml')
                 
 				<script type="text/javascript">
 					$l.ready(function() {
@@ -17,8 +18,8 @@
                 <div id="page-head">
                     <h1>Publish Survey</h1>
                     <ul id="breadcrumbs">
-                        <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
+                        <li><a href="@Http::url('home/index')">Home</a></li>
+                        <li><a href="@Http::url('surveys/index')">Surveys</a></li>
 						<li>Publishs</li>
                         <li>@$surveypublish['title']</li>
                     </ul>
@@ -30,7 +31,7 @@
                     <p>Day blushes visitor end company old prevent chapter. Consider declared expenses concerns. Indulgence conviction particular unsatiable boisterous discretion. Direct enough off others say eldest may exeter she. Possible all ignorant supplied get settling marriage recurred.</p>
                     
                     <h3>Edit Publish Survey</h3>
-					<form class="validation" id="publishSurvey" action="@mvc::url('surveys/editpublish/' . $surveypublish['surveypublishid'])" method="post">
+					<form class="validation" id="publishSurvey" action="@Http::url('surveys/editpublish/' . $surveypublish['surveypublishid'])" method="post">
 						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 							<tr>
 								<td class="width200px"><label id="title_survey" for="survey">Survey</label></td>
@@ -38,11 +39,11 @@
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_startdate" for="startdate" class="required">Start Date *</label></td>
-								<td><input id="startdate" type="text" name="startdate" value="@time::convert($surveypublish['startdate'], 'Y-m-d H:i:s', 'd.m.Y')" /></td>
+								<td><input id="startdate" type="text" name="startdate" value="@Date::convert($surveypublish['startdate'], 'Y-m-d H:i:s', 'd.m.Y')" /></td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_enddate" for="enddate">End Date</label></td>
-								<td><input id="enddate" type="text" name="enddate" value="@{ if(!is_null($surveypublish['enddate'])) { echo time::convert($surveypublish['enddate'], 'Y-m-d H:i:s', 'd.m.Y'); } }" /></td>
+								<td><input id="enddate" type="text" name="enddate" value="@{ if(!is_null($surveypublish['enddate'])) { echo Date::convert($surveypublish['enddate'], 'Y-m-d H:i:s', 'd.m.Y'); } }" /></td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_password" for="password">Password (optional)</label></td>
@@ -55,13 +56,13 @@
 							<tr>
 								<td class="width200px"><label id="title_type" for="type">Type</label></td>
 								<td><select name="type" id="type">
-								@html::selectOptions(statics::$surveytypes, $surveypublish['type'])
+								@Html::selectOptions(Statics::$surveytypes, $surveypublish['type'])
 								</select></td>
 							</tr>
 							<tr>
 								<td class="width200px"><label id="title_status" for="status">Status</label></td>
 								<td><select name="enabled" id="status">
-								@html::selectOptions(statics::$surveystatus, $surveypublish['enabled'])
+								@Html::selectOptions(Statics::$surveystatus, $surveypublish['enabled'])
 								</select></td>
 							</tr>
 							<tr>
@@ -75,4 +76,4 @@
                 </div>
                 <!-- Page Content End -->
     
-@views::view('shared/footer.cshtml')
+@Views::viewFile('{app}views/shared/footer.cshtml')

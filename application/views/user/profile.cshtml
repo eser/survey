@@ -1,21 +1,22 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
-	use Scabbia\session;
+    use App\Includes\Statics;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Session\Session;
+    use Scabbia\Request;
 }
-@views::view('shared/header.cshtml')
+@Views::viewFile('{app}views/shared/header.cshtml')
                 
                 <!-- Breadcrumbs, Page Title -->
                 <div id="page-head">
                     <h1><em>edit and organize your details</em>Profile</h1>
                     <ul id="breadcrumbs">
-                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li><a href="@Http::url('home/index')">Home</a></li>
                         <li>Profile</li>
                     </ul>
                 </div>
 
-				@if(session::existsFlash('notification')) {
-					@{ $notification = session::getFlash('notification'); }
+				@if(Session::exists('notification')) {
+					@{ $notification = Session::getFlash('notification'); }
 					<div class="msg@$notification[0]">
 					   <p>@$notification[1]</p>
 					</div>
@@ -26,48 +27,48 @@
 
                     <!-- User Details -->
                     <h3>User Details</h3>
-                    <form class="validation" id="contact" action="@mvc::url('user/profile')" method="post" enctype="multipart/form-data">
+                    <form class="validation" id="contact" action="@Http::url('user/profile')" method="post" enctype="multipart/form-data">
 						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 							<tr>
 								<td class="width200px"><label id="displayname_label" for="displayname">Display Name *</label></td>
-								<td><input type="text" size="50" id="displayname" name="displayname" class="required" value="@statics::$user['displayname']" /></td>
+								<td><input type="text" size="50" id="displayname" name="displayname" class="required" value="@Statics::$user['displayname']" /></td>
 							</tr>
 							<tr>
                             	<td><label id="firstname_label" for="firstname">First Name *</label></td>
-								<td><input type="text" size="50" id="firstname" name="firstname" class="required" value="@statics::$user['firstname']" /></td>
+								<td><input type="text" size="50" id="firstname" name="firstname" class="required" value="@Statics::$user['firstname']" /></td>
 							</tr>
 							<tr>
                             	<td><label id="lastname_label" for="lastname">Last Name *</label></td>
-								<td><input type="text" size="50" id="lastname" name="lastname" class="required" value="@statics::$user['lastname']" /></td>
+								<td><input type="text" size="50" id="lastname" name="lastname" class="required" value="@Statics::$user['lastname']" /></td>
 							</tr>
 							<tr>
                             	<td><label id="phonenumber_label" for="phonenumber">Phone</label></td>
-								<td><input type="text" size="50" id="phonenumber" name="phonenumber" value="@statics::$user['phonenumber']" /></td>
+								<td><input type="text" size="50" id="phonenumber" name="phonenumber" value="@Statics::$user['phonenumber']" /></td>
 							</tr>
 							<tr>
                             	<td><label id="email_label" for="email">E-mail *</label></td>
-								<td><input type="text" size="50" id="email" name="email" class="required email" value="@statics::$user['email']" disabled="disabled" /></td>
+								<td><input type="text" size="50" id="email" name="email" class="required email" value="@Statics::$user['email']" disabled="disabled" /></td>
 							</tr>
 							<tr>
                             	<td><label id="password_label" for="password">Password *</label></td>
-								<td><input type="password" size="50" id="password" name="password" class="required" value="@statics::$user['password']" /></td>
+								<td><input type="password" size="50" id="password" name="password" class="required" value="@Statics::$user['password']" /></td>
 							</tr>
 							<tr>
                             	<td><label id="password2_label" for="password2">Password Again *</label></td>
-								<td><input type="password" size="50" id="password2" name="password2" class="required" value="@statics::$user['password']" /></td>
+								<td><input type="password" size="50" id="password2" name="password2" class="required" value="@Statics::$user['password']" /></td>
 							</tr>
 							<tr>
                             	<td class="valignTop"><label id="logofile_label" for="logofile">Logo</label></td>
                             	<td>
-									@if(strlen(statics::$user['logo']) > 0) {
-										<img src="@$root/application/writable/@statics::$user['logo']" alt="" /><br />
+									@if(strlen(Statics::$user['logo']) > 0) {
+										<img src="@$root/application/writable/@Statics::$user['logo']" alt="" /><br />
 									}
 									<input type="file" id="logofile" name="logofile" />
 								</td>
 							</tr>
 							<tr>
                             	<td><label id="languageid_label" for="languageid">Primary Language</label></td>
-                            	<td><select name="languageid">@statics::selectboxLanguages(@statics::$user['languageid'])</select></td>
+                            	<td><select name="languageid">@Statics::selectboxLanguages(@Statics::$user['languageid'])</select></td>
 							</tr>
 							<tr>
                             	<td colspan="2" class="alignRight">
@@ -80,4 +81,4 @@
                 </div>
                 <!-- Page Content End -->
     
-@views::view('shared/footer.cshtml')
+@Views::viewFile('{app}views/shared/footer.cshtml')

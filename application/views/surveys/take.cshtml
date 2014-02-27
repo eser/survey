@@ -1,13 +1,14 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
-	use Scabbia\fb;
-	use Scabbia\session;
+    use App\Includes\Statics;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Fb\Fb;
+	use Scabbia\Extensions\Session\Session;
+    use Scabbia\Request;
 }
-@views::view('shared/header.cshtml')
+@Views::viewFile('{app}views/shared/header.cshtml')
 
 				@{
-					$url = 'http://' . $_SERVER['HTTP_HOST'] . @mvc::url('surveys/take/' . $surveypublish['surveypublishid']);
+					$url = 'http://' . $_SERVER['HTTP_HOST'] . @Http::url('surveys/take/' . $surveypublish['surveypublishid']);
 					$logourl = 'http://' . $_SERVER['HTTP_HOST'] . @$root . '/res/img/logo.png';
 				}
 
@@ -20,7 +21,7 @@
 				}
 
 				<script type="text/javascript">
-					FB.init({appId: '@fb::$appId', status: true, cookie: true});
+					FB.init({appId: '@Fb::$appId', status: true, cookie: true});
 
 					function postToFeed() {
 						var obj = {
@@ -52,14 +53,14 @@
                 <div id="page-head">
                     <h1><em>yet another survey-e-bot survey!</em>@$surveypublish['title']</h1>
                     <ul id="breadcrumbs">
-                        <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
+                        <li><a href="@Http::url('home/index')">Home</a></li>
+                        <li><a href="@Http::url('surveys/index')">Surveys</a></li>
 						<li>@$surveypublish['title']</li>
                     </ul>
                 </div>
 
-				@if(session::existsFlash('notification')) {
-					@{ $notification = session::getFlash('notification'); }
+				@if(Session::exists('notification')) {
+					@{ $notification = Session::getFlash('notification'); }
 					<div class="msg@$notification[0]">
 					   <p>@$notification[1]</p>
 					</div>
@@ -84,9 +85,9 @@
                         <tbody>
                             <tr>
 								<td>@$surveypublish['title']</td>
-                                <td><a href="@mvc::url('categories/list/' . $surveypublish['categoryid'])">@statics::$categoriesWithCounts[$surveypublish['categoryid']]['name']</a></td>
-                                <td>@statics::$languagesWithCounts[$surveypublish['languageid']]['name']</td>
-								<td>@statics::datePrint($surveypublish['createdate'], false)</td>
+                                <td><a href="@Http::url('categories/list/' . $surveypublish['categoryid'])">@Statics::$categoriesWithCounts[$surveypublish['categoryid']]['name']</a></td>
+                                <td>@Statics::$languagesWithCounts[$surveypublish['languageid']]['name']</td>
+								<td>@Statics::datePrint($surveypublish['createdate'], false)</td>
 								<td>@$user['displayname']</td>
 								<td>@$counter@if($surveypublish['userlimit'] != '0') {
 									/ @$surveypublish['userlimit']
@@ -96,12 +97,12 @@
                     </table>
 					<br />
 
-                    <form class="validation" name="takeSurvey" method="post" action="@mvc::url('surveys/take/' . $surveypublish['surveypublishid'])">
+                    <form class="validation" name="takeSurvey" method="post" action="@Http::url('surveys/take/' . $surveypublish['surveypublishid'])">
                     <table class="extable" width="100%" cellspacing="0" cellpadding="0">
 					 @{ $count = 0; }
                      @foreach($questions as $question) {
 						@{
-							if($question['enabled'] == statics::SURVEY_DISABLED) {
+							if($question['enabled'] == Statics::SURVEY_DISABLED) {
 								continue;
 							}
 						}
@@ -113,19 +114,19 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    @if($question['type'] == statics::QUESTION_EVALUATION) {
-                                        @html::radioOptions(@$question['questionid'], statics::$evaluationoptions)
+                                    @if($question['type'] == Statics::QUESTION_EVALUATION) {
+                                        @Html::radioOptions(@$question['questionid'], Statics::$evaluationoptions)
                                     }
-                                    @if($question['type'] == statics::QUESTION_FILL) {
-										<input class="@if($question['typefilter'] == statics::QUESTIONFILTER_NUMERIC) {
+                                    @if($question['type'] == Statics::QUESTION_FILL) {
+										<input class="@if($question['typefilter'] == Statics::QUESTIONFILTER_NUMERIC) {
 											digits
 										}" type="text" name="@$question['questionid']value" value="" />
                                     }
-                                    @if($question['type'] == statics::QUESTION_MULTIPLE && isset($choices[$question['questionid']])) {
+                                    @if($question['type'] == Statics::QUESTION_MULTIPLE && isset($choices[$question['questionid']])) {
                                         @foreach($choices[$question['questionid']] as $choice) {
                                             <label><input type="radio" name="@$question['questionid']" value="@$choice['questionchoiceid']" /> @$choice['content']</label>
-                                            @if($choice['type'] > statics::QUESTIONOPTION_NOINPUT) {
-												<input class="@if($question['type'] == statics::QUESTIONOPTION_NUMERIC) {
+                                            @if($choice['type'] > Statics::QUESTIONOPTION_NOINPUT) {
+												<input class="@if($question['type'] == Statics::QUESTIONOPTION_NUMERIC) {
 													digits
 												}" type="text" name="@$question['questionid']value" value="" />
 											}<br />
@@ -142,4 +143,4 @@
 				</div>
                 <!-- Page Content End -->
 
-@views::view('shared/footer.cshtml')
+@Views::viewFile('{app}views/shared/footer.cshtml')

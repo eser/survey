@@ -1,37 +1,39 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
-	use Scabbia\session;
-	use Scabbia\time;
-	use Scabbia\controllers;
-	use Scabbia\string;
+    use App\Includes\Statics;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Session\Session;
+	use Scabbia\Extensions\Helpers\Date;
+	use Scabbia\Extensions\Mvc\Controllers;
+	use Scabbia\Extensions\Helpers\String;
+    use Scabbia\Extensions\Http\Http;
+    use Scabbia\Request;
 }
             <!-- Logo -->
-            <a href="@mvc::url('home/index')" id="logo"><img src="/survey/res/img/logo.png" width="280" height="185" alt="survey-e-bot" /></a>
+            <a href="@Http::url('home/index')" id="logo"><img src="/survey/assets/img/logo.png" width="280" height="185" alt="survey-e-bot" /></a>
 
             <!-- Main Naigation (active - .act) -->
             <div id="main-nav">
 				@{ $activePage = $controller->route['controller'] . '/' . $controller->route['action']; }
-				@if(is_null(statics::$user)) {
+				@if(is_null(Statics::$user)) {
                 <ul>
-                    <li@{ if($activePage == 'home/index') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('home/index')">Home</a></li>
-                    <li@{ if($activePage == 'blog/index') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('blog/index')">Blog</a></li>
-					<li@{ if($activePage == 'home/faq') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('home/faq')">FAQ</a></li>
-                    <li@{ if($activePage == 'home/about') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('home/about')">About Us</a></li>
-					<li@{ if($activePage == 'home/contact') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('home/contact')">Contact</a></li>
+                    <li@{ if($activePage == 'home/index') { echo ' class="current-menu-item"'; } }><a href="@Http::url('home/index')">Home</a></li>
+                    <li@{ if($activePage == 'blog/index') { echo ' class="current-menu-item"'; } }><a href="@Http::url('blog/index')">Blog</a></li>
+					<li@{ if($activePage == 'home/faq') { echo ' class="current-menu-item"'; } }><a href="@Http::url('home/faq')">FAQ</a></li>
+                    <li@{ if($activePage == 'home/about') { echo ' class="current-menu-item"'; } }><a href="@Http::url('home/about')">About Us</a></li>
+					<li@{ if($activePage == 'home/contact') { echo ' class="current-menu-item"'; } }><a href="@Http::url('home/contact')">Contact</a></li>
                 </ul>
 				} else {
                 <ul>
-                    <li@{ if($activePage == 'home/index') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('home/index')">Home</a></li>
-						<li@{ if($activePage == 'blog/index') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('blog/index')">Blog</a></li>
-						<li@{ if($activePage == 'home/faq') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('home/faq')">FAQ</a></li>
-						<li@{ if($activePage == 'home/about') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('home/about')">About Us</a></li>
-						<li@{ if($activePage == 'home/contact') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('home/contact')">Contact</a></li>
-					<li><a href="@mvc::url('surveys/index')">Surveys</a></li>
-						<li@{ if($activePage == 'surveys/new') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('surveys/new')">Create New Survey</a></li>
-						<li@{ if($activePage == 'surveys/index') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('surveys/index')">Existing Surveys</a></li>
-						<li@{ if($activePage == 'questions/index') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@mvc::url('questions/index')">Question Pool</a></li>
-					<li@{ if($activePage == 'user/profile') { echo ' class="current-menu-item"'; } }><a href="@mvc::url('user/profile')">Profile</a></li>
+                    <li@{ if($activePage == 'home/index') { echo ' class="current-menu-item"'; } }><a href="@Http::url('home/index')">Home</a></li>
+						<li@{ if($activePage == 'blog/index') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@Http::url('blog/index')">Blog</a></li>
+						<li@{ if($activePage == 'home/faq') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@Http::url('home/faq')">FAQ</a></li>
+						<li@{ if($activePage == 'home/about') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@Http::url('home/about')">About Us</a></li>
+						<li@{ if($activePage == 'home/contact') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@Http::url('home/contact')">Contact</a></li>
+					<li><a href="@Http::url('surveys/index')">Surveys</a></li>
+						<li@{ if($activePage == 'surveys/new') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@Http::url('surveys/new')">Create New Survey</a></li>
+						<li@{ if($activePage == 'surveys/index') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@Http::url('surveys/index')">Existing Surveys</a></li>
+						<li@{ if($activePage == 'questions/index') { echo ' class="current-menu-item"'; } }><a class="paddingLeft50px" href="@Http::url('questions/index')">Question Pool</a></li>
+					<li@{ if($activePage == 'user/profile') { echo ' class="current-menu-item"'; } }><a href="@Http::url('user/profile')">Profile</a></li>
                 </ul>
 				}
             </div>
@@ -39,19 +41,19 @@
 			<div class="clear"></div>
 			<div class="marginBottom30px"></div>
 
-		@if(session::existsFlash('loginNotification')) {
-			@{ $loginNotification = session::getFlash('loginNotification'); }
+		@if(Session::exists('loginNotification')) {
+			@{ $loginNotification = Session::getFlash('loginNotification'); }
 			<div class="msg@$loginNotification[0]">
 			   <p>@$loginNotification[1]</p>
 			</div>
 		}
 
-		@if(is_null(statics::$user)) {
+		@if(is_null(Statics::$user)) {
 			<!-- Login Widget -->
             <div class="widget w-login">
                 <h4 class="w-title title-light">Login</h4>
                 <div class="w-content">
-					<form class="validation" id="loginform" method="post" action="@mvc::url('user/login')">
+					<form class="validation" id="loginform" method="post" action="@Http::url('user/login')">
 						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 							<tr>
 								<td><input type="text" name="email" value="" data-defaulttext="E-mail" /></td>
@@ -62,8 +64,8 @@
 								<td></td>
 							</tr>
 							<tr><td colspan="2" class="alignCenter">
-								<a href="@mvc::url('user/register')">Register</a> ·
-								<a href="@mvc::url('user/forgottenpassword')">Forgotten Password</a>
+								<a href="@Http::url('user/register')">Register</a> ·
+								<a href="@Http::url('user/forgottenpassword')">Forgotten Password</a>
 							</td></tr>
 						</table>
 						<input id="fblogin" class="marginTop10px" type="button" />
@@ -76,8 +78,8 @@
                 <h4 class="w-title title-light">Login</h4>
                 <div class="w-content">
 					<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
-						<tr><td>Name:</td><td><input type="text" value="@statics::$user['displayname']" disabled="disabled" /></td></tr>
-						<tr><td>E-Mail:</td><td><input type="text" value="@statics::$user['email']" disabled="disabled" /></td></tr>
+						<tr><td>Name:</td><td><input type="text" value="@Statics::$user['displayname']" disabled="disabled" /></td></tr>
+						<tr><td>E-Mail:</td><td><input type="text" value="@Statics::$user['email']" disabled="disabled" /></td></tr>
 						<tr><td colspan="2" class="alignRight">
 							<input id="userlogout" class="inlineBlock" type="button" value="Logout" />
 						</td></tr>
@@ -88,7 +90,7 @@
 
 			<!-- News Widget -->
 @{
-			$tPostModel = controllers::load('postModel');
+			$tPostModel = Controllers::load('App\\Models\\PostModel');
 			$tPosts = $tPostModel->getAllPaged(0, 3);
 }
             <div class="widget w-news">
@@ -97,11 +99,11 @@
                     <ul>
 						@foreach($tPosts as &$tPost) {
 						@{
-							$tTimestamp = time::convert($tPost['createdate'], 'Y-m-d H:i:s');
+							$tTimestamp = Date::convert($tPost['createdate'], 'Y-m-d H:i:s');
 						}
                         <li>
-                            <span><strong>@date('d', $tTimestamp)</strong>@statics::$months[date('m', $tTimestamp)]</span>
-                            <a href="@mvc::url('blog/post/' . $tPost['postid'])">@$tPost['title']</a>: @string::cut(strip_tags($tPost['content']), 20)
+                            <span><strong>@date('d', $tTimestamp)</strong>@Statics::$months[date('m', $tTimestamp)]</span>
+                            <a href="@Http::url('blog/post/' . $tPost['postid'])">@$tPost['title']</a>: @String::cut(strip_tags($tPost['content']), 20)
                         </li>
                         }
                     </ul>
@@ -112,8 +114,8 @@
             <div class="widget widget_categories">
                 <h4 class="w-title title-light">Categories</h4>
                 <ul>
-					@foreach(statics::$categoriesWithCounts as &$category) {
-						<li><a href="@mvc::url('categories/list/' . $category['categoryid'])">@$category['name'] (@$category['count'])</a></li>
+					@foreach(Statics::$categoriesWithCounts as &$category) {
+						<li><a href="@Http::url('categories/list/' . $category['categoryid'])">@$category['name'] (@$category['count'])</a></li>
 					}
                 </ul>
             </div>
@@ -122,10 +124,10 @@
             <div class="widget widget_recent_comments">
                 <h4 class="w-title title-light">Recent Surveys</h4>
                 <ul>
-					@foreach(statics::$recentSurveys as &$survey) {
+					@foreach(Statics::$recentSurveys as &$survey) {
 						@{
-							if(!is_null(statics::$user) || $survey['type'] == statics::SURVEY_PUBLIC) {
-								$url = @mvc::url('surveys/take/' . $survey['surveypublishid']);
+							if(!is_null(Statics::$user) || $survey['type'] == Statics::SURVEY_PUBLIC) {
+								$url = @Http::url('surveys/take/' . $survey['surveypublishid']);
 							}
 							else {
 								$url = 'javascript:notifyLogin();';
@@ -135,7 +137,7 @@
 							if(strlen($survey['password']) > 0) {
 								$tProps[] = 'password';
 							}
-							if($survey['type'] == statics::SURVEY_PUBLIC) {
+							if($survey['type'] == Statics::SURVEY_PUBLIC) {
 								$tProps[] = 'public';
 							}
 						}

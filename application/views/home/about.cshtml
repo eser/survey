@@ -1,14 +1,16 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
+    use App\Includes\Statics;
+    use Scabbia\Extensions\Http\Http;
+	use Scabbia\Extensions\Views\Views;
+    use Scabbia\Request;
 }
-@views::view('shared/header.cshtml')
+@Views::viewFile('{app}views/shared/header.cshtml')
 
                 <!-- Breadcrumbs, Page Title -->
                 <div id="page-head">
 					<h1><em>who are we?</em>About Us</h1>
                     <ul id="breadcrumbs">
-                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li><a href="@Http::url('home/index')">Home</a></li>
                         <li>About Us</li>
                     </ul>
                 </div>
@@ -45,4 +47,4 @@
                 </div>
                 <!-- Page Content End -->
     
-@views::view('shared/footer.cshtml')
+@Views::viewFile('{app}views/shared/footer.cshtml')

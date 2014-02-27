@@ -1,7 +1,7 @@
 @{
-	use Scabbia\views;
+	use Scabbia\Extensions\Views\Views;
 }
-@views::viewFile('{core}views/blackmore/header.php')
+@Views::viewFile('{core}views/blackmore/header.php')
 @if(isset($message)) {
 	<span>@_($message)</span>
 } 
@@ -48,13 +48,13 @@
 							@_('Content') : <input type="text" name="content" class="required" minlength="3" value="@if(isset($question['content'])){@$question['content']}" /><br />
 							@_('Type') :
 							<select name="type">
-								@foreach(statics::$questiontypes as $key=> $type){
+								@foreach(Statics::$questiontypes as $key=> $type){
 									<option value="@$key">@$type</option>
 								}
 							</select><br/>	
 							@_('Type filter') :
 							<select name="typefilter">
-								@foreach(statics::$questiontypefilters as $key=> $typeFilter){
+								@foreach(Statics::$questiontypefilters as $key=> $typeFilter){
 									<option value="@$key">@$typeFilter</option>
 								}
 							</select><br/>
@@ -88,4 +88,4 @@
 </div>
 </section> 
 
-@views::viewFile('{core}views/blackmore/footer.php')
+@Views::viewFile('{core}views/blackmore/footer.php')

@@ -1,16 +1,18 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
-	use Scabbia\time;
-	use Scabbia\html;
+    use App\Includes\Statics;
+    use Scabbia\Extensions\Http\Http;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Helpers\Date;
+	use Scabbia\Extensions\Helpers\Html;
+    use Scabbia\Request;
 }
-@views::view('shared/header.cshtml')
+@Views::viewFile('{app}views/shared/header.cshtml')
 
                 <!-- Breadcrumbs, Title, Description -->
                 <div id="page-head">
                     <h1><em>interesting news and events</em>Blog</h1>
                     <ul id="breadcrumbs">
-                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li><a href="@Http::url('home/index')">Home</a></li>
                         <li>Blog</li>
                     </ul>
                 </div>
@@ -20,14 +22,14 @@
 
 					@foreach($posts as &$tPost) {
 					@{
-						$tTimestamp = time::convert($tPost['createdate'], 'Y-m-d H:i:s');
+						$tTimestamp = Date::convert($tPost['createdate'], 'Y-m-d H:i:s');
 					}
                     <div class="post format-standard">
                     	<div class="p-meta">
                         	<div class="p-type"></div>
-	                        <div class="date"><strong>@date('d', $tTimestamp)</strong>@statics::$months[date('m', $tTimestamp)]</div>
+	                        <div class="date"><strong>@date('d', $tTimestamp)</strong>@Statics::$months[date('m', $tTimestamp)]</div>
                         </div>
-                        <h2 class="p-title"><a href="@mvc::url('blog/post/' . $tPost['postid'])">@$tPost['title']</a></h2>
+                        <h2 class="p-title"><a href="@Http::url('blog/post/' . $tPost['postid'])">@$tPost['title']</a></h2>
                         <div class="post-content">
                             <p>
                             	@$tPost['content']
@@ -41,14 +43,14 @@
                 
                 <!-- Pagination -->
 				<ul id="pagination" class="margintop10px">
-					@html::pager(array(
+					@Html::pager(array(
 						'total' => $pagerTotal,
 						'pagesize' => blog::PAGE_SIZE,
 						'current' => $pagerCurrent,
-						'link' => '<li><a href="' . mvc::url('blog/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
-						'activelink' => '<li class="act"><a href="' . mvc::url('blog/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
+						'link' => '<li><a href="' . Http::url('blog/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
+						'activelink' => '<li class="act"><a href="' . Http::url('blog/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
 						'firstlast' => false
 					))
 				</ul>
     
-@views::view('shared/footer.cshtml')
+@Views::viewFile('{app}views/shared/footer.cshtml')

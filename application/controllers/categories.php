@@ -1,29 +1,34 @@
 <?php
 
-	use Scabbia\controller;
-	use Scabbia\contracts;
-	use Scabbia\arrays;
+    namespace App\Controllers;
+
+    use App\Includes\Statics;
+    use App\Includes\SurveyController;
+	use Scabbia\Extensions\Mvc\Controller;
+	use Scabbia\Extensions\Validation\Contracts;
+	use Scabbia\Extensions\Helpers\Arrays;
+    use Scabbia\Request;
 
 	/**
 	 * categories controller
 	 * action methods for all categories/* urls
 	 */
-	class categories extends controller {
+	class Categories extends SurveyController {
 		/**
 		 * number of surveys per page
 		 */
-		const PAGE_SIZE = statics::DEFAULT_PAGE_SIZE;
+		const PAGE_SIZE = Statics::DEFAULT_PAGE_SIZE;
 
 		/**
 		 * lists all categories available
 		 */
 		public function get_index() {
 			// load and validate session data
-			statics::requireAuthentication(0);
+			Statics::requireAuthentication(0);
 
 			// pass the previously loaded category to the view
-			$this->load('categoryModel');
-			$this->setRef('categories', statics::$categoriesWithCounts);
+			$this->load('App\\Models\\CategoryModel');
+			$this->setRef('categories', Statics::$categoriesWithCounts);
 
 			// render the page
 			$this->view();
@@ -37,17 +42,17 @@
 		 */
 		public function get_list($uCategoryId, $uPage = '1') {
 			// load and validate session data
-			statics::requireAuthentication(0);
+			Statics::requireAuthentication(0);
 
 			// #1 validate the request: page numbers
 			$tPage = intval($uPage);
-			contracts::isMinimum($tPage, 1)->exception('invalid page number');
+			Contracts::isMinimum($tPage, 1)->exception('invalid page number');
 			$tOffset = ($tPage - 1) * self::PAGE_SIZE;
 
 			// #2 validate the request: category id
-			contracts::isUuid($uCategoryId)->exception('invalid category id format');
-			contracts::inKeys($uCategoryId, statics::$categoriesWithCounts)->exception('invalid category id');
-			$tCategory = &statics::$categoriesWithCounts[$uCategoryId];
+			Contracts::isUuid($uCategoryId)->exception('invalid category id format');
+			Contracts::inKeys($uCategoryId, Statics::$categoriesWithCounts)->exception('invalid category id');
+			$tCategory = &Statics::$categoriesWithCounts[$uCategoryId];
 
 			// #1 pass pager data to view
 			$this->setRef('pagerTotal', $tCategory['count']);
@@ -57,7 +62,7 @@
 			$this->setRef('category', $tCategory);
 
 			// #3 gather all survey data from model
-			$this->load('surveypublishModel');
+			$this->load('App\\Models\\SurveypublishModel');
 			$tPublishedSurveys = $this->surveypublishModel->getAllByCategoryPaged($uCategoryId, $tOffset, self::PAGE_SIZE);
 
 			// #3 pass survey data to view
@@ -65,7 +70,7 @@
 
 			// #4 get survey-related users
 			$tUserIDs = arrays::column($tPublishedSurveys, 'ownerid');
-			$this->load('userModel');
+			$this->load('App\\Models\\UserModel');
 			$tUsers = $this->userModel->getAllByIDs($tUserIDs);
 			$this->setRef('users', $tUsers);
 

@@ -1,7 +1,7 @@
 @{
-	use Scabbia\views;
+	use Scabbia\Extensions\Views\Views;
 }
-@views::viewFile('{core}views/blackmore/header.php')
+@Views::viewFile('{core}views/blackmore/header.php')
 @if(isset($message)) {
 	<span>@_($message)</span>
 } 
@@ -50,7 +50,7 @@
 							@foreach($choices as $choice){
 								<tr>
 									<td>@$choice['content']</td>
-									<td>@statics::$questionoptiontypes[$choice['type']]</td>
+									<td>@Statics::$questionoptiontypes[$choice['type']]</td>
 									<td>
 										<a href="@$root/blackmore/questions/editChoice/@$question['questionid']/@$choice['questionchoiceid']">@_('Edit')</a> 
 										<a href="@$root/blackmore/questions/deleteChoice/@$question['questionid']/@$choice['questionchoiceid']">@_('Delete')</a>
@@ -92,4 +92,4 @@
 </div>
 </section> 
 
-@views::viewFile('{core}views/blackmore/footer.php')
+@Views::viewFile('{core}views/blackmore/footer.php')

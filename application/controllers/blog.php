@@ -1,17 +1,22 @@
 <?php
 
-	use Scabbia\controller;
-	use Scabbia\contracts;
+    namespace App\Controllers;
+
+    use App\Includes\Statics;
+    use App\Includes\SurveyController;
+	use Scabbia\Extensions\Mvc\Controller;
+	use Scabbia\Extensions\Validation\contracts;
+    use Scabbia\Request;
 
 	/**
 	 * blog controller
 	 * action methods for all blog/* urls
 	 */
-	class blog extends controller {
+	class Blog extends SurveyController {
 		/**
 		 * number of blog entries per page
 		 */
-		const PAGE_SIZE = statics::DEFAULT_PAGE_SIZE;
+		const PAGE_SIZE = Statics::DEFAULT_PAGE_SIZE;
 
 		/**
 		 * lists all categories available
@@ -20,15 +25,15 @@
 		 */
 		public function get_index($uPage = '1') {
 			// load and validate session data - guests allowed
-			statics::requireAuthentication(0);
+			Statics::requireAuthentication(0);
 
 			// validate the request: page numbers
 			$tPage = intval($uPage);
-			contracts::isMinimum($tPage, 1)->exception('invalid page number');
+			Contracts::isMinimum($tPage, 1)->exception('invalid page number');
 			$tOffset = ($tPage - 1) * self::PAGE_SIZE;
 
 			// pass pager data to view
-			$this->load('postModel');
+			$this->load('App\\Models\\PostModel');
 			$this->set('pagerTotal', $this->postModel->count());
 			$this->setRef('pagerCurrent', $tPage);
 
@@ -46,14 +51,14 @@
 		 */
 		public function get_post($uPostId) {
 			// load and validate session data - guests allowed
-			statics::requireAuthentication(0);
+			Statics::requireAuthentication(0);
 
 			// validate the request: post id
-			contracts::isUuid($uPostId)->exception('invalid post id format');
+			Contracts::isUuid($uPostId)->exception('invalid post id format');
 
-			$this->load('postModel');
+			$this->load('App\\Models\\PostModel');
 			$tPost = $this->postModel->get($uPostId); // get from database
-			contracts::isNotFalse($tPost)->exception('invalid post id');
+			Contracts::isNotFalse($tPost)->exception('invalid post id');
 
 			// pass post data to view
 			$this->setRef('post', $tPost);

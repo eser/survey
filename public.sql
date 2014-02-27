@@ -3,7 +3,7 @@ Navicat PGSQL Data Transfer
 
 Source Server         : survey
 Source Server Version : 90107
-Source Host           : office.goldsofttrading.com:5432
+Source Host           : localhost:5432
 Source Database       : survey
 Source Schema         : public
 
@@ -18,7 +18,7 @@ Date: 2013-01-02 07:23:19
 -- ----------------------------
 -- Table structure for "public"."answers"
 -- ----------------------------
-DROP TABLE "public"."answers";
+-- DROP TABLE "public"."answers";
 CREATE TABLE "public"."answers" (
 "surveypublishid" uuid NOT NULL,
 "questionid" uuid NOT NULL,
@@ -66,7 +66,7 @@ INSERT INTO "public"."answers" VALUES ('c4920ddd-4204-4537-8d5e-d953cedb5d11', '
 -- ----------------------------
 -- Table structure for "public"."categories"
 -- ----------------------------
-DROP TABLE "public"."categories";
+-- DROP TABLE "public"."categories";
 CREATE TABLE "public"."categories" (
 "categoryid" uuid NOT NULL,
 "name" varchar(50)
@@ -95,7 +95,7 @@ INSERT INTO "public"."categories" VALUES ('e7287de1-225a-4122-ab02-ba49c9589d2b'
 -- ----------------------------
 -- Table structure for "public"."faqcategories"
 -- ----------------------------
-DROP TABLE "public"."faqcategories";
+-- DROP TABLE "public"."faqcategories";
 CREATE TABLE "public"."faqcategories" (
 "faqcategoryid" uuid NOT NULL,
 "name" varchar(50) NOT NULL
@@ -113,7 +113,7 @@ INSERT INTO "public"."faqcategories" VALUES ('bcc43f53-b1b2-4f67-8216-2a35536e3f
 -- ----------------------------
 -- Table structure for "public"."faqcontents"
 -- ----------------------------
-DROP TABLE "public"."faqcontents";
+-- DROP TABLE "public"."faqcontents";
 CREATE TABLE "public"."faqcontents" (
 "faqcontentid" uuid NOT NULL,
 "faqcategoryid" uuid NOT NULL,
@@ -134,7 +134,7 @@ INSERT INTO "public"."faqcontents" VALUES ('d8d97692-3a5c-4285-9d44-34813dfa062e
 -- ----------------------------
 -- Table structure for "public"."languages"
 -- ----------------------------
-DROP TABLE "public"."languages";
+-- DROP TABLE "public"."languages";
 CREATE TABLE "public"."languages" (
 "languageid" char(2) NOT NULL,
 "name" varchar(50) NOT NULL
@@ -152,7 +152,7 @@ INSERT INTO "public"."languages" VALUES ('tr', 'Turkish');
 -- ----------------------------
 -- Table structure for "public"."posts"
 -- ----------------------------
-DROP TABLE "public"."posts";
+-- DROP TABLE "public"."posts";
 CREATE TABLE "public"."posts" (
 "postid" uuid NOT NULL,
 "createdate" timestamp(6) NOT NULL,
@@ -173,7 +173,7 @@ INSERT INTO "public"."posts" VALUES ('8e925f49-e59a-4e47-9818-8bf88618e5cd', '20
 -- ----------------------------
 -- Table structure for "public"."questionchoices"
 -- ----------------------------
-DROP TABLE "public"."questionchoices";
+-- DROP TABLE "public"."questionchoices";
 CREATE TABLE "public"."questionchoices" (
 "questionchoiceid" uuid NOT NULL,
 "questionid" uuid NOT NULL,
@@ -227,7 +227,7 @@ INSERT INTO "public"."questionchoices" VALUES ('f34376f5-afc0-4203-87a1-79bb5b44
 -- ----------------------------
 -- Table structure for "public"."questionchoicetypes"
 -- ----------------------------
-DROP TABLE "public"."questionchoicetypes";
+-- DROP TABLE "public"."questionchoicetypes";
 CREATE TABLE "public"."questionchoicetypes" (
 "questionchoicetypeid" int2 NOT NULL,
 "name" varchar(30) NOT NULL
@@ -247,7 +247,7 @@ INSERT INTO "public"."questionchoicetypes" VALUES ('3', 'Alphanumeric');
 -- ----------------------------
 -- Table structure for "public"."questions"
 -- ----------------------------
-DROP TABLE "public"."questions";
+-- DROP TABLE "public"."questions";
 CREATE TABLE "public"."questions" (
 "questionid" uuid NOT NULL,
 "ownerid" uuid NOT NULL,
@@ -292,7 +292,7 @@ INSERT INTO "public"."questions" VALUES ('da659592-4866-4c43-99e3-cb0a5469e9c3',
 -- ----------------------------
 -- Table structure for "public"."questiontypefilters"
 -- ----------------------------
-DROP TABLE "public"."questiontypefilters";
+-- DROP TABLE "public"."questiontypefilters";
 CREATE TABLE "public"."questiontypefilters" (
 "questiontypefilterid" int2 NOT NULL,
 "name" varchar(30) NOT NULL
@@ -311,7 +311,7 @@ INSERT INTO "public"."questiontypefilters" VALUES ('2', 'Alphanumeric');
 -- ----------------------------
 -- Table structure for "public"."questiontypes"
 -- ----------------------------
-DROP TABLE "public"."questiontypes";
+-- DROP TABLE "public"."questiontypes";
 CREATE TABLE "public"."questiontypes" (
 "questiontypeid" int2 NOT NULL,
 "name" varchar(30) NOT NULL
@@ -330,7 +330,7 @@ INSERT INTO "public"."questiontypes" VALUES ('2', 'Fill In The Blanks');
 -- ----------------------------
 -- Table structure for "public"."surveypublishs"
 -- ----------------------------
-DROP TABLE "public"."surveypublishs";
+-- DROP TABLE "public"."surveypublishs";
 CREATE TABLE "public"."surveypublishs" (
 "surveypublishid" uuid NOT NULL,
 "surveyid" uuid NOT NULL,
@@ -363,7 +363,7 @@ INSERT INTO "public"."surveypublishs" VALUES ('da1c75a4-e586-4a7b-bcad-643ab9bb0
 -- ----------------------------
 -- Table structure for "public"."surveypublishtypes"
 -- ----------------------------
-DROP TABLE "public"."surveypublishtypes";
+-- DROP TABLE "public"."surveypublishtypes";
 CREATE TABLE "public"."surveypublishtypes" (
 "surveypublishtype" int2 NOT NULL,
 "name" varchar(30) NOT NULL
@@ -381,7 +381,7 @@ INSERT INTO "public"."surveypublishtypes" VALUES ('1', 'Public');
 -- ----------------------------
 -- Table structure for "public"."surveyquestions"
 -- ----------------------------
-DROP TABLE "public"."surveyquestions";
+-- DROP TABLE "public"."surveyquestions";
 CREATE TABLE "public"."surveyquestions" (
 "surveyid" uuid NOT NULL,
 "revision" int8 NOT NULL,
@@ -432,7 +432,7 @@ INSERT INTO "public"."surveyquestions" VALUES ('ff785bfa-227d-4b0a-9d7e-3f31c4af
 -- ----------------------------
 -- Table structure for "public"."surveyrevisions"
 -- ----------------------------
-DROP TABLE "public"."surveyrevisions";
+-- DROP TABLE "public"."surveyrevisions";
 CREATE TABLE "public"."surveyrevisions" (
 "surveyid" uuid NOT NULL,
 "revision" int8 NOT NULL,
@@ -462,7 +462,7 @@ INSERT INTO "public"."surveyrevisions" VALUES ('ff785bfa-227d-4b0a-9d7e-3f31c4af
 -- ----------------------------
 -- Table structure for "public"."surveys"
 -- ----------------------------
-DROP TABLE "public"."surveys";
+-- DROP TABLE "public"."surveys";
 CREATE TABLE "public"."surveys" (
 "surveyid" uuid NOT NULL,
 "ownerid" uuid NOT NULL,
@@ -491,7 +491,7 @@ INSERT INTO "public"."surveys" VALUES ('ff785bfa-227d-4b0a-9d7e-3f31c4afa9b4', '
 -- ----------------------------
 -- Table structure for "public"."surveyvisitors"
 -- ----------------------------
-DROP TABLE "public"."surveyvisitors";
+-- DROP TABLE "public"."surveyvisitors";
 CREATE TABLE "public"."surveyvisitors" (
 "surveyvisitorid" uuid NOT NULL,
 "surveypublishid" uuid NOT NULL,
@@ -516,7 +516,7 @@ INSERT INTO "public"."surveyvisitors" VALUES ('f759f53a-016c-4ddb-979b-7149d915d
 -- ----------------------------
 -- Table structure for "public"."themes"
 -- ----------------------------
-DROP TABLE "public"."themes";
+-- DROP TABLE "public"."themes";
 CREATE TABLE "public"."themes" (
 "themeid" uuid NOT NULL,
 "name" varchar(50) NOT NULL,
@@ -536,7 +536,7 @@ INSERT INTO "public"."themes" VALUES ('56682272-8d56-4bfd-84cc-027442687fe8', 'B
 -- ----------------------------
 -- Table structure for "public"."users"
 -- ----------------------------
-DROP TABLE "public"."users";
+-- DROP TABLE "public"."users";
 CREATE TABLE "public"."users" (
 "userid" uuid NOT NULL,
 "displayname" varchar(100) NOT NULL,

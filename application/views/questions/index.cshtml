@@ -1,22 +1,23 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
-	use Scabbia\session;
-	use Scabbia\html;
+    use App\Includes\Statics;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Session\Session;
+	use Scabbia\Extensions\Helpers\Html;
+    use Scabbia\Request;
 }
-@views::view('shared/header.cshtml')
+@Views::viewFile('{app}views/shared/header.cshtml')
                 
                 <!-- Breadcrumbs, Page Title -->
                 <div id="page-head">
                     <h1><em>add, edit and organize questions</em>Question Pool</h1>
                     <ul id="breadcrumbs">
-                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li><a href="@Http::url('home/index')">Home</a></li>
                         <li>Questions</li>
                     </ul>
                 </div>
                 
-				@if(session::existsFlash('notification')) {
-					@{ $notification = session::getFlash('notification'); }
+				@if(Session::exists('notification')) {
+					@{ $notification = Session::getFlash('notification'); }
 					<div class="msg@$notification[0]">
 					   <p>@$notification[1]</p>
 					</div>
@@ -28,7 +29,7 @@
                     <!-- User Details -->
 					<div>
 						<h3 class="floatleft">Your Contributions</h3>
-						<a href="@mvc::url('questions/new')" class="more floatright">Create New</a>
+						<a href="@Http::url('questions/new')" class="more floatright">Create New</a>
 						<div class="clear"></div>
 					</div>
 
@@ -44,23 +45,23 @@
                         </thead>
                         <tbody>
 						@foreach($questions as &$question) {
-                            <tr class="@{ if($question['enabled'] == statics::SURVEY_DISABLED) { echo 'questionDisabled'; } else { echo 'questionEnabled'; } }">
-								<td><a href="@mvc::url('questions/edit/' . $question['questionid'])">@$question['content']</a></td>
+                            <tr class="@{ if($question['enabled'] == Statics::SURVEY_DISABLED) { echo 'questionDisabled'; } else { echo 'questionEnabled'; } }">
+								<td><a href="@Http::url('questions/edit/' . $question['questionid'])">@$question['content']</a></td>
                                 <td>
-									@statics::$questiontypes[$question['type']]
-									@if($question['type'] == statics::QUESTION_FILL) {
-										@statics::$questiontypefilters[$question['typefilter']]
+									@Statics::$questiontypes[$question['type']]
+									@if($question['type'] == Statics::QUESTION_FILL) {
+										@Statics::$questiontypefilters[$question['typefilter']]
 									}
 								</td>
                                 <td>
-									@statics::$sharedboolean[$question['isshared']]
+									@Statics::$sharedboolean[$question['isshared']]
 								</td>
                                 <td>
-									@statics::$surveystatus[$question['enabled']]
+									@Statics::$surveystatus[$question['enabled']]
 								</td>
                                 <td>
-									<a href="@mvc::url('questions/edit/' . $question['questionid'])">Edit</a> ·
-									<a href="@mvc::url('questions/report/' . $question['questionid'])">Report</a>
+									<a href="@Http::url('questions/edit/' . $question['questionid'])">Edit</a> ·
+									<a href="@Http::url('questions/report/' . $question['questionid'])">Report</a>
 								</td>
                             </tr>
 						}
@@ -69,12 +70,12 @@
 
 					<!-- Pagination -->
 					<ul id="pagination" class="margintop10px">
-						@html::pager(array(
+						@Html::pager(array(
 							'total' => $pagerTotal,
 							'pagesize' => questions::PAGE_SIZE,
 							'current' => $pagerCurrent,
-							'link' => '<li><a href="' . mvc::url('questions/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
-							'activelink' => '<li class="act"><a href="' . mvc::url('questions/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
+							'link' => '<li><a href="' . Http::url('questions/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
+							'activelink' => '<li class="act"><a href="' . Http::url('questions/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
 							'firstlast' => false
 						))
 					</ul>
@@ -82,4 +83,4 @@
 				</div>
                 <!-- Page Content End -->
     
-@views::view('shared/footer.cshtml')
+@Views::viewFile('{app}views/shared/footer.cshtml')

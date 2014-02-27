@@ -1,0 +1,11 @@
+{
+    "facebook": {
+        "applicationId":       "146065095545134",
+        "applicationSecret":   "93d75b6d03bbc7bdbf66398aefa83334",
+        "applicationUrl":       "https://apps.facebook.com/surveyebot",
+        "permissions":          "email, read_stream",
+        "redirectUrl:disabled": "https://scabbiaapp.com/home/facebookLogin",
+        "fileUpload":           true,
+        "extendedAccess":       true
+    }
+}

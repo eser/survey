@@ -1,7 +1,7 @@
 @{
-	use Scabbia\views;
+	use Scabbia\Extensions\Views\Views;
 }
-@views::viewFile('{core}views/blackmore/header.php')
+@Views::viewFile('{core}views/blackmore/header.php')
 @if(isset($message)) {
 	<span>@_($message)</span>
 } 
@@ -53,8 +53,8 @@
 							@foreach($questions as $question){
 								<tr>
 									<td>@$question['content']</td>
-									<td>@statics::$questiontypes[$question['type']]</td>
-									<td>@statics::$questiontypefilters[$question['typefilter']]</td>
+									<td>@Statics::$questiontypes[$question['type']]</td>
+									<td>@Statics::$questiontypefilters[$question['typefilter']]</td>
 									<td>@$question['isshared']</td>
 									<td>
 										<a href="@$root/blackmore/questions/choices/@$question['questionid']">@_('Choices')</a>
@@ -98,4 +98,4 @@
 </div>
 </section> 
 
-@views::viewFile('{core}views/blackmore/footer.php')
+@Views::viewFile('{core}views/blackmore/footer.php')

@@ -1,11 +1,13 @@
 <?php
 
-	use Scabbia\model;
+    namespace App\Models;
+
+	use Scabbia\Extensions\Models\Model;
 
 	/**
 	 * @ignore
 	 */
-	class surveyvisitorModel extends model {
+	class SurveyvisitorModel extends Model {
 		/**
 		 * @ignore
 		 */
@@ -40,7 +42,7 @@
 				->addField('*')
 				->setWhere(['surveypublishid=:surveypublishid'])
 				->addParameter('surveypublishid', $uSurveyPublishId)
-				->calculate('COUNT');
+				->aggregate('COUNT');
 		}
 
 		/**

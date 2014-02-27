@@ -1,17 +1,19 @@
 <?php
 
-	use Scabbia\model;
-	use Scabbia\time;
+    namespace App\Models;
+
+	use Scabbia\Extensions\Models\Model;
+	use Scabbia\Extensions\Helpers\Date;
 
 	/**
 	 * @ignore
 	 */
-	class surveypublishModel extends model {
+	class SurveypublishModel extends Model {
 		/**
 		 * @ignore
 		 */
 		public function insert($input) {
-			$tTime = time::toDb(time());
+			$tTime = Date::toDb(time());
 			return $this->db->createQuery()
 				->setTable('surveypublishs')
 				->setFields($input)
@@ -79,7 +81,7 @@
 				->addField('s.*, sp.*')
 				->setOrderBy('sp.startdate', 'DESC')
 				->setLimit($uLimit)
-				->addParameter('now', time::toDb(time::today()))
+				->addParameter('now', Date::toDb(Date::today()))
 				->get()
 				->all();
 		}
@@ -165,7 +167,7 @@
 				->joinTable('surveypublishs sp', $tCondition, 'INNER')
 				->addField('s.*, sp.*')
 				->setWhere('s.categoryid=:categoryid')
-				->addParameter('now', time::toDb(time::today()))
+				->addParameter('now', Date::toDb(Date::today()))
 				->addParameter('categoryid', $uCategoryid)
 				->get()
 				->all();
@@ -187,7 +189,7 @@
 				->setWhere('s.categoryid=:categoryid')
 				->setOffset($uOffset)
 				->setLimit($uLimit)
-				->addParameter('now', time::toDb(time::today()))
+				->addParameter('now', Date::toDb(Date::today()))
 				->addParameter('categoryid', $uCategoryId)
 				->get()
 				->all();

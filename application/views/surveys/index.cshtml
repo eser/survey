@@ -1,13 +1,14 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
-	use Scabbia\session;
-	use Scabbia\arrays;
-	use Scabbia\string;
-	use Scabbia\time;
-	use Scabbia\html;
+    use App\Includes\Statics;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Session\Session;
+	use Scabbia\Extensions\Helpers\Arrays;
+	use Scabbia\Extensions\Helpers\String;
+	use Scabbia\Extensions\Helpers\Date;
+	use Scabbia\Extensions\Helpers\Html;
+    use Scabbia\Request;
 }
-@views::view('shared/header.cshtml')
+@Views::viewFile('{app}views/shared/header.cshtml')
 
 				<script type="text/javascript">
 					function publishSurvey() {
@@ -26,13 +27,13 @@
                 <div id="page-head">
                     <h1><em>add, edit and organize surveys</em>Surveys</h1>
                     <ul id="breadcrumbs">
-                        <li><a href="@mvc::url('home/index')">Home</a></li>
+                        <li><a href="@Http::url('home/index')">Home</a></li>
                         <li>Surveys</li>
                     </ul>
                 </div>
                 
-				@if(session::existsFlash('notification')) {
-					@{ $notification = session::getFlash('notification'); }
+				@if(Session::exists('notification')) {
+					@{ $notification = Session::getFlash('notification'); }
 					<div class="msg@$notification[0]">
 					   <p>@$notification[1]</p>
 					</div>
@@ -44,14 +45,14 @@
                     <!-- User Details -->
 					<div>
 						<h3 class="floatleft">Existing Surveys</h3>
-						<a href="@mvc::url('surveys/new')" class="more floatright">Create New</a>
+						<a href="@Http::url('surveys/new')" class="more floatright">Create New</a>
 						<div class="clear"></div>
 					</div>
 
 					@{ $tLastCategory = null; }
 					@foreach($surveys as &$survey) {
 						@if($survey['categoryid'] != $tLastCategory) {
-							<h3>@statics::$categoriesWithCounts[$survey['categoryid']]['name']</h3>
+							<h3>@Statics::$categoriesWithCounts[$survey['categoryid']]['name']</h3>
 							@{ $tLastCategory = $survey['categoryid']; }
 						}
 
@@ -71,19 +72,19 @@
 								<table class="cellpadding4px" width="100%" cellpadding="0" cellspacing="0">
 								<tr>
 									<th>Last Revision:</th>
-									<td>@string::coalesce($survey['lastrevision'], '-')</td>
+									<td>@String::coalesce($survey['lastrevision'], '-')</td>
 									<th>Created At:</th>
-									<td>@statics::datePrint($survey['createdate'], false)</td>
+									<td>@Statics::datePrint($survey['createdate'], false)</td>
 								</tr>
 								<tr>
 									<th>Category:</th>
-									<td>@statics::$categoriesWithCounts[$survey['categoryid']]['name']</td>
+									<td>@Statics::$categoriesWithCounts[$survey['categoryid']]['name']</td>
 									<th>Language:</th>
-									<td>@statics::$languagesWithCounts[$survey['languageid']]['name']</td>
+									<td>@Statics::$languagesWithCounts[$survey['languageid']]['name']</td>
 								</tr>
 								<tr>
 									<th>Theme:</th>
-									<td>@statics::$themesWithCounts[$survey['themeid']]['name']</td>
+									<td>@Statics::$themesWithCounts[$survey['themeid']]['name']</td>
 									<th>Total Responses:</th>
 									<td>@$totalresponses</td>
 								</tr>
@@ -111,15 +112,15 @@
 											if(strlen($surveypublish['password']) > 0) {
 												$tProps[] = 'password';
 											}
-											if($surveypublish['type'] == statics::SURVEY_PUBLIC) {
+											if($surveypublish['type'] == Statics::SURVEY_PUBLIC) {
 												$tProps[] = 'public';
 											}
-											if($surveypublish['enabled'] == statics::SURVEY_DISABLED) {
+											if($surveypublish['enabled'] == Statics::SURVEY_DISABLED) {
 												$tProps[] = 'disabled';
 											}
-											$tStartDate = time::fromDb($surveypublish['startdate']);
-											$tEndDate = (!is_null($surveypublish['enddate'])) ? time::fromDb($surveypublish['enddate']) : null;
-											$tToday = time::today();
+											$tStartDate = Date::fromDb($surveypublish['startdate']);
+											$tEndDate = (!is_null($surveypublish['enddate'])) ? Date::fromDb($surveypublish['enddate']) : null;
+											$tToday = Date::today();
 											if($tStartDate > $tToday) {
 												$tProps[] = 'future';
 											}
@@ -129,19 +130,19 @@
 										}
 										<tr class="@{ if(in_array('expired', $tProps) || in_array('disabled', $tProps)) { echo 'questionDisabled'; } else { echo 'questionEnabled'; } }">
 											<td>
-												<a href="@mvc::url('surveys/editpublish/' . $surveypublish['surveypublishid'])">Revision @$surveypublish['revision']</a>
+												<a href="@Http::url('surveys/editpublish/' . $surveypublish['surveypublishid'])">Revision @$surveypublish['revision']</a>
 												@if(count($tProps) > 0) {
 													<em>(@implode($tProps, ', '))</em>
 												}
 											</td>
-											<td>@statics::datePrint($surveypublish['startdate'], false)</td>
-											<td>@statics::datePrint($surveypublish['enddate'], false)</td>
+											<td>@Statics::datePrint($surveypublish['startdate'], false)</td>
+											<td>@Statics::datePrint($surveypublish['enddate'], false)</td>
 											<td>@$surveypublish['responses']</td>
 											<td>@{ if($surveypublish['userlimit'] != '0') { echo $surveypublish['userlimit']; } else { echo '-'; } }</td>
 											<td>
-												<a href="@mvc::url('surveys/editpublish/' . $surveypublish['surveypublishid'])">Edit</a> ·
-												<a href="@mvc::url('surveys/share/' . $surveypublish['surveypublishid'])">Share</a> ·
-												<a href="@mvc::url('surveys/report/' . $surveypublish['surveypublishid'])">Report</a>
+												<a href="@Http::url('surveys/editpublish/' . $surveypublish['surveypublishid'])">Edit</a> ·
+												<a href="@Http::url('surveys/share/' . $surveypublish['surveypublishid'])">Share</a> ·
+												<a href="@Http::url('surveys/report/' . $surveypublish['surveypublishid'])">Report</a>
 											</td>
 										</tr>
 									}
@@ -149,10 +150,10 @@
 								</table>
 								}
 								<p class="alignRight marginTop10px">
-									<a class="xbutton" href="@mvc::url('surveys/edit/' . $survey['surveyid'])">Edit</a>
-									<a class="xbutton" href="@mvc::url('surveys/questions/' . $survey['surveyid'])">Questions</a>
-									<a class="xbutton" href="@mvc::url('surveys/publish/' . $survey['surveyid'])">Publish</a>
-									<!-- <a class="xbutton" href="@mvc::url('surveys/report/' . $survey['surveyid'])">Comparision Report</a> -->
+									<a class="xbutton" href="@Http::url('surveys/edit/' . $survey['surveyid'])">Edit</a>
+									<a class="xbutton" href="@Http::url('surveys/questions/' . $survey['surveyid'])">Questions</a>
+									<a class="xbutton" href="@Http::url('surveys/publish/' . $survey['surveyid'])">Publish</a>
+									<!-- <a class="xbutton" href="@Http::url('surveys/report/' . $survey['surveyid'])">Comparision Report</a> -->
 								</p>
 							</div>
 						</div>
@@ -160,12 +161,12 @@
 
 					<!-- Pagination -->
 					<ul id="pagination" class="margintop10px">
-						@html::pager(array(
+						@Html::pager(array(
 							'total' => $pagerTotal,
 							'pagesize' => surveys::PAGE_SIZE,
 							'current' => $pagerCurrent,
-							'link' => '<li><a href="' . mvc::url('surveys/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
-							'activelink' => '<li class="act"><a href="' . mvc::url('surveys/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
+							'link' => '<li><a href="' . Http::url('surveys/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
+							'activelink' => '<li class="act"><a href="' . Http::url('surveys/index/{page}') . '" class="pagerlink">{pagetext}</a></li>',
 							'firstlast' => false
 						))
 					</ul>
@@ -173,4 +174,4 @@
 				</div>
                 <!-- Page Content End -->
     
-@views::view('shared/footer.cshtml')
+@Views::viewFile('{app}views/shared/footer.cshtml')

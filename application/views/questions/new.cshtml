@@ -1,16 +1,17 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
-	use Scabbia\string;
-	use Scabbia\html;
+    use App\Includes\Statics;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Helpers\String;
+	use Scabbia\Extensions\Helpers\Html;
+    use Scabbia\Request;
 }
-@views::view('shared/header.cshtml')
+@Views::viewFile('{app}views/shared/header.cshtml')
 
 				<script type="text/javascript">
 					function addNewChoice() {
 						$l.dom.append(
 							$l.dom.selectSingle('#options'),
-							'<li>Option <span class="number"></span>: <input type="text" name="options[]" value="" /> <select name="optiontypes[]">@string::squote(html::selectOptions(statics::$questionoptiontypes))</select> <a class="remove" href="#">Remove</a></li>'
+							'<li>Option <span class="number"></span>: <input type="text" name="options[]" value="" /> <select name="optiontypes[]">@String::squote(Html::selectOptions(Statics::$questionoptiontypes))</select> <a class="remove" href="#">Remove</a></li>'
 						);
 
 						renumber();
@@ -37,13 +38,13 @@
 
 						switch(activeElement.getAttribute('rel')) {
 						case 'tab_1':
-							$l.dom.selectSingle('#questionType').value = '@statics::QUESTION_EVALUATION';
+							$l.dom.selectSingle('#questionType').value = '@Statics::QUESTION_EVALUATION';
 							break;
 						case 'tab_2':
-							$l.dom.selectSingle('#questionType').value = '@statics::QUESTION_MULTIPLE';
+							$l.dom.selectSingle('#questionType').value = '@Statics::QUESTION_MULTIPLE';
 							break;
 						case 'tab_3':
-							$l.dom.selectSingle('#questionType').value = '@statics::QUESTION_FILL';
+							$l.dom.selectSingle('#questionType').value = '@Statics::QUESTION_FILL';
 							break;
 						}
 					}
@@ -60,8 +61,8 @@
                 <div id="page-head">
                     <h1>Create New Questions</h1>
                     <ul id="breadcrumbs">
-                        <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li><a href="@mvc::url('questions/index')">Questions</a></li>
+                        <li><a href="@Http::url('home/index')">Home</a></li>
+                        <li><a href="@Http::url('questions/index')">Questions</a></li>
                         <li>New Question</li>
                     </ul>
                 </div>
@@ -72,8 +73,8 @@
                     <p>You can add new survey to system by using this page easly.</p>
                     
                     <h3>Add New Question</h3>
-                    <form id="addQuestion" class="validation" method="post" action="@mvc::url('questions/new')">
-						<input id="questionType" type="hidden" name="type" value="@statics::QUESTION_EVALUATION" />
+                    <form id="addQuestion" class="validation" method="post" action="@Http::url('questions/new')">
+						<input id="questionType" type="hidden" name="type" value="@Statics::QUESTION_EVALUATION" />
 
 						<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 							<tr>
@@ -82,11 +83,11 @@
 							</tr>
 							<tr>
 								<td><label id="isshared_label" for="isshared">Accessibility *</label></td>
-								<td><select name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
+								<td><select name="isshared">@Html::selectOptions(Statics::$sharedboolean, Statics::SHARE_SHARED)</select></td>
 							</tr>
 							<tr>
 								<td><label id="enabled_label" for="enabled">Status *</label></td>
-								<td><select name="enabled">@html::selectOptions(statics::$surveystatus, statics::SURVEY_ENABLED)</select></td>
+								<td><select name="enabled">@Html::selectOptions(Statics::$surveystatus, Statics::SURVEY_ENABLED)</select></td>
 							</tr>
 						</table>
 
@@ -111,14 +112,14 @@
 									<ul class="arrow l-child" id="options">
 										<li>
 											Option <span class="number"></span>: <input type="text" name="options[]" value="" />
-											<select name="optiontypes[]">@html::selectOptions(statics::$questionoptiontypes)</select>
+											<select name="optiontypes[]">@Html::selectOptions(Statics::$questionoptiontypes)</select>
 											<a class="remove" href="#">Remove</a>
 										</li>
 									</ul>
 								</div>
 								<div id="tab_3" class="tab-content">
 									<ul class="l-child">
-									@foreach(html::radioOptionsArray('typefilter', statics::$questiontypefilters, '0') as $option) {
+									@foreach(Html::radioOptionsArray('typefilter', Statics::$questiontypefilters, '0') as $option) {
 										<li>@$option</li>
 									}
 									</ul>
@@ -131,4 +132,4 @@
                 </div>
                 <!-- Page Content End -->
     
-@views::view('shared/footer.cshtml')
+@Views::viewFile('{app}views/shared/footer.cshtml')

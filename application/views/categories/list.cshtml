@@ -1,21 +1,22 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
-	use Scabbia\fb;
-	use Scabbia\string;
-	use Scabbia\html;
+    use App\Includes\Statics;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Fb\Fb;
+	use Scabbia\Extensions\Helpers\String;
+	use Scabbia\Extensions\Helpers\Html;
+    use Scabbia\Request;
 }
-@views::view('shared/header.cshtml')
+@Views::viewFile('{app}views/shared/header.cshtml')
 
 				@{
-					$url = 'http://' . $_SERVER['HTTP_HOST'] . @mvc::url('surveys/take/');
-					$logourl = 'http://' . $_SERVER['HTTP_HOST'] . @$root . '/res/img/logo.png';
+					$url = 'http://' . $_SERVER['HTTP_HOST'] . @Http::url('surveys/take/');
+					$logourl = 'http://' . $_SERVER['HTTP_HOST'] . @$root . '/assets/img/logo.png';
 				}
 
 				<script src="http://connect.facebook.net/en_US/all.js"></script>
 
 				<script type="text/javascript">
-					FB.init({appId: '@fb::$appId', status: true, cookie: true});
+					FB.init({appId: '@Fb::$appId', status: true, cookie: true});
 
 					function postToFeed(surveypublishid, title, description) {
 						var obj = {
@@ -40,8 +41,8 @@
                 <div id="page-head">
                     <h1><em>add, edit and organize categories</em>Categories</h1>
                     <ul id="breadcrumbs">
-                        <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li><a href="@mvc::url('categories/index')">Categories</a></li>
+                        <li><a href="@Http::url('home/index')">Home</a></li>
+                        <li><a href="@Http::url('categories/index')">Categories</a></li>
 						<li>@$category['name']</li>
                     </ul>
                 </div>
@@ -70,8 +71,8 @@
                         <tbody>
 						@foreach($surveys as &$survey) {
 							@{
-								if(!is_null(statics::$user) || $survey['type'] == statics::SURVEY_PUBLIC) {
-									$url = @mvc::url('surveys/take/' . $survey['surveypublishid']);
+								if(!is_null(Statics::$user) || $survey['type'] == Statics::SURVEY_PUBLIC) {
+									$url = @Http::url('surveys/take/' . $survey['surveypublishid']);
 								}
 								else {
 									$url = 'javascript:notifyLogin();';
@@ -84,7 +85,7 @@
 									if(strlen($survey['password']) > 0) {
 										$tProps[] = 'password';
 									}
-									if($survey['type'] == statics::SURVEY_PUBLIC) {
+									if($survey['type'] == Statics::SURVEY_PUBLIC) {
 										$tProps[] = 'public';
 									}
 
@@ -93,14 +94,14 @@
 									}
 								}</td>
                                 <td>@$survey['description']</td>
-								<td>@statics::datePrint($survey['createdate'], false)</td>
+								<td>@Statics::datePrint($survey['createdate'], false)</td>
                                 <td>@$users[$survey['ownerid']]['displayname']</td>
-								<td>@statics::$languagesWithCounts[$survey['languageid']]['name']</td>
-								<td>@statics::datePrint($survey['enddate'], false)</td>
+								<td>@Statics::$languagesWithCounts[$survey['languageid']]['name']</td>
+								<td>@Statics::datePrint($survey['enddate'], false)</td>
                                 <td>
 									<a href="@$url">Take</a>
 									·
-									<a href="javascript:postToFeed('@$survey['surveypublishid']', '@string::squote($survey['title'])', '@string::squote($survey['description'])')">Share</a>
+									<a href="javascript:postToFeed('@$survey['surveypublishid']', '@String::squote($survey['title'])', '@String::squote($survey['description'])')">Share</a>
 								</td>
                             </tr>
 						}
@@ -109,12 +110,12 @@
 
 					<!-- Pagination -->
 					<ul id="pagination" class="margintop10px">
-						@html::pager(array(
+						@Html::pager(array(
 							'total' => $pagerTotal,
 							'pagesize' => categories::PAGE_SIZE,
 							'current' => $pagerCurrent,
-							'link' => '<li><a href="' . mvc::url('categories/list/' . $category['categoryid'] . '/{page}') . '" class="pagerlink">{pagetext}</a></li>',
-							'activelink' => '<li class="act"><a href="' . mvc::url('categories/list/' . $category['categoryid'] . '/{page}') . '" class="pagerlink">{pagetext}</a></li>',
+							'link' => '<li><a href="' . Http::url('categories/list/' . $category['categoryid'] . '/{page}') . '" class="pagerlink">{pagetext}</a></li>',
+							'activelink' => '<li class="act"><a href="' . Http::url('categories/list/' . $category['categoryid'] . '/{page}') . '" class="pagerlink">{pagetext}</a></li>',
 							'firstlast' => false
 						))
 					</ul>
@@ -122,4 +123,4 @@
 				</div>
                 <!-- Page Content End -->
     
-@views::view('shared/footer.cshtml')
+@Views::viewFile('{app}views/shared/footer.cshtml')

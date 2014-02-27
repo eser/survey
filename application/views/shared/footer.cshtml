@@ -1,6 +1,8 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
+    use App\Includes\Statics;
+	use Scabbia\Extensions\Http\Http;
+    use Scabbia\Extensions\Views\Views;
+    use Scabbia\Request;
 }
 </div>
         </div>
@@ -9,7 +11,7 @@
         <!-- Left Column Start -->
         <div id="left-col">
         
-@views::view('shared/leftnav.cshtml')
+@Views::viewFile('{app}views/shared/leftnav.cshtml')
 
         </div>
         <!-- Left Column End -->
@@ -36,9 +38,9 @@
                 <!-- Links -->
                 <div class="widget col-25">
                     <ul>
-                        <li><a href="@mvc::url('home/home')">Home</a></li>
-                        <li><a href="@mvc::url('home/about')">About Us</a></li>
-                        <li><a href="@mvc::url('home/contact')">Contact</a></li>
+                        <li><a href="@Http::url('home/home')">Home</a></li>
+                        <li><a href="@Http::url('home/about')">About Us</a></li>
+                        <li><a href="@Http::url('home/contact')">Contact</a></li>
                     </ul>
                 </div>
                 <!-- Social -->
@@ -53,7 +55,7 @@
                 <div class="widget col-50 c-last">
                     <h5 class="w-title">Contact Details:</h5>
                     <div class="w-content">
-                        <a href="#"><img src="/survey/res/img/pictures/office.jpg" alt="Our Building" class="alignright" /></a>
+                        <a href="#"><img src="/survey/assets/img/pictures/office.jpg" alt="Our Building" class="alignright" /></a>
                         TRNC, Famagusta, EMU<br />
                         <a href="mailto:inbox@@surveyebot.com">inbox@@surveyebot.com</a>
                     </div>

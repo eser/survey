@@ -1,17 +1,18 @@
 @{
-	use Scabbia\views;
-	use Scabbia\mvc;
-	use Scabbia\string;
-	use Scabbia\html;
-	use Scabbia\session;
+    use App\Includes\Statics;
+	use Scabbia\Extensions\Views\Views;
+	use Scabbia\Extensions\Helpers\String;
+	use Scabbia\Extensions\Helpers\Html;
+	use Scabbia\Extensions\Session\Session;
+    use Scabbia\Request;
 }
-@views::view('shared/header.cshtml')
+@Views::viewFile('{app}views/shared/header.cshtml')
 
 				<script type="text/javascript">
 					function addNewChoice() {
 						$l.dom.append(
 							$l.dom.selectSingle('#options'),
-							'<li>Option <span class="number"></span>: <input type="text" name="options[]" value="" /> <select name="optiontypes[]">@string::squote(html::selectOptions(statics::$questionoptiontypes))</select> <a class="remove" href="#">Remove</a></li>'
+							'<li>Option <span class="number"></span>: <input type="text" name="options[]" value="" /> <select name="optiontypes[]">@String::squote(Html::selectOptions(Statics::$questionoptiontypes))</select> <a class="remove" href="#">Remove</a></li>'
 						);
 
 						renumber();
@@ -76,15 +77,15 @@
                 <div id="page-head">
                     <h1>Survey Questions</h1>
                     <ul id="breadcrumbs">
-                        <li><a href="@mvc::url('home/index')">Home</a></li>
-                        <li><a href="@mvc::url('surveys/index')">Surveys</a></li>
+                        <li><a href="@Http::url('home/index')">Home</a></li>
+                        <li><a href="@Http::url('surveys/index')">Surveys</a></li>
 						<li>Questions</li>
 						<li>@$survey['title']</li>
                     </ul>
                 </div>
                 
-				@if(session::existsFlash('notification')) {
-					@{ $notification = session::getFlash('notification'); }
+				@if(Session::exists('notification')) {
+					@{ $notification = Session::getFlash('notification'); }
 					<div class="msg@$notification[0]">
 					   <p>@$notification[1]</p>
 					</div>
@@ -103,7 +104,7 @@
 						</ul>
 						<div class="panes">
 							<div id="tab_1" class="tab-content">
-								<form class="validation" id="addQuestion1" method="post" action="@mvc::url('surveys/questions/' . $survey['surveyid'])">
+								<form class="validation" id="addQuestion1" method="post" action="@Http::url('surveys/questions/' . $survey['surveyid'])">
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content1" for="content1">Question *</label></td>
@@ -118,7 +119,7 @@
 								</form>
 							</div>
 							<div id="tab_2" class="tab-content">
-								<form class="validation" id="addQuestion2" method="post" action="@mvc::url('surveys/questions/' . $survey['surveyid'] . '/' . statics::QUESTION_EVALUATION)">
+								<form class="validation" id="addQuestion2" method="post" action="@Http::url('surveys/questions/' . $survey['surveyid'] . '/' . Statics::QUESTION_EVALUATION)">
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content2" for="content2">Question *</label></td>
@@ -126,11 +127,11 @@
 										</tr>
 										<tr>
 											<td><label id="isshared_label2" for="isshared2">Accessibility *</label></td>
-											<td><select id="shared2" name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
+											<td><select id="shared2" name="isshared">@Html::selectOptions(Statics::$sharedboolean, Statics::SHARE_SHARED)</select></td>
 										</tr>
 										<tr>
 											<td><label id="enabled_label2" for="enabled2">Status *</label></td>
-											<td><select id="enabled2" name="enabled">@html::selectOptions(statics::$surveystatus, statics::SURVEY_ENABLED)</select></td>
+											<td><select id="enabled2" name="enabled">@Html::selectOptions(Statics::$surveystatus, Statics::SURVEY_ENABLED)</select></td>
 										</tr>
 									</table>
 									<div class="xline"></div>
@@ -147,7 +148,7 @@
 								</form>
 							</div>
 							<div id="tab_3" class="tab-content">
-								<form class="validation" id="addQuestion3" method="post" action="@mvc::url('surveys/questions/' . $survey['surveyid'] . '/' . statics::QUESTION_MULTIPLE)">
+								<form class="validation" id="addQuestion3" method="post" action="@Http::url('surveys/questions/' . $survey['surveyid'] . '/' . Statics::QUESTION_MULTIPLE)">
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content3" for="content3">Question *</label></td>
@@ -155,11 +156,11 @@
 										</tr>
 										<tr>
 											<td><label id="isshared_label3" for="isshared3">Accessibility *</label></td>
-											<td><select name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
+											<td><select name="isshared">@Html::selectOptions(Statics::$sharedboolean, Statics::SHARE_SHARED)</select></td>
 										</tr>
 										<tr>
 											<td><label id="enabled_label3" for="enabled3">Status *</label></td>
-											<td><select id="enabled3" name="enabled">@html::selectOptions(statics::$surveystatus, statics::SURVEY_ENABLED)</select></td>
+											<td><select id="enabled3" name="enabled">@Html::selectOptions(Statics::$surveystatus, Statics::SURVEY_ENABLED)</select></td>
 										</tr>
 									</table>
 									<div class="xline"></div>
@@ -168,7 +169,7 @@
 									<ul class="marginTop10px arrow l-child" id="options">
 										<li>
 											Option <span class="number"></span>: <input type="text" name="options[]" value="" />
-											<select name="optiontypes[]">@html::selectOptions(statics::$questionoptiontypes)</select>
+											<select name="optiontypes[]">@Html::selectOptions(Statics::$questionoptiontypes)</select>
 											<a class="remove" href="#">Remove</a>
 										</li>
 									</ul>
@@ -177,7 +178,7 @@
 								</form>
 							</div>
 							<div id="tab_4" class="tab-content">
-								<form class="validation" id="addQuestion4" method="post" action="@mvc::url('surveys/questions/' . $survey['surveyid'] . '/' . statics::QUESTION_FILL)">
+								<form class="validation" id="addQuestion4" method="post" action="@Http::url('surveys/questions/' . $survey['surveyid'] . '/' . Statics::QUESTION_FILL)">
 									<table class="cellpadding4px" width="100%" border="0" cellspacing="0" cellpadding="0">
 										<tr>
 											<td class="width200px"><label id="title_content4" for="content4">Question *</label></td>
@@ -185,17 +186,17 @@
 										</tr>
 										<tr>
 											<td><label id="isshared_label4" for="isshared4">Accessibility *</label></td>
-											<td><select name="isshared">@html::selectOptions(statics::$sharedboolean, statics::SHARE_SHARED)</select></td>
+											<td><select name="isshared">@Html::selectOptions(Statics::$sharedboolean, Statics::SHARE_SHARED)</select></td>
 										</tr>
 										<tr>
 											<td><label id="enabled_label4" for="enabled4">Status *</label></td>
-											<td><select id="enabled4" name="enabled">@html::selectOptions(statics::$surveystatus, statics::SURVEY_ENABLED)</select></td>
+											<td><select id="enabled4" name="enabled">@Html::selectOptions(Statics::$surveystatus, Statics::SURVEY_ENABLED)</select></td>
 										</tr>
 									</table>
 									<div class="xline"></div>
 
 									<ul class="marginTop10px l-child">
-									@foreach(html::radioOptionsArray('typefilter', statics::$questiontypefilters, '0') as $option) {
+									@foreach(Html::radioOptionsArray('typefilter', Statics::$questiontypefilters, '0') as $option) {
 										<li>@$option</li>
 									}
 									</ul>
@@ -211,21 +212,21 @@
 						<ol>
 						@{ $count = 0; }
 						@foreach($questions as $question) {
-							<li class="stripe @{ if(($count++ % 2) == 0) { echo 'stripeEven'; } else { echo 'stripeOdd'; } } @{ if($question['enabled'] == statics::SURVEY_DISABLED) { echo 'questionDisabled'; } else { echo 'questionEnabled'; } }">
+							<li class="stripe @{ if(($count++ % 2) == 0) { echo 'stripeEven'; } else { echo 'stripeOdd'; } } @{ if($question['enabled'] == Statics::SURVEY_DISABLED) { echo 'questionDisabled'; } else { echo 'questionEnabled'; } }">
 								@$question['content']
 								<span class="questiontype">&nbsp;̶&nbsp;
-									@statics::$questiontypes[$question['type']]
-									@if($question['type'] == statics::QUESTION_FILL) {
-										@statics::$questiontypefilters[$question['typefilter']]
+									@Statics::$questiontypes[$question['type']]
+									@if($question['type'] == Statics::QUESTION_FILL) {
+										@Statics::$questiontypefilters[$question['typefilter']]
 									}
 								</span>
-								@if($question['type'] == statics::QUESTION_MULTIPLE && isset($choices[$question['questionid']])) {
+								@if($question['type'] == Statics::QUESTION_MULTIPLE && isset($choices[$question['questionid']])) {
 									<ol>
 									@foreach($choices[$question['questionid']] as $choice) {
 										<li>
-											@$choice['content']@if($choice['type'] > statics::QUESTIONOPTION_NOINPUT) {
+											@$choice['content']@if($choice['type'] > Statics::QUESTIONOPTION_NOINPUT) {
 												<span class="questiontype">&nbsp;̶&nbsp;
-													Input: @statics::$questionoptiontypes[$choice['type']]
+													Input: @Statics::$questionoptiontypes[$choice['type']]
 												</span>
 											}
 										</li>
@@ -233,8 +234,8 @@
 									</ol>
 								}
 								<div class="alignRight">
-									<a class="xbutton" href="@mvc::url('questions/edit/' . $question['questionid'])">Goto Question</a>
-									<a class="xbutton removebutton" href="@mvc::url('surveys/questions/' . $survey['surveyid'] . '/remove/' . $question['questionid'])">Remove</a>
+									<a class="xbutton" href="@Http::url('questions/edit/' . $question['questionid'])">Goto Question</a>
+									<a class="xbutton removebutton" href="@Http::url('surveys/questions/' . $survey['surveyid'] . '/remove/' . $question['questionid'])">Remove</a>
 								</div>
 							</li>
 						}
@@ -244,4 +245,4 @@
 				</div>
                 <!-- Page Content End -->
     
-@views::view('shared/footer.cshtml')
+@Views::viewFile('{app}views/shared/footer.cshtml')

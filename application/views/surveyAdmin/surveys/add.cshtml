@@ -1,7 +1,7 @@
 @{
-	use Scabbia\views;
+	use Scabbia\Extensions\Views\Views;
 }
-@views::viewFile('{core}views/blackmore/header.php')
+@Views::viewFile('{core}views/blackmore/header.php')
 @if(isset($message)) {
 	<span>@_($message)</span>
 } 
@@ -87,4 +87,4 @@
 </div>
 </section> 
 
-@views::viewFile('{core}views/blackmore/footer.php')
+@Views::viewFile('{core}views/blackmore/footer.php')
